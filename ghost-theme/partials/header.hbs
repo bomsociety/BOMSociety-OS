@@ -1,1 +1,19 @@
-<header class="site-header"><a class="brand" href="{{@site.url}}">BOMSociety</a><nav aria-label="Primary">{{navigation}}</nav><a class="button button-small" href="#/portal/signup">Join free</a></header>
+<header class="site-header" data-header>
+  <div class="header-inner">
+    <a class="brand" href="{{@site.url}}" aria-label="BOMSociety home">
+      <span class="brand-mark" aria-hidden="true">B</span>
+      <span>BOMSociety</span>
+    </a>
+
+    <button class="menu-button" type="button" aria-expanded="false" aria-controls="primary-nav" data-menu-button>
+      <span class="sr-only">Open navigation</span>
+      <span></span><span></span><span></span>
+    </button>
+
+    <nav id="primary-nav" class="primary-nav" aria-label="Primary" data-menu>
+      {{navigation}}
+    </nav>
+
+    <a class="button button-small header-cta" href="#/portal/signup">Join free</a>
+  </div>
+</header>

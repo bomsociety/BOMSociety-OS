@@ -1,2 +1,12 @@
 {{!< default}}
-<section class="section"><div class="wrap">{{#tag}}<h1>{{name}}</h1>{{/tag}}<div class="cards">{{#foreach posts}}{{> article-card}}{{/foreach}}</div></div></section>
+<section class="section">
+  <div class="wrap">
+    {{#tag}}
+      <p class="eyebrow">TOPIC</p>
+      <h1>{{name}}</h1>
+      {{#if description}}<p class="archive-description">{{description}}</p>{{/if}}
+    {{/tag}}
+    <div class="ghost-card-grid">{{#foreach posts}}{{> article-card}}{{/foreach}}</div>
+    {{pagination}}
+  </div>
+</section>

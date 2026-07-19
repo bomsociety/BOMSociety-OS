@@ -1,2 +1,10 @@
 {{!< default}}
-{{#post}}<article class="article wrap"><header><h1>{{title}}</h1></header><div class="gh-content">{{content}}</div></article>{{/post}}
+{{#post}}
+<article class="post-template">
+  <header class="post-header wrap post-wrap">
+    <h1>{{title}}</h1>
+    {{#if custom_excerpt}}<p class="post-excerpt">{{custom_excerpt}}</p>{{/if}}
+  </header>
+  <div class="gh-content post-wrap wrap">{{content}}</div>
+</article>
+{{/post}}

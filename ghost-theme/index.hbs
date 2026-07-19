@@ -1,2 +1,13 @@
 {{!< default}}
-<section class="section"><div class="wrap"><h1>{{@site.title}}</h1><div class="cards">{{#foreach posts}}{{> article-card}}{{/foreach}}</div>{{pagination}}</div></section>
+<section class="section">
+  <div class="wrap">
+    <div class="section-heading">
+      <div><p class="eyebrow">ARTICLES</p><h1>{{@site.title}}</h1></div>
+      <p>Evidence-informed guidance across the business of medicine.</p>
+    </div>
+    <div class="ghost-card-grid">
+      {{#foreach posts}}{{> article-card}}{{/foreach}}
+    </div>
+    {{pagination}}
+  </div>
+</section>

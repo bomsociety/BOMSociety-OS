@@ -1,20 +1,74 @@
 {{!< default}}
+
 <section class="hero">
-  <div class="wrap">
-    <p class="eyebrow">THE BUSINESS OF MEDICINE</p>
-    <h1>Medicine changes lives.<br>Business changes careers.</h1>
-    <p class="lead">Everything you were not taught in medical school.</p>
-    <a class="button" href="/articles/">Start learning</a>
+  <div class="wrap hero-grid">
+    <div class="hero-copy">
+      <p class="eyebrow">THE BUSINESS OF MEDICINE</p>
+      <h1>Medicine changes lives.<br><span>Business changes careers.</span></h1>
+      <p class="hero-lead">Everything you were not taught in medical school—made clear, practical, and useful.</p>
+      <p class="hero-detail">Independent guidance on contracts, compensation, private equity, AI, practice management, leadership, and long-term financial decisions.</p>
+      <div class="actions">
+        <a class="button" href="#latest">Start learning</a>
+        <a class="button button-secondary" href="#/portal/signup">Join free</a>
+      </div>
+      <div class="read-depths">
+        <div><strong>30 sec</strong><span>Bottom line</span></div>
+        <div><strong>2 min</strong><span>Decision context</span></div>
+        <div><strong>5 min</strong><span>Full brief</span></div>
+      </div>
+    </div>
+
+    <div class="hero-visual">
+      <div class="visual-orbit visual-orbit-one"></div>
+      <div class="visual-orbit visual-orbit-two"></div>
+      <div class="visual-center"><span class="visual-kicker">BOM</span><strong>Better decisions</strong><small>for every career stage</small></div>
+      <span class="knowledge-node node-contracts">Contracts</span>
+      <span class="knowledge-node node-comp">Compensation</span>
+      <span class="knowledge-node node-ai">AI</span>
+      <span class="knowledge-node node-practice">Practice</span>
+      <span class="knowledge-node node-finance">Finance</span>
+      <span class="knowledge-node node-leadership">Leadership</span>
+    </div>
   </div>
 </section>
-<section class="section">
+
+<section class="trust-bar">
+  <div class="wrap trust-inner">
+    <span><i></i>Physician focused</span>
+    <span><i></i>Evidence informed</span>
+    <span><i></i>Independent</span>
+    <span><i></i>Continuously updated</span>
+    <span><i></i>Free membership</span>
+  </div>
+</section>
+
+<section class="section section-soft" id="latest">
   <div class="wrap">
-    <p class="eyebrow">LATEST</p>
-    <h2>Newest articles</h2>
-    <div class="cards">
-      {{#foreach posts}}
+    <div class="section-heading">
+      <div><p class="eyebrow">LATEST</p><h2>Useful now.</h2></div>
+      <p>Concise, evidence-informed guidance built for the decisions physicians face today.</p>
+    </div>
+
+    <div class="ghost-card-grid">
+      {{#foreach posts limit="6"}}
         {{> article-card}}
       {{/foreach}}
+    </div>
+  </div>
+</section>
+
+<section class="membership">
+  <div class="wrap membership-grid">
+    <div>
+      <p class="eyebrow eyebrow-light">FREE MEMBERSHIP</p>
+      <h2>Five minutes each week.<br>Better decisions for an entire career.</h2>
+      <p>Get the developments that matter across contracts, compensation, AI, ownership, leadership, and finance—without the noise.</p>
+    </div>
+    <div class="signup">
+      <p class="signup-kicker">JOIN BOMSOCIETY</p>
+      <h3>Membership is free.</h3>
+      <a class="button button-full" href="#/portal/signup">Create your account</a>
+      <small>No spam. Unsubscribe anytime.</small>
     </div>
   </div>
 </section>
