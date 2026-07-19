@@ -1,0 +1,28 @@
+{
+  "slug": "physician-leadership",
+  "title": "Physician Leadership",
+  "status": "planned",
+  "read_depths": {
+    "30_seconds": "",
+    "2_minutes": "",
+    "5_minutes": ""
+  },
+  "references": [],
+  "corroboration": {
+    "score": 0,
+    "reference_count": 0
+  },
+  "seo": {
+    "title": "Physician Leadership | BOMSociety",
+    "description": ""
+  },
+  "analytics": {
+    "events": [
+      "page_view",
+      "reading_depth_selected",
+      "article_complete",
+      "share",
+      "newsletter_signup"
+    ]
+  }
+}

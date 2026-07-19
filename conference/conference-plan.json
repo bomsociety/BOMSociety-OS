@@ -1,0 +1,17 @@
+{
+  "status": "planned",
+  "initial_price": "free",
+  "cme": false,
+  "tracks": [
+    "Career & Contracts",
+    "Practice & Ownership",
+    "AI & Technology",
+    "Finance & Leadership"
+  ],
+  "features": [
+    "registration",
+    "session signup",
+    "reminders",
+    "sponsor inventory"
+  ]
+}

@@ -1,11 +1,12 @@
 {
   "name": "bomsociety",
   "description": "Official BOMSociety Ghost theme",
-  "version": "0.2.0",
+  "version": "1.0.0",
   "engines": {
     "ghost": ">=6.0.0"
   },
   "license": "MIT",
+  "author": "BOMSociety",
   "config": {
     "posts_per_page": 12,
     "card_assets": true,

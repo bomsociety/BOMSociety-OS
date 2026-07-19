@@ -1,0 +1,28 @@
+{
+  "slug": "career-development",
+  "title": "Career Development",
+  "status": "planned",
+  "read_depths": {
+    "30_seconds": "",
+    "2_minutes": "",
+    "5_minutes": ""
+  },
+  "references": [],
+  "corroboration": {
+    "score": 0,
+    "reference_count": 0
+  },
+  "seo": {
+    "title": "Career Development | BOMSociety",
+    "description": ""
+  },
+  "analytics": {
+    "events": [
+      "page_view",
+      "reading_depth_selected",
+      "article_complete",
+      "share",
+      "newsletter_signup"
+    ]
+  }
+}

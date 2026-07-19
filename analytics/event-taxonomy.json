@@ -1,0 +1,20 @@
+[
+  "page_view",
+  "section_view",
+  "scroll_depth",
+  "reading_depth_selected",
+  "brief_depth_viewed",
+  "article_complete",
+  "internal_search",
+  "search_no_result",
+  "related_topic_click",
+  "share",
+  "bookmark",
+  "newsletter_signup",
+  "membership_signup",
+  "return_visit",
+  "resource_download",
+  "conference_interest",
+  "product_interest",
+  "outbound_link"
+]

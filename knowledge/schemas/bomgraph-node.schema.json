@@ -1,0 +1,73 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "BOMGraph Node",
+  "type": "object",
+  "required": [
+    "id",
+    "slug",
+    "title",
+    "type",
+    "summary30",
+    "summary120",
+    "summary300",
+    "references",
+    "corroboration",
+    "relationships",
+    "seo",
+    "analytics"
+  ],
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "slug": {
+      "type": "string"
+    },
+    "title": {
+      "type": "string"
+    },
+    "type": {
+      "enum": [
+        "topic",
+        "article",
+        "guide",
+        "law",
+        "organization",
+        "person",
+        "product",
+        "event",
+        "reference"
+      ]
+    },
+    "summary30": {
+      "type": "string"
+    },
+    "summary120": {
+      "type": "string"
+    },
+    "summary300": {
+      "type": "string"
+    },
+    "references": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "corroboration": {
+      "type": "object"
+    },
+    "relationships": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "seo": {
+      "type": "object"
+    },
+    "analytics": {
+      "type": "object"
+    }
+  }
+}
