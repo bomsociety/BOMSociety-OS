@@ -1,0 +1,12 @@
+{
+  "name": "bomsociety-os",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "test": "node --test",
+    "theme:zip": "node automation/build-theme-zip.mjs"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

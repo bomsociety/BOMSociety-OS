@@ -1,0 +1,20 @@
+{{!< default}}
+<section class="hero">
+  <div class="wrap">
+    <p class="eyebrow">THE BUSINESS OF MEDICINE</p>
+    <h1>Medicine changes lives.<br>Business changes careers.</h1>
+    <p class="lead">Everything you were not taught in medical school.</p>
+    <a class="button" href="/articles/">Start learning</a>
+  </div>
+</section>
+<section class="section">
+  <div class="wrap">
+    <p class="eyebrow">LATEST</p>
+    <h2>Newest articles</h2>
+    <div class="cards">
+      {{#foreach posts}}
+        {{> article-card}}
+      {{/foreach}}
+    </div>
+  </div>
+</section>

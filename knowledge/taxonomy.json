@@ -1,0 +1,33 @@
+{
+  "Career": [
+    "Contracts",
+    "Negotiation",
+    "Employment",
+    "Leadership"
+  ],
+  "Finance": [
+    "Compensation",
+    "Taxes",
+    "Retirement",
+    "Investing",
+    "Insurance"
+  ],
+  "Practice": [
+    "Coding",
+    "Billing",
+    "Compliance",
+    "Workflow",
+    "Staffing"
+  ],
+  "Technology": [
+    "Artificial Intelligence",
+    "Automation",
+    "EHR",
+    "Cybersecurity"
+  ],
+  "Ownership": [
+    "Private Practice",
+    "Partnership",
+    "Private Equity"
+  ]
+}
