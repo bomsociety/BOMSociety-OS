@@ -17,3 +17,43 @@
 @media(max-width:760px){.nav-join{display:none}.menu-toggle{display:block}.site-nav{position:fixed;left:20px;right:20px;top:82px;display:none;flex-direction:column;gap:0;padding:14px;border:1px solid var(--line);border-radius:18px;background:#fff;box-shadow:var(--shadow)}.site-nav.is-open{display:flex}.site-nav a{padding:12px}.hero{padding:72px 0}.graph-stage{min-height:430px}.graph-core{width:165px;height:165px}.orbit-a{width:250px;height:250px}.orbit-b{width:360px;height:360px}.orbit-c{width:420px;height:420px}.decision-grid,.asset-points,.depth-cards,.intelligence-grid,.collection-grid{grid-template-columns:1fr}.decision-featured{grid-row:auto;min-height:340px}.article-grid{grid-template-columns:1fr}.footer-grid{grid-template-columns:1fr 1fr}.footer-grid>div:first-child{grid-column:1/-1}}
 @media(max-width:520px){.shell,.shell-narrow,.shell-wide{width:min(calc(100% - 28px),var(--max))}h1{font-size:3.15rem}.section{padding:76px 0}.hero-actions{flex-direction:column}.decision-search{padding:14px}.quick-prompts{display:none}.proof-strip .shell{justify-content:flex-start}.graph-stage{min-height:390px}.graph-chip{font-size:.66rem;padding:7px 9px}.chip-f{display:none}.conference-tile>span{font-size:3.5rem}.asset-status,.footer-bottom{flex-direction:column}.footer-grid{grid-template-columns:1fr}.footer-grid>div:first-child{grid-column:auto}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{transition:none!important;animation:none!important}}
+
+/* v1.2.0B1 — hierarchy correction */
+.promise-line{display:none}
+.hero h1.hero-promise{
+  max-width:760px;
+  margin:0 0 24px;
+  font-size:clamp(3rem,5.7vw,5.6rem);
+  line-height:.99;
+  letter-spacing:-.055em;
+}
+.hero h1.hero-promise em{color:#8ad7c8;font-style:normal}
+.hero-system{
+  max-width:720px;
+  margin:0 0 16px;
+  color:#f3f7fa;
+  font-size:clamp(1.15rem,2vw,1.45rem);
+  line-height:1.35;
+  font-weight:760;
+  letter-spacing:-.025em;
+}
+.hero-lead{
+  max-width:720px;
+  margin:0;
+  color:#c7d5df;
+  font-size:1.08rem;
+  font-weight:700;
+}
+.hero-benefit{
+  margin:14px 0 0;
+  color:#8ad7c8;
+  font-size:.9rem;
+  font-weight:900;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+}
+.hero-actions{margin-top:28px}
+@media(max-width:520px){
+  .hero h1.hero-promise{font-size:3rem}
+  .hero-system{font-size:1.08rem}
+}

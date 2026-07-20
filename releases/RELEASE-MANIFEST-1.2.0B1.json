@@ -1,0 +1,14 @@
+{
+  "release": "1.2.0B1",
+  "purpose": "Hero hierarchy correction",
+  "modified": [
+    "ghost-theme/home.hbs",
+    "ghost-theme/assets/css/screen.css",
+    "ghost-theme/package.json",
+    "homepage/index.html",
+    "homepage/styles.css",
+    "package.json",
+    "VERSION"
+  ],
+  "ghost_upload": "releases/UPLOAD-TO-GHOST-bomsociety-theme-v1.2.0B1.zip"
+}
