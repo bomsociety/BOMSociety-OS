@@ -1,7 +1,7 @@
 {
   "name": "bomsociety-theme",
   "description": "BOMSociety knowledge and intelligence theme",
-  "version": "1.2.0B4",
+  "version": "1.2.0B5",
   "engines": {
     "ghost": ">=5.0.0"
   },

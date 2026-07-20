@@ -1,0 +1,17 @@
+{
+  "release": "1.2.0B5",
+  "batch": "Interactive BOMGraph",
+  "purpose": "Make the core asset visible, memorable, and explorable",
+  "modified": [
+    "ghost-theme/home.hbs",
+    "ghost-theme/assets/css/screen.css",
+    "ghost-theme/assets/js/main.js",
+    "ghost-theme/package.json",
+    "homepage/index.html",
+    "homepage/styles.css",
+    "homepage/app.js",
+    "package.json",
+    "VERSION"
+  ],
+  "ghost_upload": "releases/UPLOAD-TO-GHOST-bomsociety-theme-v1.2.0B5.zip"
+}

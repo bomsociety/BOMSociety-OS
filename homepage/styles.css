@@ -160,3 +160,20 @@
 
 /* v1.2.0B4 */
 .hero-product{margin:0 0 22px;color:#a56a00;font-size:clamp(2.25rem,4vw,4.4rem);line-height:.98;font-weight:930;letter-spacing:-.055em}.hero-product span{color:#c18a22}.hero h1.hero-promise{display:grid;gap:2px;margin:0 0 28px;font-size:clamp(2.05rem,3.2vw,3.55rem);line-height:1.02;letter-spacing:-.048em}.hero-line-time{color:var(--navy-900)}.hero-line-trust{color:var(--teal-700)}.hero-line-decisions{color:#2f6fb5}.hero-depths{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.hero-depth{display:grid;gap:2px;padding:16px 18px;border:1px solid var(--line);border-radius:16px;background:#fff}.hero-depth strong{color:#a56a00;font-size:1.25rem}.hero-depth span{color:var(--muted);font-size:.82rem}.node-ownership{left:auto!important;right:13%!important;top:auto!important;bottom:14%!important;transform:none!important}@media(max-width:680px){.hero-depths{grid-template-columns:1fr}}
+
+
+/* v1.2.0B5 — interactive BOMGraph */
+.graph-stage{position:relative;isolation:isolate;overflow:hidden}
+.graph-links{position:absolute;inset:0;width:100%;height:100%;z-index:1;pointer-events:none}
+.graph-links path{fill:none;stroke:rgba(47,111,181,.28);stroke-width:1.5;stroke-dasharray:7 9;animation:graphFlow 13s linear infinite;transition:.22s}
+.graph-center{z-index:4;border:0;cursor:pointer;font:inherit}
+.graph-node{z-index:5;display:grid;gap:2px;min-width:108px;white-space:normal;animation:nodeFloat 6s ease-in-out infinite}
+.graph-node span{font-weight:900}.graph-node small{color:#c4d0d9;font-size:.58rem}
+.graph-stage.is-focused .graph-node:not(.is-active){opacity:.28}
+.graph-stage.is-focused .graph-links path{opacity:.15}
+.graph-stage.is-focused .graph-links path.is-active{opacity:1;stroke:#c18a22;stroke-width:2.8}
+.graph-node.is-active{background:linear-gradient(135deg,var(--teal-700),#2f6fb5);border-color:rgba(255,255,255,.5)}
+.graph-caption{position:absolute;left:50%;bottom:18px;z-index:6;transform:translateX(-50%);width:max-content;max-width:calc(100% - 36px);padding:8px 12px;border-radius:999px;background:rgba(6,18,31,.76);color:#d7e2e9;font-size:.69rem;font-weight:750}
+@keyframes graphFlow{to{stroke-dashoffset:-160}}
+@keyframes nodeFloat{0%,100%{transform:translateY(-2px)}50%{transform:translateY(5px)}}
+@media(prefers-reduced-motion:reduce){.graph-links path,.graph-node{animation:none!important}}

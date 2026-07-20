@@ -1,6 +1,6 @@
 {
   "name": "bomsociety-os",
-  "version": "1.2.0B4",
+  "version": "1.2.0B5",
   "private": true,
   "scripts": {
     "test": "node --test",
