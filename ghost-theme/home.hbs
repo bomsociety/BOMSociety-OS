@@ -60,18 +60,50 @@
   </div>
 </section>
 
+
+<section class="decision-finder-section" id="decision-finder" data-track-section="decision-finder">
+  <div class="shell decision-finder-shell">
+    <div class="decision-finder-copy">
+      <p class="eyebrow">START WITH YOUR DECISION</p>
+      <h2>What are you trying to decide?</h2>
+      <p>Search by question, topic, or career problem. BOMSociety routes you to the most useful starting point.</p>
+    </div>
+
+    <div class="decision-finder-panel">
+      <label for="decision-query">Ask in plain language</label>
+      <div class="decision-finder-input-row">
+        <input id="decision-query" type="search" placeholder="Try: Should I sign this contract?" autocomplete="off" data-decision-input>
+        <button class="button" type="button" data-decision-search>Find my starting point</button>
+      </div>
+
+      <div class="decision-suggestions" aria-label="Suggested decisions">
+        <button type="button" data-decision-chip="contract">Contract</button>
+        <button type="button" data-decision-chip="rvu">RVUs</button>
+        <button type="button" data-decision-chip="private equity">Private equity</button>
+        <button type="button" data-decision-chip="ai">AI</button>
+        <button type="button" data-decision-chip="ownership">Ownership</button>
+        <button type="button" data-decision-chip="wealth">Wealth</button>
+        <button type="button" data-decision-chip="malpractice">Malpractice</button>
+        <button type="button" data-decision-chip="leadership">Leadership</button>
+      </div>
+
+      <p class="decision-finder-status" aria-live="polite" data-decision-status>Choose a suggestion or type your own question.</p>
+    </div>
+  </div>
+</section>
+
 <section class="section section-soft" id="decisions" data-track-section="decisions">
   <div class="shell">
     <div class="section-head"><div><p class="eyebrow">TODAY'S DECISIONS</p><h2>Start with the question you actually have.</h2></div><p>These are not generic categories. They are the real decisions that bring people here—and the durable search intents that grow the knowledge system.</p></div>
     <div class="decision-grid">
-      <a class="decision-card decision-featured" href="{{@site.url}}/tag/contracts/"><span class="decision-number">01</span><div><small>CAREER</small><h3>Should I sign this physician contract?</h3><p>Compensation, restrictive covenants, termination rights, malpractice tail, call, and partnership path.</p></div><b>Explore decision →</b></a>
-      <a class="decision-card" href="{{@site.url}}/tag/compensation/"><span class="decision-number">02</span><div><small>COMPENSATION</small><h3>How do RVUs really work?</h3><p>Understand formulas, benchmarks, thresholds, and hidden incentives.</p></div><b>Learn →</b></a>
-      <a class="decision-card" href="{{@site.url}}/tag/private-equity/"><span class="decision-number">03</span><div><small>OWNERSHIP</small><h3>Should I sell to private equity?</h3><p>Price, rollover equity, control, risk, and what happens after closing.</p></div><b>Evaluate →</b></a>
-      <a class="decision-card" href="{{@site.url}}/tag/artificial-intelligence/"><span class="decision-number">04</span><div><small>TECHNOLOGY</small><h3>Which AI tools matter in medicine?</h3><p>Practical use cases, workflow impact, evidence, risk, and adoption.</p></div><b>See the map →</b></a>
-      <a class="decision-card" href="{{@site.url}}/tag/practice-management/"><span class="decision-number">05</span><div><small>PRACTICE</small><h3>Employment, partnership, or ownership?</h3><p>Compare control, income, capital, lifestyle, and long-term upside.</p></div><b>Compare paths →</b></a>
-      <a class="decision-card" href="{{@site.url}}/tag/finance/"><span class="decision-number">06</span><div><small>FINANCE</small><h3>How should physicians build wealth?</h3><p>Cash flow, debt, investing, protection, ownership, and optionality.</p></div><b>Build a framework →</b></a>
-      <a class="decision-card" href="{{@site.url}}/tag/malpractice/"><span class="decision-number">07</span><div><small>LEGAL</small><h3>Who pays malpractice tail coverage?</h3><p>Know the trigger, cost, contract language, and negotiation options.</p></div><b>Understand exposure →</b></a>
-      <a class="decision-card" href="{{@site.url}}/tag/leadership/"><span class="decision-number">08</span><div><small>LEADERSHIP</small><h3>How do I lead beyond the exam room?</h3><p>Governance, influence, administration, negotiation, and enterprise value.</p></div><b>Develop leverage →</b></a>
+      <a class="decision-card decision-featured" data-decision-card data-keywords="contract career employment restrictive covenant malpractice negotiation compensation" href="{{@site.url}}/tag/contracts/"><span class="decision-number">01</span><div><small>CAREER</small><h3>Should I sign this physician contract?</h3><p>Compensation, restrictive covenants, termination rights, malpractice tail, call, and partnership path.</p></div><b>Explore decision →</b></a>
+      <a class="decision-card" data-decision-card data-keywords="rvu compensation productivity bonus benchmark incentive collections" href="{{@site.url}}/tag/compensation/"><span class="decision-number">02</span><div><small>COMPENSATION</small><h3>How do RVUs really work?</h3><p>Understand formulas, benchmarks, thresholds, and hidden incentives.</p></div><b>Learn →</b></a>
+      <a class="decision-card" data-decision-card data-keywords="private equity sale ownership rollover equity control exit" href="{{@site.url}}/tag/private-equity/"><span class="decision-number">03</span><div><small>OWNERSHIP</small><h3>Should I sell to private equity?</h3><p>Price, rollover equity, control, risk, and what happens after closing.</p></div><b>Evaluate →</b></a>
+      <a class="decision-card" data-decision-card data-keywords="ai artificial intelligence technology automation workflow" href="{{@site.url}}/tag/artificial-intelligence/"><span class="decision-number">04</span><div><small>TECHNOLOGY</small><h3>Which AI tools matter in medicine?</h3><p>Practical use cases, workflow impact, evidence, risk, and adoption.</p></div><b>See the map →</b></a>
+      <a class="decision-card" data-decision-card data-keywords="practice ownership partnership employment operations control" href="{{@site.url}}/tag/practice-management/"><span class="decision-number">05</span><div><small>PRACTICE</small><h3>Employment, partnership, or ownership?</h3><p>Compare control, income, capital, lifestyle, and long-term upside.</p></div><b>Compare paths →</b></a>
+      <a class="decision-card" data-decision-card data-keywords="finance wealth debt investing retirement optionality" href="{{@site.url}}/tag/finance/"><span class="decision-number">06</span><div><small>FINANCE</small><h3>How should physicians build wealth?</h3><p>Cash flow, debt, investing, protection, ownership, and optionality.</p></div><b>Build a framework →</b></a>
+      <a class="decision-card" data-decision-card data-keywords="malpractice tail coverage insurance legal contract" href="{{@site.url}}/tag/malpractice/"><span class="decision-number">07</span><div><small>LEGAL</small><h3>Who pays malpractice tail coverage?</h3><p>Know the trigger, cost, contract language, and negotiation options.</p></div><b>Understand exposure →</b></a>
+      <a class="decision-card" data-decision-card data-keywords="leadership administration governance influence career" href="{{@site.url}}/tag/leadership/"><span class="decision-number">08</span><div><small>LEADERSHIP</small><h3>How do I lead beyond the exam room?</h3><p>Governance, influence, administration, negotiation, and enterprise value.</p></div><b>Develop leverage →</b></a>
     </div>
   </div>
 </section>

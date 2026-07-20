@@ -53,3 +53,76 @@ if(graph){
     topics.forEach(t=>{t.style.removeProperty('--drift-x');t.style.removeProperty('--drift-y')});
   });
 }
+
+
+const decisionInput = document.querySelector('[data-decision-input]');
+const decisionSearch = document.querySelector('[data-decision-search]');
+const decisionStatus = document.querySelector('[data-decision-status]');
+const decisionCards = [...document.querySelectorAll('[data-decision-card]')];
+const decisionChips = [...document.querySelectorAll('[data-decision-chip]')];
+
+function normalizeDecisionQuery(value) {
+  return value.toLowerCase().replace(/[^\w\s-]/g, ' ').replace(/\s+/g, ' ').trim();
+}
+
+function scoreDecisionCard(card, query) {
+  if (!query) return 0;
+  const haystack = normalizeDecisionQuery([
+    card.dataset.keywords || '',
+    card.textContent || ''
+  ].join(' '));
+  const terms = query.split(' ').filter(term => term.length > 1);
+  return terms.reduce((score, term) => score + (haystack.includes(term) ? 1 : 0), 0);
+}
+
+function runDecisionFinder(rawQuery) {
+  const query = normalizeDecisionQuery(rawQuery);
+  if (!query) {
+    if (decisionStatus) decisionStatus.textContent = 'Type a question or choose a suggested decision.';
+    if (decisionInput) decisionInput.focus();
+    return;
+  }
+
+  const ranked = decisionCards
+    .map(card => ({ card, score: scoreDecisionCard(card, query) }))
+    .sort((a, b) => b.score - a.score);
+
+  decisionCards.forEach(card => {
+    card.classList.remove('decision-match');
+    card.removeAttribute('aria-current');
+  });
+
+  const best = ranked[0];
+  if (!best || best.score === 0) {
+    if (decisionStatus) decisionStatus.textContent = 'No exact match yet. Browse the decisions below or explore Topics.';
+    document.querySelector('#decisions')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    return;
+  }
+
+  best.card.classList.add('decision-match');
+  best.card.setAttribute('aria-current', 'true');
+
+  const title = best.card.querySelector('h3')?.textContent?.trim() || 'Recommended starting point';
+  if (decisionStatus) decisionStatus.textContent = `Best starting point: ${title}`;
+  best.card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+  window.BOMAnalytics?.track('decision_finder_used', {
+    query,
+    result: title
+  });
+}
+
+decisionSearch?.addEventListener('click', () => runDecisionFinder(decisionInput?.value || ''));
+decisionInput?.addEventListener('keydown', event => {
+  if (event.key === 'Enter') {
+    event.preventDefault();
+    runDecisionFinder(decisionInput.value);
+  }
+});
+decisionChips.forEach(chip => {
+  chip.addEventListener('click', () => {
+    const value = chip.dataset.decisionChip || '';
+    if (decisionInput) decisionInput.value = value;
+    runDecisionFinder(value);
+  });
+});

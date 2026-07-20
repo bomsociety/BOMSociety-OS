@@ -177,3 +177,17 @@
 @keyframes graphFlow{to{stroke-dashoffset:-160}}
 @keyframes nodeFloat{0%,100%{transform:translateY(-2px)}50%{transform:translateY(5px)}}
 @media(prefers-reduced-motion:reduce){.graph-links path,.graph-node{animation:none!important}}
+
+
+/* v1.2.0B6 — decision finder */
+.decision-finder-section{padding:76px 0;background:linear-gradient(180deg,#fff,#f7fafc);border-bottom:1px solid var(--line)}
+.decision-finder-shell{display:grid;grid-template-columns:.82fr 1.18fr;gap:54px;align-items:center}
+.decision-finder-copy>p:not(.eyebrow){max-width:560px;margin:0;color:var(--muted)}
+.decision-finder-panel{padding:24px;border:1px solid var(--line);border-radius:24px;background:white;box-shadow:var(--shadow-sm)}
+.decision-finder-panel label{display:block;margin-bottom:9px;font-size:.82rem;font-weight:880}
+.decision-finder-input-row{display:grid;grid-template-columns:1fr auto;gap:10px}
+.decision-finder-input-row input{min-width:0;height:52px;padding:0 16px;border:1px solid var(--line);border-radius:14px;background:#fbfcfd}
+.decision-suggestions{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.decision-suggestions button{padding:8px 11px;border:1px solid var(--line);border-radius:999px;background:white;color:#405166;font-size:.78rem;font-weight:820}
+@media(max-width:900px){.decision-finder-shell{grid-template-columns:1fr;gap:28px}}
+@media(max-width:620px){.decision-finder-input-row{grid-template-columns:1fr}}
