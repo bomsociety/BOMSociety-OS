@@ -57,3 +57,148 @@
   .hero h1.hero-promise{font-size:3rem}
   .hero-system{font-size:1.08rem}
 }
+
+
+/* v1.2.0B2 — above-the-fold hero refinement */
+.hero{
+  padding:54px 0 52px;
+  min-height:calc(100vh - 76px);
+  display:flex;
+  align-items:center;
+}
+.hero-grid{
+  gap:52px;
+  align-items:center;
+}
+.hero-copy{
+  align-self:center;
+  padding-top:0;
+}
+.hero .eyebrow{
+  margin-bottom:12px;
+}
+.hero h1.hero-promise{
+  display:grid;
+  gap:.01em;
+  max-width:780px;
+  margin:0 0 20px;
+  font-size:clamp(2.85rem,5vw,5rem);
+  line-height:.94;
+  letter-spacing:-.058em;
+}
+.hero-line{
+  display:block;
+}
+.hero-line-time{
+  color:#f7fbfd;
+}
+.hero-line-trust{
+  color:#79d8c7;
+}
+.hero-line-decisions{
+  color:#f2c66d;
+  font-size:1.12em;
+  line-height:.92;
+}
+.hero-system{
+  max-width:735px;
+  margin:0 0 13px;
+  color:#f3f7fa;
+  font-size:clamp(1.2rem,1.75vw,1.55rem);
+  line-height:1.28;
+  font-weight:790;
+  letter-spacing:-.03em;
+}
+.hero-lead{
+  display:flex;
+  flex-wrap:wrap;
+  gap:7px 18px;
+  max-width:760px;
+  margin:0;
+  color:#d3dee6;
+  font-size:clamp(1.08rem,1.35vw,1.24rem);
+  line-height:1.35;
+  font-weight:730;
+}
+.hero-lead span{
+  white-space:nowrap;
+}
+.hero-lead strong{
+  color:#ffffff;
+  font-weight:920;
+}
+.hero-benefit{
+  margin:10px 0 0;
+  color:#a9bbc8;
+  font-size:.78rem;
+  letter-spacing:.13em;
+}
+.hero-actions{
+  margin:22px 0 0;
+}
+.decision-search{
+  margin-top:20px;
+  padding:15px;
+}
+.decision-search label{
+  margin-bottom:8px;
+}
+.decision-search-row input{
+  height:48px;
+}
+.graph-stage{
+  min-height:500px;
+}
+.graph-core{
+  width:188px;
+  height:188px;
+}
+.orbit-a{width:278px;height:278px}
+.orbit-b{width:402px;height:402px}
+.orbit-c{width:492px;height:492px}
+
+@media(max-width:1050px){
+  .hero{
+    min-height:auto;
+    padding:54px 0 60px;
+  }
+  .hero-grid{
+    gap:40px;
+  }
+  .graph-stage{
+    min-height:470px;
+  }
+}
+@media(max-width:760px){
+  .hero{
+    padding:42px 0 48px;
+  }
+  .hero h1.hero-promise{
+    font-size:clamp(2.65rem,12vw,4.2rem);
+  }
+  .hero-system{
+    font-size:1.14rem;
+  }
+  .hero-lead{
+    display:grid;
+    gap:3px;
+    font-size:1.04rem;
+  }
+  .hero-lead span{
+    white-space:normal;
+  }
+  .graph-stage{
+    min-height:390px;
+  }
+}
+@media(max-width:520px){
+  .hero h1.hero-promise{
+    font-size:2.78rem;
+  }
+  .hero-line-decisions{
+    font-size:1.08em;
+  }
+  .decision-search{
+    margin-top:16px;
+  }
+}

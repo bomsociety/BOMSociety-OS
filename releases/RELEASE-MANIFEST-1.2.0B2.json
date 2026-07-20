@@ -1,6 +1,6 @@
 {
-  "release": "1.2.0B1",
-  "purpose": "Hero hierarchy correction",
+  "release": "1.2.0B2",
+  "purpose": "Hero color, hierarchy, scale, and above-the-fold fit",
   "modified": [
     "ghost-theme/home.hbs",
     "ghost-theme/assets/css/screen.css",
@@ -10,5 +10,5 @@
     "package.json",
     "VERSION"
   ],
-  "ghost_upload": "releases/UPLOAD-TO-GHOST-bomsociety-theme-v1.2.0B1.zip"
+  "ghost_upload": "releases/UPLOAD-TO-GHOST-bomsociety-theme-v1.2.0B2.zip"
 }
