@@ -1,1 +1,11 @@
-<article class="article-card">{{#if feature_image}}<a class="article-card-image" href="{{url}}"><img src="{{img_url feature_image size="m"}}" alt="{{#if feature_image_alt}}{{feature_image_alt}}{{else}}{{title}}{{/if}}" loading="lazy"></a>{{/if}}<div class="article-card-body"><div class="article-meta"><span>{{primary_tag.name}}</span><span>{{reading_time}}</span></div><h3><a href="{{url}}">{{title}}</a></h3><p>{{excerpt words="24"}}</p><a href="{{url}}">Read article →</a></div></article>
+<article class="article-card {{post_class}}">
+  <a class="article-card-link" href="{{url}}">
+    {{#if feature_image}}<figure class="article-card-image"><img src="{{img_url feature_image size="m"}}" alt="{{#if feature_image_alt}}{{feature_image_alt}}{{else}}{{title}}{{/if}}" loading="lazy"></figure>{{/if}}
+    <div class="article-card-body">
+      <div class="article-card-meta">{{#if primary_tag}}<span>{{primary_tag.name}}</span>{{/if}}<span>{{reading_time}}</span></div>
+      <h3>{{title}}</h3>
+      {{#if custom_excerpt}}<p>{{custom_excerpt}}</p>{{else}}<p>{{excerpt words="22"}}</p>{{/if}}
+      <div class="article-card-foot"><span>Read brief</span><span aria-hidden="true">→</span></div>
+    </div>
+  </a>
+</article>

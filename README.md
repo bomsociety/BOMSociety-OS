@@ -1,11 +1,11 @@
-# BOMSociety OS v1.0.0
+# BOMSociety OS v1.1.0
 
-Business of Medicine.
+Production launch-candidate repository for the BOMSociety knowledge and intelligence platform.
 
-Respect your time. Earn your trust. Improve your decisions.
+## Ghost upload
 
-## Review
-Open `homepage/index.html`.
+Upload only:
 
-## Deploy
-Upload `releases/bomsociety-theme-v1.0.0.zip` through Ghost theme settings after visual approval.
+`releases/UPLOAD-TO-GHOST-bomsociety-theme-v1.1.0.zip`
+
+The `ghost-theme/` directory is the editable source. The file in `releases/` is the ready-to-upload Ghost archive.

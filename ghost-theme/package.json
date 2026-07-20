@@ -1,31 +1,24 @@
 {
-  "name": "bomsociety",
-  "description": "Official BOMSociety Ghost theme",
-  "version": "1.0.0",
+  "name": "bomsociety-theme",
+  "description": "BOMSociety knowledge and intelligence theme",
+  "version": "1.1.0",
   "engines": {
-    "ghost": ">=6.0.0"
+    "ghost": ">=5.0.0"
   },
   "license": "MIT",
-  "author": "BOMSociety",
+  "author": {
+    "name": "BOMSociety",
+    "email": "admin@bomsociety.com",
+    "url": "https://www.bomsociety.com"
+  },
   "config": {
     "posts_per_page": 12,
-    "card_assets": true,
-    "image_sizes": {
-      "xs": {
-        "width": 160
-      },
-      "s": {
-        "width": 320
-      },
-      "m": {
-        "width": 640
-      },
-      "l": {
-        "width": 960
-      },
-      "xl": {
-        "width": 1600
-      }
-    }
-  }
+    "card_assets": true
+  },
+  "keywords": [
+    "ghost-theme",
+    "business-of-medicine",
+    "knowledge-graph",
+    "physicians"
+  ]
 }

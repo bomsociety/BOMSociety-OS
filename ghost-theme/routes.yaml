@@ -1,10 +1,9 @@
 routes:
-
+  /: home
 collections:
-  /:
-    permalink: /{slug}/
-    template: home
-
+  /briefs/:
+    permalink: /briefs/{slug}/
+    template: index
 taxonomies:
-  tag: /topics/{slug}/
-  author: /authors/{slug}/
+  tag: /topic/{slug}/
+  author: /author/{slug}/

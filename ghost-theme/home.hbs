@@ -1,1 +1,88 @@
-{{!< default}}<section class="hero" data-track-section="hero"><div class="wrap hero-grid"><div><p class="eyebrow">THE BUSINESS OF MEDICINE, MAPPED</p><h1>Know more.<br><span>Decide better.</span></h1><p class="hero-lead">BOMSociety turns the business of medicine into a trusted, searchable, continuously updated knowledge system.</p><p class="hero-detail">Contracts, compensation, ownership, AI, practice operations, law, leadership, and finance—connected in one place.</p><div class="actions"><a class="button" href="/topics/">Explore the map</a><a class="button button-secondary" href="#/portal/signup">Join free</a></div><div class="read-depths"><button class="depth depth-active" data-depth="30"><strong>30 sec</strong><span>Bottom line</span></button><button class="depth" data-depth="120"><strong>2 min</strong><span>Decision context</span></button><button class="depth" data-depth="300"><strong>5 min</strong><span>Full brief</span></button></div></div><div class="hero-visual"><div class="graph-grid"></div><div class="graph-ring ring1"></div><div class="graph-ring ring2"></div><div class="graph-center"><span>BOMGraph</span><strong>One connected system</strong><small>Evidence → decisions → intelligence</small></div><span class="graph-node n-contracts">Contracts</span><span class="graph-node n-comp">Compensation</span><span class="graph-node n-ai">AI</span><span class="graph-node n-practice">Practice</span><span class="graph-node n-finance">Finance</span><span class="graph-node n-legal">Legal</span><span class="graph-node n-ownership">Ownership</span></div></div></section><section class="trust"><div class="wrap trust-inner"><span><i></i>Evidence informed</span><span><i></i>Independent</span><span><i></i>Continuously updated</span><span><i></i>Physician focused</span><span><i></i>Free membership</span></div></section><section class="section section-soft" data-track-section="latest"><div class="wrap"><div class="section-heading"><div><p class="eyebrow">LATEST</p><h2>Useful now.</h2></div><p>Concise guidance built for the decisions physicians face today.</p></div><div class="ghost-card-grid">{{#foreach posts limit="6"}}{{> article-card}}{{/foreach}}</div></div></section><section class="membership"><div class="wrap membership-grid"><div><p class="eyebrow eyebrow-light">FREE MEMBERSHIP</p><h2>Five minutes each week.<br>Better decisions for an entire career.</h2><p>Get the developments that matter—without the noise.</p></div><div class="signup"><p class="eyebrow">JOIN BOMSOCIETY</p><h3>Membership is free.</h3><a class="button button-full" href="#/portal/signup">Create your account</a><small>No spam. Unsubscribe anytime.</small></div></div></section>
+{{!< default}}
+<section class="hero section-dark">
+  <div class="shell hero-grid">
+    <div class="hero-copy">
+      <p class="eyebrow">THE BUSINESS OF MEDICINE, CONNECTED</p>
+      <h1>Know more.<br><em>Decide better.</em></h1>
+      <p class="hero-lead">BOMSociety turns the business of medicine into a trusted, searchable, continuously updated knowledge system.</p>
+      <p class="hero-detail">Contracts, compensation, ownership, AI, practice operations, law, leadership, and finance—mapped around the decisions physicians actually make.</p>
+      <div class="hero-actions"><a class="button" href="{{@site.url}}/knowledge/">Explore BOMGraph</a><a class="button button-ghost" href="#/portal/signup">Join free</a></div>
+      <div class="depth-switch" aria-label="Reading depths">
+        <span><b>30 sec</b> Bottom line</span><span><b>2 min</b> Decision context</span><span><b>5 min</b> Full brief</span>
+      </div>
+    </div>
+    <div class="graph-stage" aria-label="BOMGraph preview">
+      <div class="graph-orbit orbit-a"></div><div class="graph-orbit orbit-b"></div>
+      <div class="graph-core"><small>CORE ASSET</small><strong>BOMGraph</strong><span>Evidence → relationships → intelligence</span></div>
+      <a class="graph-chip chip-a" href="{{@site.url}}/tag/contracts/">Contracts</a>
+      <a class="graph-chip chip-b" href="{{@site.url}}/tag/compensation/">Compensation</a>
+      <a class="graph-chip chip-c" href="{{@site.url}}/tag/artificial-intelligence/">AI</a>
+      <a class="graph-chip chip-d" href="{{@site.url}}/tag/practice-management/">Practice</a>
+      <a class="graph-chip chip-e" href="{{@site.url}}/tag/finance/">Finance</a>
+      <a class="graph-chip chip-f" href="{{@site.url}}/tag/ownership/">Ownership</a>
+    </div>
+  </div>
+</section>
+
+<section class="proof-strip"><div class="shell"><span>Evidence informed</span><span>Independent</span><span>Continuously updated</span><span>Physician focused</span><span>Free membership</span></div></section>
+
+<section class="section asset-section">
+  <div class="shell">
+    <div class="section-head"><div><p class="eyebrow">THE CORE ASSET</p><h2>BOMGraph compounds with every answer.</h2></div><p>Every brief becomes a reusable knowledge object: sourced, connected, measurable, and increasingly valuable over time.</p></div>
+    <div class="asset-grid">
+      <div class="asset-visual">
+        <div class="asset-card"><span class="asset-label">Canonical topic</span><h3>Physician employment contract</h3><p>One authoritative object. Multiple reading depths. Visible sources. Connected implications.</p><div class="asset-links"><span>Compensation</span><span>Termination</span><span>Restrictive covenant</span><span>Malpractice</span></div></div>
+      </div>
+      <div class="asset-points">
+        <article><span>01</span><div><h3>Searchable knowledge</h3><p>Traffic lands on durable answers rather than disposable posts.</p></div></article>
+        <article><span>02</span><div><h3>Structured relationships</h3><p>Every topic points readers toward the next consequential decision.</p></div></article>
+        <article><span>03</span><div><h3>Decision-demand data</h3><p>Search, reading depth, usefulness, and return behavior become intelligence.</p></div></article>
+        <article><span>04</span><div><h3>Sellable snapshots</h3><p>Point-in-time maps and trends can later support sponsors, practices, health systems, and investors.</p></div></article>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section section-soft">
+  <div class="shell">
+    <div class="section-head"><div><p class="eyebrow">BUILT FOR SHORT ATTENTION</p><h2>One topic. Three useful depths.</h2></div><p>The bottom line survives even when the reader has only seconds. Context and full analysis remain available without forcing everyone through the same experience.</p></div>
+    <div class="depth-cards">
+      <article class="depth-card depth-primary"><span>30 seconds</span><h3>What matters</h3><p>The direct answer, decisive implication, and immediate next step.</p></article>
+      <article class="depth-card"><span>2 minutes</span><h3>Why it matters</h3><p>Decision context, tradeoffs, and the few facts that change the conclusion.</p></article>
+      <article class="depth-card"><span>5 minutes</span><h3>What to do</h3><p>Complete practical brief with sources, caveats, and connected topics.</p></article>
+    </div>
+  </div>
+</section>
+
+<section class="section latest-section">
+  <div class="shell">
+    <div class="section-head"><div><p class="eyebrow">LATEST BRIEFS</p><h2>Useful now.</h2></div><a class="text-link" href="{{@site.url}}/briefs/">View all briefs →</a></div>
+    <div class="article-grid">{{#get "posts" limit="6" include="tags,authors"}}{{#foreach posts}}{{> article-card}}{{/foreach}}{{/get}}</div>
+  </div>
+</section>
+
+<section class="section intelligence-section">
+  <div class="shell">
+    <div class="section-head light"><div><p class="eyebrow">BOMSOCIETY INTELLIGENCE</p><h2>Knowledge becomes a product.</h2></div><p>The same system that helps one physician can reveal what is changing across the entire business of medicine.</p></div>
+    <div class="intelligence-grid">
+      <article class="intelligence-card flagship"><span>FLAGSHIP</span><h3>Quarterly Business of Medicine Intelligence</h3><p>What changed, why it matters, where decision demand is rising, and what to watch next.</p><a href="#/portal/signup">Join early access →</a></article>
+      <article class="intelligence-card"><span>DATA</span><h3>BOMGraph Snapshot</h3><p>Point-in-time topic relationships, evidence strength, and emerging knowledge gaps.</p></article>
+      <article class="intelligence-card"><span>TRENDS</span><h3>Decision Demand Index</h3><p>What physicians are searching, reading, sharing, and returning to.</p></article>
+      <article class="intelligence-card"><span>ENTERPRISE</span><h3>Practice & Market Intelligence</h3><p>Structured insight for practices, health systems, sponsors, and strategic partners.</p></article>
+    </div>
+  </div>
+</section>
+
+<section class="section conference-section">
+  <div class="shell conference-grid">
+    <div><p class="eyebrow">ANNUAL MEETING</p><h2>The knowledge system becomes a real-world community.</h2><p>A practical meeting for the decisions physicians make outside the exam room: contracts, ownership, technology, leadership, finance, and the future of practice.</p><a class="button" href="{{@site.url}}/conference/">See the vision</a></div>
+    <div class="conference-tile"><span>2027</span><h3>BOMSociety Annual Meeting</h3><ul><li>Career & contracts</li><li>Practice & ownership</li><li>AI & technology</li><li>Finance & leadership</li></ul></div>
+  </div>
+</section>
+
+<section class="membership-section">
+  <div class="shell membership-grid">
+    <div><p class="eyebrow">FREE MEMBERSHIP</p><h2>Five minutes each week.<br>Better decisions for an entire career.</h2><p>Get the developments that matter across contracts, compensation, AI, ownership, leadership, and finance—without the noise.</p></div>
+    <div class="membership-card"><span>JOIN BOMSOCIETY</span><h3>Membership is free.</h3><p>Weekly BOMBrief, flagship guides, meaningful topic alerts, and annual meeting access.</p><a class="button button-full" href="#/portal/signup">Create your account</a><small>No spam. Unsubscribe anytime.</small></div>
+  </div>
+</section>
