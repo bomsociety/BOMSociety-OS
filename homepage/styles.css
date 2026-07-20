@@ -97,3 +97,63 @@
   .hero h1.hero-promise{font-size:2.78rem}
   .hero-line-decisions{font-size:1.08em}
 }
+
+
+/* v1.2.0B3 — blue emphasis and hero message cleanup */
+.hero-subheading{
+  margin:0 0 16px;
+  color:#2f6fb5;
+  font-size:clamp(1rem,1.45vw,1.28rem);
+  line-height:1.2;
+  font-weight:920;
+  letter-spacing:.12em;
+}
+.hero-line-time{color:var(--navy-900)}
+.hero-line-trust{color:var(--teal-700)}
+.hero-line-decisions{
+  color:#2f6fb5;
+  font-size:1.08em;
+  line-height:.92;
+}
+.hero-lead{
+  display:grid;
+  grid-template-columns:repeat(3,max-content);
+  gap:8px 20px;
+  margin-top:6px;
+  font-size:clamp(1.24rem,1.8vw,1.58rem);
+  line-height:1.18;
+  font-weight:820;
+}
+.hero-lead strong{
+  color:var(--navy-900);
+  font-size:1.08em;
+}
+.actions{margin-top:24px}
+.hero-support{
+  display:flex;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:8px 16px;
+  margin-top:16px;
+  max-width:760px;
+}
+.hero-support p{
+  margin:0;
+  color:var(--muted);
+  font-size:.84rem;
+  line-height:1.35;
+}
+.hero-support span{
+  color:#2f6fb5;
+  font-size:.74rem;
+  font-weight:900;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+}
+@media(max-width:900px){
+  .hero-lead{grid-template-columns:1fr;gap:4px}
+}
+@media(max-width:520px){
+  .hero-subheading{font-size:.92rem;letter-spacing:.1em}
+  .hero-lead{font-size:1.2rem}
+}
