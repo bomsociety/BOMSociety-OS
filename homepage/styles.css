@@ -191,3 +191,15 @@
 .decision-suggestions button{padding:8px 11px;border:1px solid var(--line);border-radius:999px;background:white;color:#405166;font-size:.78rem;font-weight:820}
 @media(max-width:900px){.decision-finder-shell{grid-template-columns:1fr;gap:28px}}
 @media(max-width:620px){.decision-finder-input-row{grid-template-columns:1fr}}
+
+/* v1.2.0B7 — personalized hero reveal */
+.hero-for-you{
+  display:inline-block;
+  color:#d94b55;
+  font:inherit;
+  letter-spacing:inherit;
+  opacity:0;
+  animation:heroForYouFade 1.7s ease-out .7s forwards;
+}
+@keyframes heroForYouFade{from{opacity:0}to{opacity:1}}
+@media (prefers-reduced-motion:reduce){.hero-for-you{opacity:1;animation:none}}

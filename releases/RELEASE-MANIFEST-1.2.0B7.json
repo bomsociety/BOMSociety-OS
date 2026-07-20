@@ -1,16 +1,14 @@
 {
-  "release": "1.2.0B6",
-  "batch": "Decision Finder",
+  "release": "1.2.0B7",
+  "purpose": "Add fading FOR YOU personalization to hero",
   "modified": [
     "ghost-theme/home.hbs",
-    "ghost-theme/partials/site-header.hbs",
     "ghost-theme/assets/css/screen.css",
-    "ghost-theme/assets/js/main.js",
     "ghost-theme/package.json",
     "homepage/index.html",
     "homepage/styles.css",
     "package.json",
     "VERSION"
   ],
-  "ghost_upload": "releases/UPLOAD-TO-GHOST-bomsociety-theme-v1.2.0B6.zip"
+  "ghost_upload": "releases/UPLOAD-TO-GHOST-bomsociety-theme-v1.2.0B7.zip"
 }

@@ -421,3 +421,15 @@
     width:100%;
   }
 }
+
+/* v1.2.0B7 — personalized hero reveal */
+.hero-for-you{
+  display:inline-block;
+  color:#d94b55;
+  font:inherit;
+  letter-spacing:inherit;
+  opacity:0;
+  animation:heroForYouFade 1.7s ease-out .7s forwards;
+}
+@keyframes heroForYouFade{from{opacity:0}to{opacity:1}}
+@media (prefers-reduced-motion:reduce){.hero-for-you{opacity:1;animation:none}}
