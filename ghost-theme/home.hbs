@@ -2,20 +2,21 @@
 <section class="hero section-dark" data-track-section="hero">
   <div class="shell hero-grid">
     <div class="hero-copy">
-      <p class="hero-subheading">THE BUSINESS OF MEDICINE, FINALLY ORGANIZED</p>
-      <h1 class="hero-promise"><span class="hero-line hero-line-time">Respect your time.</span><span class="hero-line hero-line-trust">Earn your trust.</span><span class="hero-line hero-line-decisions">Improve your decisions.</span></h1>
-      
-      <p class="hero-lead"><span>Learn in <strong>30 seconds.</strong></span><span>Understand in <strong>2 minutes.</strong></span><span>Master in <strong>5.</strong></span></p>
-      
+      <p class="hero-product">THE BUSINESS OF MEDICINE,<br><span>FINALLY ORGANIZED.</span></p>
+      <h1 class="hero-promise">
+        <span class="hero-line hero-line-time">Respect your time.</span>
+        <span class="hero-line hero-line-trust">Earn your trust.</span>
+        <span class="hero-line hero-line-decisions">Improve your decisions.</span>
+      </h1>
+      <div class="hero-depths" aria-label="Choose how deeply to learn">
+        <a href="#briefs" class="hero-depth"><strong>30 seconds</strong><span>Bottom line</span></a>
+        <a href="#briefs" class="hero-depth"><strong>2 minutes</strong><span>Decision brief</span></a>
+        <a href="#briefs" class="hero-depth"><strong>5 minutes</strong><span>Complete guide</span></a>
+      </div>
       <div class="hero-actions">
         <a class="button" href="#decisions">Start learning</a>
-        <a class="button button-ghost" href="#/portal/signup">Join free</a>
+        <a class="button button-secondary" href="#/portal/signup">Join free</a>
       </div>
-      <form class="decision-search" action="{{@site.url}}/" method="get" role="search">
-        <label for="decision-query">What decision are you trying to make today?</label>
-        <div class="decision-search-row"><input id="decision-query" name="q" type="search" placeholder="Try: Should I sign this contract?" autocomplete="off"><button type="submit" aria-label="Search">→</button></div>
-        <div class="quick-prompts"><a href="{{@site.url}}/tag/contracts/">Contract</a><a href="{{@site.url}}/tag/compensation/">RVUs</a><a href="{{@site.url}}/tag/private-equity/">Private equity</a><a href="{{@site.url}}/tag/artificial-intelligence/">AI</a><a href="{{@site.url}}/tag/finance/">Finance</a></div>
-      </form>
     </div>
     <div class="graph-stage" aria-label="BOMGraph preview">
       <div class="graph-grid" aria-hidden="true"></div>

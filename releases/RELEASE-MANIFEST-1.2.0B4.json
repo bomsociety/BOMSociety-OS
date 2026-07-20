@@ -1,0 +1,10 @@
+{
+  "release": "1.2.0B4",
+  "modified": [
+    "ghost-theme/home.hbs",
+    "ghost-theme/assets/css/screen.css",
+    "homepage/index.html",
+    "homepage/styles.css"
+  ],
+  "ghost_upload": "releases/UPLOAD-TO-GHOST-bomsociety-theme-v1.2.0B4.zip"
+}
