@@ -1,0 +1,1 @@
+BOMSociety Connector 4.0.0 write test successful.
