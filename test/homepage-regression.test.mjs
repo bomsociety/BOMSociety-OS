@@ -13,18 +13,12 @@ const zipBuilder = await readFile(new URL("../automation/build-theme-zip.mjs", i
 const deploymentWorkflow = await readFile(new URL("../.github/workflows/deploy-ghost-theme.yml", import.meta.url), "utf8");
 const deploymentScript = await readFile(new URL("../automation/deploy-ghost-theme.mjs", import.meta.url), "utf8");
 
-test("homepage ships one complete physician product module", () => {
-  assert.match(home, /BOM SCORE/);
-  assert.match(home, /GET PAID MORE/);
-  for (const depth of ["Quick Win", "Brief Overview", "Deep Dive"]) assert.match(home, new RegExp(depth));
-  assert.doesNotMatch(home, /Decision Brief/);
-  for (const step of ["REAL CASE", "KNOWLEDGE CHECK", "NEXT RECOMMENDED MODULE"]) assert.match(home, new RegExp(step));
-  assert.match(home, /LIVE PHYSICIAN INTELLIGENCE/);
-  for (const product of ["Physician Decision Index™", "Compensation Intelligence™", "AI Adoption Intelligence™"]) assert.match(home, new RegExp(product));
+test("homepage ships the complete Decision OS experience", () => {
+  for (const label of ["TOP <span data-ranking>18</span>%", "One business decision could change your career.", "START MY NEXT DECISION", "Are you getting paid what you\'re worth?", "GET PAID MORE", "30 sec", "2 min", "5 min", "KNOWLEDGE CHECK", "LIVE PHYSICIAN INTELLIGENCE", "ENTERPRISE PREVIEW", "Your individual information is never sold."]) assert.match(home, new RegExp(label));
   assert.match(home, /data-intelligence-action/);
 });
-test("product behavior keeps score and intelligence instrumentation connected", () => {
-  assert.match(main, /intelligence_action/); assert.match(main, /data-bom-score/);
+test("product behavior updates the ranking and retains intelligence instrumentation", () => {
+  assert.match(main, /intelligence_action/); assert.match(main, /data-ranking/);
   assert.match(main, /compensation_lesson_advanced/); assert.match(main, /compensation_knowledge_check_answered/);
   assert.match(analytics, /intelligence_action/); assert.match(layout, /class="skip-link" href="#main"/);
   assert.match(post, /\{\{> level-up-components\}\}/);

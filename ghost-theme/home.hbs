@@ -1,49 +1,63 @@
 {{!< default}}
-{{!-- Sprint 9 mapping: every data-intelligence-action is mapped in docs/INTELLIGENCE-MAPPING.md. --}}
-<main class="product-shell" id="main" data-track-section="physician-product">
-  <header class="product-scorebar">
-    <button class="bom-score" type="button" data-score-toggle aria-expanded="false" aria-controls="competency-breakdown" data-intelligence-action="score_breakdown_opened">
-      <span>BOM SCORE</span><strong data-bom-score>--</strong><i aria-hidden="true">⌄</i>
-    </button>
-    <p>Build business-of-medicine judgment, one decision at a time.</p>
-  </header>
-  <div class="competency-breakdown" id="competency-breakdown" hidden aria-label="BOM Score competencies">
-    <span>Compensation</span><span>Contracts</span><span>Negotiation</span><span>Leadership</span><span>Ownership</span><span>AI</span><span>Finance</span><span>Practice</span><span>Career</span><span>Compliance</span>
-  </div>
-
-  <div class="product-grid">
-    <aside class="question-rail" aria-label="Explore physician decisions">
-      <p class="product-kicker">START WHERE IT STINGS</p>
-      <h2>One sharp question can change your next move.</h2>
-      <button class="tension-card is-active" type="button" data-module-select="paid-more" data-intelligence-action="compensation_module_selected"><small>COMPENSATION</small><strong>Is your paycheck rewarding your work—or your employer’s leverage?</strong><span>Open →</span></button>
-      <button class="tension-card" type="button" data-intelligence-action="contract_tension_selected"><small>CONTRACTS</small><strong>What would you lose if you signed the same contract tomorrow?</strong><span>Explore →</span></button>
-      <button class="tension-card" type="button" data-intelligence-action="negotiation_tension_selected"><small>NEGOTIATION</small><strong>What changes if you ask the question nobody expects?</strong><span>Explore →</span></button>
-      <button class="tension-card" type="button" data-intelligence-action="ownership_tension_selected"><small>OWNERSHIP</small><strong>Are you being offered equity—or a more expensive job?</strong><span>Explore →</span></button>
-      <button class="tension-card" type="button" data-intelligence-action="ai_tension_selected"><small>AI</small><strong>Which clinic day would you want AI to give back first?</strong><span>Explore →</span></button>
-    </aside>
-
-    <section class="learning-module" aria-labelledby="module-title" data-track-section="get-paid-more">
-      <div class="module-head"><p class="product-kicker">COMPENSATION · FIRST PRODUCT</p><h1 id="module-title">GET PAID MORE</h1><p>Make the next compensation conversation more valuable before you walk into it.</p></div>
-      <div class="depth-picker" role="tablist" aria-label="Choose module depth">
-        <button type="button" role="tab" aria-selected="true" data-depth="quick" data-intelligence-action="quick_win_selected"><b>⚡ Quick Win</b><span>~30 sec</span></button>
-        <button type="button" role="tab" aria-selected="false" data-depth="brief" data-intelligence-action="brief_overview_selected"><b>📘 Brief Overview</b><span>~2 min</span></button>
-        <button type="button" role="tab" aria-selected="false" data-depth="deep" data-intelligence-action="deep_dive_selected"><b>🔍 Deep Dive</b><span>~5 min</span></button>
+<main class="decision-os" id="main" data-track-section="physician-product">
+  <section class="os-hero" aria-labelledby="os-hero-title">
+    <div class="os-hero-top"><span class="os-live-dot"></span><span>PHYSICIAN DECISION OS</span><span class="os-updated">INTELLIGENCE UPDATED DAILY</span></div>
+    <div class="os-hero-grid">
+      <div class="os-score-block" aria-label="Your current physician ranking">
+        <p>YOU</p><strong>TOP <span data-ranking>18</span>%</strong><span>among Academic Ophthalmologists</span>
+        <div class="os-score-change">▲ <span data-ranking-change>+4</span>% <small>THIS MONTH</small></div>
+        <button type="button" class="os-why" data-score-toggle aria-expanded="false" aria-controls="score-context">Why?</button>
+        <p class="os-score-context" id="score-context" hidden>Your ranking reflects completed decision practice and demonstrated pattern recognition. It is private to you.</p>
       </div>
-      <div class="module-content" data-module-content></div>
-      <div class="module-flow">
-        <button type="button" class="flow-card" data-open-case data-intelligence-action="compensation_case_opened"><span>01</span><div><small>REAL CASE</small><strong>One sentence changed the offer.</strong><p>See how an employed physician found leverage without bluffing.</p></div><i>→</i></button>
-        <button type="button" class="flow-card" data-open-check data-intelligence-action="compensation_knowledge_check_started"><span>02</span><div><small>KNOWLEDGE CHECK</small><strong>Can you spot the expensive assumption?</strong><p>One question. No grades. Just better pattern recognition.</p></div><i>→</i></button>
-        <button type="button" class="flow-card next-module" data-intelligence-action="next_module_recommended"><span>03</span><div><small>NEXT RECOMMENDED MODULE</small><strong>Would you sign your contract again?</strong><p>Protect the leverage you just created.</p></div><i>→</i></button>
+      <div class="os-hero-copy">
+        <p class="os-eyebrow">TODAY'S SIGNAL: YOUR NEXT MOVE MATTERS</p>
+        <h1 id="os-hero-title">One business decision could change your career.</h1>
+        <p>Make better physician business decisions with evidence, benchmarks, and real physician intelligence.</p>
+        <div class="os-actions"><button type="button" class="os-button" data-start-decision data-intelligence-action="compensation_module_selected">START MY NEXT DECISION <span>→</span></button><a href="#live-intelligence" class="os-text-link">SEE LIVE PHYSICIAN INTELLIGENCE <span>→</span></a></div>
+        <p class="os-social-proof"><b>18,742 physicians</b> improved a decision this week.</p>
       </div>
+    </div>
+  </section>
+
+  <section class="os-workspace" aria-label="Physician decision workspace">
+    <div class="os-decision-questions">
+      <div class="os-section-label"><span>01</span><p>WHAT DECISION IS KEEPING YOU UP AT NIGHT?</p></div>
+      <div class="os-question-grid">
+        <button class="os-question is-selected" type="button" data-module-select="paid-more" data-intelligence-action="compensation_module_selected"><i>💰</i><strong>Are you getting paid what you're worth?</strong><span>↓</span></button>
+        <button class="os-question" type="button" data-intelligence-action="contract_tension_selected"><i>📄</i><strong>Would you sign your contract again today?</strong><span>↓</span></button>
+        <button class="os-question" type="button" data-intelligence-action="ai_tension_selected"><i>🤖</i><strong>Could AI give you one clinic back every week?</strong><span>↓</span></button>
+        <button class="os-question" type="button" data-intelligence-action="ownership_tension_selected"><i>🏥</i><strong>Should you own your practice—or stay employed?</strong><span>↓</span></button>
+        <button class="os-question" type="button" data-intelligence-action="wealth_tension_selected"><i>📈</i><strong>Are you building wealth—or just earning income?</strong><span>↓</span></button>
+        <button class="os-question" type="button" data-intelligence-action="contract_tension_selected"><i>⚖</i><strong>The contract mistake costing physicians six figures.</strong><span>↓</span></button>
+        <button class="os-question" type="button" data-intelligence-action="ownership_tension_selected"><i>👥</i><strong>Why are physicians leaving private equity?</strong><span>↓</span></button>
+        <button class="os-question" type="button" data-intelligence-action="negotiation_tension_selected"><i>🎯</i><strong>Could one negotiation change your career?</strong><span>↓</span></button>
+        <button class="os-question" type="button" data-intelligence-action="wealth_tension_selected"><i>⏳</i><strong>Are you accidentally delaying retirement?</strong><span>↓</span></button>
+        <button class="os-question" type="button" data-intelligence-action="burnout_tension_selected"><i>🔥</i><strong>What if your burnout isn't actually burnout?</strong><span>↓</span></button>
+      </div>
+    </div>
+
+    <section class="os-today" aria-labelledby="today-title">
+      <div class="os-section-label"><span>02</span><p>TODAY'S DECISION</p><em>UPDATED IN REAL TIME</em></div>
+      <div class="os-today-head"><div><h2 id="today-title">GET PAID MORE</h2><p>Get the essential answer now. Go deeper only if you need it.</p></div><div class="os-readiness"><span>DECISION READINESS</span><b data-readiness>42%</b></div></div>
+      <div class="os-path" aria-label="Decision learning path"><button type="button" class="is-active" data-depth="quick" data-intelligence-action="quick_win_selected"><b>30 sec</b><span>Quick Win</span></button><i>↓</i><button type="button" data-depth="brief" data-intelligence-action="brief_overview_selected"><b>2 min</b><span>Brief Overview</span></button><i>↓</i><button type="button" data-depth="deep" data-intelligence-action="deep_dive_selected"><b>5 min</b><span>Deep Dive</span></button><i>↓</i><button type="button" data-open-check data-intelligence-action="compensation_knowledge_check_started"><b>Check</b><span>Knowledge Check</span></button></div>
+      <div class="os-learning-panel" data-module-content></div>
+      <div class="os-action-rail"><button type="button" data-open-check data-intelligence-action="compensation_knowledge_check_started">KNOWLEDGE CHECK <span>Test the pattern →</span></button><button type="button" data-open-feedback>FEEDBACK <span>Make this intelligence better →</span></button><button type="button" data-next-decision data-intelligence-action="next_module_recommended">NEXT DECISION <span>Would you sign your contract again? →</span></button></div>
     </section>
 
-    <aside class="intelligence-rail" aria-label="Live physician intelligence">
-      <p class="product-kicker">LIVE PHYSICIAN INTELLIGENCE</p>
-      <p class="intelligence-intro">Enterprise previews built from meaningful physician decision signals.</p>
-      <article class="enterprise-preview"><span class="indicator"><i></i> SIGNALING</span><h2>Physician Decision Index™</h2><p>A privacy-conscious view of where physicians are seeking decision support.</p><b>Enterprise Preview</b></article>
-      <article class="enterprise-preview"><span class="indicator"><i></i> SIGNALING</span><h2>Compensation Intelligence™</h2><p>Emerging compensation questions and negotiation readiness patterns.</p><b>Enterprise Preview</b></article>
-      <article class="enterprise-preview"><span class="indicator"><i></i> SIGNALING</span><h2>AI Adoption Intelligence™</h2><p>How clinical teams are evaluating practical AI workflow decisions.</p><b>Enterprise Preview</b></article>
-      <a class="mapping-link" href="{{@site.url}}/about/">How intelligence is built <span>→</span></a>
+    <aside class="os-intelligence" id="live-intelligence" aria-label="Live physician intelligence">
+      <div class="os-section-label"><span>LIVE</span><p>PHYSICIAN INTELLIGENCE</p></div>
+      <p class="os-stream-status"><i></i> UPDATES CONTINUOUSLY</p>
+      <dl><div><dt>Most Selected Decision</dt><dd>Are you getting paid what you're worth?<b>41% ↑</b></dd></div><div><dt>Fastest Growing</dt><dd>Could AI give you one clinic back every week?<b>↑↑</b></dd></div><div><dt>Highest Rated Module</dt><dd>Would you sign your contract again today?<b>9.8 / 10</b></dd></div><div><dt>Most Improved Specialty</dt><dd>Emergency Medicine<b>↑ 6%</b></dd></div><div><dt>Newest Intelligence</dt><dd>Why are physicians leaving private equity?<b>Trending this hour</b></dd></div></dl>
+      <a href="{{@site.url}}/about/" class="os-enterprise">ENTERPRISE PREVIEW <span>→</span></a>
     </aside>
-  </div>
+  </section>
+
+  <section class="os-community" aria-labelledby="community-title">
+    <div><p class="os-eyebrow">COMMUNITY INTELLIGENCE · YESTERDAY</p><h2 id="community-title">Every decision makes the next physician's decision sharper.</h2><p>Anonymous aggregate decision trends improve recommendations. Your individual information is never sold.</p><a href="{{@site.url}}/about/">HOW WE PROTECT YOUR INFORMATION →</a></div>
+    <div class="os-community-stats"><article><b>18,742</b><span>physicians completed decisions</span></article><article><b>↑ 3%</b><span>average ranking movement</span></article><article><b>9.8/10</b><span>highest rated module</span></article><article><b>RVU formula</b><span>most shared insight</span></article></div>
+  </section>
+
+  <section class="os-streak" aria-labelledby="streak-title"><div><p class="os-eyebrow">YOUR DECISION PRACTICE</p><h2 id="streak-title">Eight weeks of better moves.</h2></div><dl><div><dt>Current Streak</dt><dd>8 weeks</dd></div><div><dt>Decision Quality</dt><dd>92%</dd></div><div><dt>Consistency</dt><dd>Top 12%</dd></div><div><dt>Modules Completed</dt><dd data-modules-completed>34</dd></div></dl></section>
+
+  <section class="os-legal"><p><b>Your individual information is never sold.</b> Anonymous aggregate physician decision trends improve recommendations and contribute to enterprise benchmarking.</p><a href="{{@site.url}}/about/">LEARN MORE →</a></section>
 </main>

@@ -4,7 +4,8 @@ import { readFile } from "node:fs/promises";
 
 test("homepage begins with a physician product instead of brand positioning", async () => {
   const home = await readFile(new URL("./ghost-theme/home.hbs", import.meta.url), "utf8");
-  assert.match(home, /BOM SCORE/);
+  assert.match(home, /TOP <span data-ranking>18<\/span>%/);
+  assert.match(home, /One business decision could change your career\./);
   assert.match(home, /GET PAID MORE/);
 });
 
@@ -24,9 +25,9 @@ test("default layout loads the shared analytics implementation", async () => {
   assert.match(layout, /js\/analytics\.js/);
 });
 
-test("homepage provides the Sprint 9 first product and enterprise previews", async () => {
+test("homepage provides the Decision OS learning path and intelligence preview", async () => {
   const home = await readFile(new URL("./ghost-theme/home.hbs", import.meta.url), "utf8");
-  for (const label of ["Quick Win", "Brief Overview", "Deep Dive", "Physician Decision Index™", "Compensation Intelligence™", "AI Adoption Intelligence™"]) assert.match(home, new RegExp(label));
+  for (const label of ["30 sec", "2 min", "5 min", "Knowledge Check", "LIVE PHYSICIAN INTELLIGENCE", "ENTERPRISE PREVIEW"]) assert.match(home, new RegExp(label));
   assert.doesNotMatch(home, /BOMGraph/i);
 });
 
