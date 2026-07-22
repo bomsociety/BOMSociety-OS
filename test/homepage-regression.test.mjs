@@ -45,7 +45,7 @@ test("production deployment runs after main changes, validates, verifies, and ro
   assert.match(deploymentWorkflow, /unzip -Z1.*package\.json/);
   assert.match(deploymentWorkflow, /sha256sum/);
   assert.doesNotMatch(deploymentWorkflow, /download-artifact/);
-  for (const secret of ["GHOST_ADMIN_URL", "GHOST_ADMIN_KEY", "GHOST_SITE_URL"]) assert.match(deploymentWorkflow, new RegExp(`secrets\\.${secret}`));
+  for (const secret of ["GHOST_ADMIN_URL", "GHOST_ADMIN_KEY", "GHOST_SITE_URL", "GHOST_API_VERSION"]) assert.match(deploymentWorkflow, new RegExp(`secrets\\.${secret}`));
   for (const result of ["BUILD SUCCESS", "UPLOAD SUCCESS", "ACTIVATION SUCCESS", "VERIFICATION SUCCESS", "ROLLBACK SUCCESS"]) {
     assert.match(deploymentWorkflow, new RegExp(result));
   }
