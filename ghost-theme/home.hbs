@@ -1,66 +1,28 @@
 {{!< default}}
 <section class="hero section-dark" data-track-section="hero">
-  <div class="shell hero-grid">
+  <div class="shell hero-grid hero-grid-simple">
     <div class="hero-copy">
-      <p class="eyebrow">BOMSOCIETY / BUSINESS OF MEDICINE</p>
-      <h1 class="hero-promise">Make better business decisions in medicine.</h1>
-      <p class="hero-lead">Clear, corroborated guidance for the decisions medical training never taught you to make.</p>
-      <div class="hero-actions">
-        <a class="button" href="#/portal/signup" data-homepage-event="newsletter_signup" data-cta-location="hero">Join Free</a>
-        <a class="button button-secondary" href="#decisions" data-homepage-event="decision_path_started" data-cta-location="hero">Explore Decisions</a>
-      </div>
+      <p class="eyebrow">THE BUSINESS OF MEDICINE, MADE PRACTICAL</p>
+      <h1 class="hero-promise">Level up the business side of medicine.</h1>
+      <p class="hero-lead">Everything medical training never taught you—made clear, practical, and free.</p>
+      <p class="hero-depth-statement">30 seconds. 2 minutes. 5 minutes. Choose the depth that fits your time.</p>
+      <div class="hero-actions"><a class="button" href="#for-you" data-homepage-event="lesson_started" data-cta-location="hero">Start Leveling Up</a><a class="button button-ghost" href="#for-you" data-homepage-event="for_you_recommendation_selected" data-cta-location="hero">Explore For You</a></div>
     </div>
-    <aside class="hero-assurance" aria-label="How BOMSociety helps">
-      <span class="hero-assurance-label">A better starting point</span>
-      <p>Start with the decision—not a feed.</p>
-      <ul>
-        <li>Direct answers when time is short</li>
-        <li>Sources and context when stakes are high</li>
-        <li>Connected guidance for what comes next</li>
-      </ul>
-    </aside>
+    <aside class="hero-assurance" aria-label="How to use BOMSociety"><span class="hero-assurance-label">FOR YOU. YOUR PACE. YOUR DEPTH.</span><p>Useful guidance before any sign-up.</p><ul><li>Start with a decision that matters now</li><li>Choose the amount of detail you need</li><li>Build professional mastery, one practical lesson at a time</li></ul></aside>
   </div>
 </section>
 
-<section class="proof-strip" aria-label="BOMSociety principles" data-track-section="proof">
-  <div class="shell"><span>Evidence informed</span><span>Independent</span><span>Built for practice</span><span>Free membership</span></div>
+<section class="section for-you-section" id="for-you" data-track-section="for-you">
+ <div class="shell"><div class="section-head"><div><p class="eyebrow">FOR YOU</p><h2>What would help you most right now?</h2></div><p>Choose a starting point. This first-party selection simply surfaces matching published content—it is not machine-learning personalization.</p></div>
+ <div class="preference-controls" role="group" aria-label="Choose a topic"><button type="button" data-for-you-topic="compensation">Understand my compensation</button><button type="button" data-for-you-topic="job-offer">Review a job offer</button><button type="button" data-for-you-topic="ownership">Evaluate an ownership opportunity</button><button type="button" data-for-you-topic="wealth">Protect my income and wealth</button><button type="button" data-for-you-topic="ai">Use AI effectively</button><button type="button" data-for-you-topic="leadership">Lead or grow a practice</button></div>
+ <div class="career-stage"><label for="career-stage">Career stage <span>(optional)</span></label><select id="career-stage" data-career-stage><option value="">Choose when it is useful</option><option value="training">In training</option><option value="early-career">Early career</option><option value="established">Established practice</option><option value="transition">Considering a transition</option></select></div>
+ <div class="for-you-results" data-for-you-results aria-live="polite"><p class="component-label">A USEFUL START</p><h3>Choose a topic, or start with the latest useful brief.</h3><p>Your choices remain in this browser only. A profile can support saved progress when that member feature is available.</p><a class="text-link" href="#latest">See latest useful briefs <span aria-hidden="true">→</span></a></div></div>
 </section>
 
-<section class="section decisions-section section-soft" id="decisions" data-track-section="decisions">
-  <div class="shell">
-    <div class="section-head"><div><p class="eyebrow">START WITH THE DECISION</p><h2>Guidance for the choices that shape a career.</h2></div><p>Choose the question in front of you. Each brief makes the tradeoffs clear, then points to the next useful question.</p></div>
-    <div class="decision-grid">
-      <a class="decision-card decision-featured" data-decision-card data-decision-id="employment-contracts" data-knowledge-object-id="topic:employment-contracts" data-keywords="contract career employment restrictive covenant malpractice negotiation compensation" href="{{@site.url}}/topic/employment-contracts/"><span class="decision-number">01</span><div><small>CAREER</small><h3>Employment Contracts</h3><p>Understand the terms that define your work, leverage, and options.</p></div><b>Explore decision <span aria-hidden="true">→</span></b></a>
-      <a class="decision-card" data-decision-card data-decision-id="rvu-compensation" data-knowledge-object-id="topic:rvu-compensation" data-keywords="rvu compensation productivity bonus benchmark incentive collections" href="{{@site.url}}/topic/rvu-compensation/"><span class="decision-number">02</span><div><small>COMPENSATION</small><h3>RVU Compensation</h3><p>See how incentives work before they shape your choices.</p></div><b>Explore decision <span aria-hidden="true">→</span></b></a>
-      <a class="decision-card" data-decision-card data-decision-id="private-equity" data-knowledge-object-id="topic:private-equity" data-keywords="private equity sale ownership rollover equity control exit" href="{{@site.url}}/topic/private-equity/"><span class="decision-number">03</span><div><small>OWNERSHIP</small><h3>Private Equity</h3><p>Evaluate value, control, risk, and the terms after closing.</p></div><b>Explore decision <span aria-hidden="true">→</span></b></a>
-      <a class="decision-card" data-decision-card data-decision-id="asc-ownership" data-knowledge-object-id="topic:asc-ownership" data-keywords="asc ambulatory surgery center ownership partnership investment" href="{{@site.url}}/topic/asc-ownership/"><span class="decision-number">04</span><div><small>OWNERSHIP</small><h3>ASC Ownership</h3><p>Assess the governance and economics behind an ownership stake.</p></div><b>Explore decision <span aria-hidden="true">→</span></b></a>
-      <a class="decision-card" data-decision-card data-decision-id="artificial-intelligence" data-knowledge-object-id="topic:artificial-intelligence" data-keywords="ai artificial intelligence technology automation workflow" href="{{@site.url}}/topic/artificial-intelligence/"><span class="decision-number">05</span><div><small>TECHNOLOGY</small><h3>Artificial Intelligence</h3><p>Separate useful change from noise, hype, and avoidable risk.</p></div><b>Explore decision <span aria-hidden="true">→</span></b></a>
-      <a class="decision-card" data-decision-card data-decision-id="physician-wealth" data-knowledge-object-id="topic:physician-wealth" data-keywords="finance wealth debt investing retirement optionality" href="{{@site.url}}/topic/physician-wealth/"><span class="decision-number">06</span><div><small>FINANCE</small><h3>Physician Wealth</h3><p>Build a framework for security, flexibility, and long-term options.</p></div><b>Explore decision <span aria-hidden="true">→</span></b></a>
-    </div>
-  </div>
-</section>
+<section class="section section-soft" id="level-up" data-track-section="level-up"><div class="shell"><div class="section-head"><div><p class="eyebrow">THE LEVEL-UP FRAMEWORK</p><h2>Move from information to better decisions.</h2></div><p>A clear path for building business-of-medicine mastery at the pace a real clinical career allows.</p></div><ol class="level-path"><li><span>01</span><h3>Discover</h3><p>Find the concept or decision that matters now.</p></li><li><span>02</span><h3>Apply</h3><p>Use practical formats to see what it means for you.</p></li><li><span>03</span><h3>Decide</h3><p>Bring better questions to your next conversation.</p></li><li><span>04</span><h3>Master</h3><p>Return when the next connected decision arrives.</p></li></ol>{{> lesson-depths}}</div></section>
 
-<section class="section how-section" id="how" data-track-section="how">
-  <div class="shell">
-    <div class="section-head"><div><p class="eyebrow">READ AT THE RIGHT DEPTH</p><h2>One topic. Three useful depths.</h2></div><p>Start with the answer. Go deeper only when the decision deserves more time.</p></div>
-    <div class="depth-cards">
-      <a class="depth-card depth-primary" href="#decisions"><span>30 SECONDS</span><h3>Bottom line</h3><p>The direct answer and the implication that matters now.</p><b>Start here <span aria-hidden="true">→</span></b></a>
-      <a class="depth-card" href="#decisions"><span>2 MINUTES</span><h3>Decision brief</h3><p>The essential tradeoffs, context, and decision-changing facts.</p><b>Understand it <span aria-hidden="true">→</span></b></a>
-      <a class="depth-card" href="#decisions"><span>5 MINUTES</span><h3>Complete guide</h3><p>Practical analysis, sources, caveats, and connected decisions.</p><b>Go deeper <span aria-hidden="true">→</span></b></a>
-    </div>
-  </div>
-</section>
+<section class="section decisions-section" id="decisions" data-track-section="decisions"><div class="shell"><div class="section-head"><div><p class="eyebrow">DECISIONS</p><h2>Start with the decision in front of you.</h2></div><p>Six focused paths connect you to existing published guidance.</p></div><div class="decision-grid"><a class="decision-card" data-decision-card data-decision-id="rvu-compensation" data-knowledge-object-id="topic:rvu-compensation" data-keywords="compensation rvu" href="{{@site.url}}/topic/rvu-compensation/"><span class="decision-number">01</span><div><small>COMPENSATION</small><h3>Understand my compensation</h3><p>See how incentives work before they shape your choices.</p></div><b>Explore <span aria-hidden="true">→</span></b></a><a class="decision-card" data-decision-card data-decision-id="employment-contracts" data-knowledge-object-id="topic:employment-contracts" data-keywords="job offer contract employment" href="{{@site.url}}/topic/employment-contracts/"><span class="decision-number">02</span><div><small>CAREER</small><h3>Review a job offer</h3><p>Understand terms that define your work, leverage, and options.</p></div><b>Explore <span aria-hidden="true">→</span></b></a><a class="decision-card" data-decision-card data-decision-id="private-equity" data-knowledge-object-id="topic:private-equity" data-keywords="ownership private equity asc" href="{{@site.url}}/topic/private-equity/"><span class="decision-number">03</span><div><small>OWNERSHIP</small><h3>Evaluate an ownership opportunity</h3><p>Assess value, control, risk, and the terms after closing.</p></div><b>Explore <span aria-hidden="true">→</span></b></a><a class="decision-card" data-decision-card data-decision-id="physician-wealth" data-knowledge-object-id="topic:physician-wealth" data-keywords="income wealth finance" href="{{@site.url}}/topic/physician-wealth/"><span class="decision-number">04</span><div><small>WEALTH</small><h3>Protect my income and wealth</h3><p>Build a framework for security, flexibility, and long-term options.</p></div><b>Explore <span aria-hidden="true">→</span></b></a><a class="decision-card" data-decision-card data-decision-id="artificial-intelligence" data-knowledge-object-id="topic:artificial-intelligence" data-keywords="ai artificial intelligence" href="{{@site.url}}/topic/artificial-intelligence/"><span class="decision-number">05</span><div><small>TECHNOLOGY</small><h3>Use AI effectively</h3><p>Separate useful change from noise, hype, and avoidable risk.</p></div><b>Explore <span aria-hidden="true">→</span></b></a><a class="decision-card" data-decision-card data-decision-id="practice-management" data-knowledge-object-id="topic:practice-management" data-keywords="leadership practice management" href="{{@site.url}}/topic/practice-management/"><span class="decision-number">06</span><div><small>LEADERSHIP</small><h3>Lead or grow a practice</h3><p>Build the perspective to lead with clarity and intention.</p></div><b>Explore <span aria-hidden="true">→</span></b></a></div></div></section>
 
-<section class="section latest-section section-soft" data-track-section="latest">
-  <div class="shell">
-    <div class="section-head"><div><p class="eyebrow">LATEST PUBLISHED BRIEFS</p><h2>Useful now.</h2></div><a class="text-link" href="{{@site.url}}/briefs/">View all briefs <span aria-hidden="true">→</span></a></div>
-    <div class="article-grid">{{#get "posts" limit="6" include="tags,authors"}}{{#foreach posts}}{{> article-card}}{{/foreach}}{{/get}}</div>
-  </div>
-</section>
+<section class="section latest-section section-soft" id="latest" data-track-section="latest"><div class="shell"><div class="section-head"><div><p class="eyebrow">LATEST USEFUL BRIEFS</p><h2>Useful now.</h2></div><a class="text-link" href="{{@site.url}}/briefs/">View all briefs <span aria-hidden="true">→</span></a></div><div class="article-grid">{{#get "posts" limit="6" include="tags,authors"}}{{#foreach posts}}{{> article-card}}{{/foreach}}{{/get}}</div></div></section>
 
-<section class="membership-section" id="join" data-track-section="membership">
-  <div class="shell membership-grid">
-    <div><p class="eyebrow">FREE MEMBERSHIP</p><h2>A clearer view of the business of medicine.</h2><p>Get concise guidance on the decisions that matter—without the noise.</p></div>
-    <div class="membership-card"><span>JOIN BOMSOCIETY</span><h3>Membership is free.</h3><p>Start with the weekly brief. Explore more when it matters to you.</p><a class="button button-full" href="#/portal/signup" data-homepage-event="newsletter_signup" data-cta-location="membership">Create your account</a><small>No spam. Unsubscribe anytime.</small></div>
-  </div>
-</section>
+<section class="membership-section" id="join" data-track-section="membership"><div class="shell membership-grid"><div><p class="eyebrow">FREE MEMBERSHIP</p><h2>Keep the useful work connected.</h2><p>Save your progress, personalize your learning path, and receive only the decisions and updates that matter to you.</p><p class="membership-honesty">You can explore first. A profile is for returning to what matters.</p></div><div class="membership-card"><span>YOUR FREE PROFILE</span><h3>Make the next step easier to find.</h3><p>Use membership to save progress and make future recommendations more relevant when member features are available.</p><a class="button button-full" href="#/portal/signup" data-homepage-event="membership_cta_selected" data-cta-location="membership">Create My Free Profile</a><small>Free. No fabricated progress or forced gate before value.</small></div></div></section>

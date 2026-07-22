@@ -4,31 +4,39 @@ import { readFile } from "node:fs/promises";
 
 const home = await readFile(new URL("../ghost-theme/home.hbs", import.meta.url), "utf8");
 const analytics = await readFile(new URL("../ghost-theme/assets/js/analytics.js", import.meta.url), "utf8");
+const main = await readFile(new URL("../ghost-theme/assets/js/main.js", import.meta.url), "utf8");
 const layout = await readFile(new URL("../ghost-theme/default.hbs", import.meta.url), "utf8");
+const header = await readFile(new URL("../ghost-theme/partials/site-header.hbs", import.meta.url), "utf8");
+const depths = await readFile(new URL("../ghost-theme/partials/lesson-depths.hbs", import.meta.url), "utf8");
+const post = await readFile(new URL("../ghost-theme/post.hbs", import.meta.url), "utf8");
+const zipBuilder = await readFile(new URL("../automation/build-theme-zip.mjs", import.meta.url), "utf8");
 
-test("homepage retains the required hero promise and calls to action", () => {
-  assert.match(home, /Make better business decisions in medicine\./);
-  assert.match(home, /Clear, corroborated guidance for the decisions medical training never taught you to make\./);
-  assert.match(home, />Join Free</);
-  assert.match(home, />Explore Decisions</);
+test("homepage has the Sprint 8 positioning and user-centered navigation", () => {
+  assert.match(home, /Level up the business side of medicine\./);
+  assert.match(home, /Everything medical training never taught you—made clear, practical, and free\./);
+  assert.match(home, /Start Leveling Up/); assert.match(home, /Explore For You/);
+  for (const label of ["For You", "Level Up", "Decisions", "Topics", "Briefs", "About"]) assert.match(header, new RegExp(`>${label}<`));
+  assert.match(header, />Start</); assert.doesNotMatch(header, /BOMGraph/i);
 });
-
-test("homepage has exactly six routed decision cards", () => {
-  const cards = home.match(/data-decision-card/g) ?? [];
-  assert.equal(cards.length, 6);
-  assert.equal((home.match(/href="\{\{@site\.url\}\}\/topic\//g) ?? []).length, 6);
+test("homepage has all three depths, explicit membership value, and value before membership", () => {
+  for (const depth of ["30 SECONDS", "2 MINUTES", "5 MINUTES"]) assert.match(depths, new RegExp(depth));
+  assert.match(home, /Save your progress, personalize your learning path, and receive only the decisions and updates that matter to you\./);
+  assert.ok(home.indexOf('id="for-you"') < home.indexOf('id="join"'));
 });
-
-test("homepage keeps measurement and accessibility hooks", () => {
-  assert.match(home, /data-track-section="hero"/);
-  assert.match(home, /data-homepage-event="newsletter_signup"/);
-  assert.match(home, /aria-label="BOMSociety principles"/);
-  assert.match(analytics, /data-track-section/);
-  assert.match(layout, /class="skip-link" href="#main"/);
-});
-
-test("BOMGraph is not a homepage section and latest Ghost posts remain queried", () => {
-  assert.doesNotMatch(home, /id="bomgraph"/i);
+test("homepage has exactly six primary decision paths and no public BOMGraph", () => {
+  assert.equal((home.match(/data-decision-card/g) ?? []).length, 6);
   assert.doesNotMatch(home, /BOMGraph/i);
   assert.match(home, /\{\{#get "posts" limit="6" include="tags,authors"\}\}/);
+});
+test("analytics and accessibility hooks remain connected", () => {
+  assert.match(home, /data-track-section="hero"/); assert.match(home, /data-for-you-topic/);
+  assert.match(main, /topic_preference_selected/); assert.match(main, /depth_selected/); assert.match(home, /membership_cta_selected/);
+  assert.match(analytics, /data-track-section/); assert.match(layout, /class="skip-link" href="#main"/);
+  assert.match(post, /\{\{> level-up-components\}\}/);
+});
+test("version is synchronized and the theme ZIP builder packages from the theme root", async () => {
+  const root = JSON.parse(await readFile(new URL("../package.json", import.meta.url))); const theme = JSON.parse(await readFile(new URL("../ghost-theme/package.json", import.meta.url)));
+  const version = (await readFile(new URL("../VERSION", import.meta.url), "utf8")).trim();
+  assert.equal(root.version, "1.3.0"); assert.equal(theme.version, root.version); assert.equal(version, root.version);
+  assert.match(zipBuilder, /cwd: theme/); assert.match(zipBuilder, /UPLOAD-TO-GHOST-bomsociety-theme-v/);
 });

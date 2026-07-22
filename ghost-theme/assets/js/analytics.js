@@ -3,7 +3,11 @@
     'page_view', 'section_view', 'scroll_depth', 'reading_depth_selected',
     'article_complete', 'decision_path_started', 'decision_path_step',
     'decision_path_completed', 'search_submitted', 'search_no_results',
-    'newsletter_attributed', 'newsletter_signup', 'member_verified'
+    'newsletter_attributed', 'newsletter_signup', 'member_verified',
+    'topic_preference_selected', 'career_stage_selected', 'depth_selected',
+    'lesson_started', 'lesson_completed', 'case_opened', 'quiz_started',
+    'quiz_completed', 'decision_started', 'related_decision_selected',
+    'membership_cta_selected', 'for_you_recommendation_selected'
   ]);
   const queue = [];
   const session = crypto.randomUUID ? crypto.randomUUID() : `${Date.now()}-${Math.random()}`;

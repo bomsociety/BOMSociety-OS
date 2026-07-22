@@ -1,1 +1,4 @@
 publishing-artifacts/
+
+# Generated Ghost upload packages
+releases/*.zip
