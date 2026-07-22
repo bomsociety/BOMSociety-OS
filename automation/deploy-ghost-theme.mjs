@@ -28,6 +28,12 @@ function escapeRegExp(value) {
   return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 }
 
+function installedThemeName(uploadResult) {
+  const name = uploadResult.themes?.find((theme) => typeof theme.name === "string" && theme.name.trim())?.name;
+  if (!name) throw new Error("Ghost upload succeeded without returning an installed theme name.");
+  return name;
+}
+
 if (command === "upload") {
   requireGhostEnvironment();
   if (!value) throw new Error("Usage: deploy-ghost-theme.mjs upload <zip-path>");
@@ -35,9 +41,9 @@ if (command === "upload") {
   const form = new FormData();
   form.append("file", new Blob([archive], { type: "application/zip" }), basename(value));
   const result = await ghostRequest(adminUrl, adminKey, "/themes/upload/", { method: "POST", body: form });
-  const themeName = result.themes?.[0]?.name;
-  if (!themeName) throw new Error("Ghost upload succeeded without returning an uploaded theme name.");
-  console.log(themeName);
+  // Ghost returns the installed identifier derived from the theme package. It is
+  // deliberately used instead of the uploaded archive's filename.
+  console.log(installedThemeName(result));
 } else if (command === "activate") {
   requireGhostEnvironment(["adminUrl", "adminKey"]);
   if (!value) throw new Error("Usage: deploy-ghost-theme.mjs activate <theme-name>");
