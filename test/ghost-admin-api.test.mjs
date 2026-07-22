@@ -163,7 +163,7 @@ test("deployment activates the exact theme name returned by Ghost upload", async
     if (incoming.url === "/") {
       outgoing.setHeader("Content-Type", "text/html");
       outgoing.end(homepageIsValid
-        ? "<title>BOMSociety</title>What decision needs your attention?Create My Free Profile"
+        ? "<title>BOMSociety</title>GET PAID MOREHow intelligence is built"
         : "<title>BOMSociety</title>");
       return;
     }
@@ -226,4 +226,31 @@ test("deployment activates the exact theme name returned by Ghost upload", async
   assert.ok(requests.some(({ method, url }) => method === "GET" && url === "/ghost/api/admin/themes/"));
   assert.ok(requests.some(({ method, url }) => method === "PUT" && url === "/ghost/api/admin/themes/bomsociety-theme/activate/"));
   assert.ok(!requests.some(({ method, url }) => method === "PUT" && url === "/ghost/api/admin/themes/UPLOAD-TO-GHOST-bomsociety-theme-v1.3.0/"));
+});
+
+test("verification accepts Sprint 9 markers and rejects obsolete homepage markers clearly", async () => {
+  const server = createServer((incoming, outgoing) => {
+    assert.equal(incoming.url, "/");
+    outgoing.setHeader("Content-Type", "text/html");
+    outgoing.end("<title>BOMSociety</title><h1>GET PAID MORE</h1><a>How intelligence is built</a>");
+  });
+  server.listen(0, "127.0.0.1");
+  await once(server, "listening");
+  const { port } = server.address();
+  const run = (env = {}) => new Promise((resolve) => {
+    const child = spawn(process.execPath, ["automation/deploy-ghost-theme.mjs", "verify"], {
+      cwd: process.cwd(), env: { ...process.env, GHOST_SITE_URL: `http://127.0.0.1:${port}/`, ...env },
+    });
+    let stderr = "";
+    child.stderr.on("data", (chunk) => { stderr += chunk; });
+    child.on("close", (code) => resolve({ code, stderr }));
+  });
+  try {
+    assert.equal((await run()).code, 0);
+    const obsolete = await run({ GHOST_VERIFY_HERO: "What decision needs your attention?" });
+    assert.notEqual(obsolete.code, 0);
+    assert.match(obsolete.stderr, /Live homepage is missing required hero marker: What decision needs your attention\?/);
+  } finally {
+    await new Promise((resolve, reject) => server.close((error) => error ? reject(error) : resolve()));
+  }
 });

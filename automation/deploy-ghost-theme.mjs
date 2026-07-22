@@ -15,8 +15,8 @@ function requireGhostEnvironment(required = ["adminUrl", "adminKey", "siteUrl"])
 function verificationMarkers() {
   const markers = {
     title: process.env.GHOST_VERIFY_TITLE || "BOMSociety",
-    hero: process.env.GHOST_VERIFY_HERO || "What decision needs your attention?",
-    cta: process.env.GHOST_VERIFY_CTA || "Create My Free Profile",
+    hero: process.env.GHOST_VERIFY_HERO || "GET PAID MORE",
+    cta: process.env.GHOST_VERIFY_CTA || "How intelligence is built",
   };
   for (const [name, marker] of Object.entries(markers)) {
     if (!marker.trim()) throw new Error(`GHOST_VERIFY_${name.toUpperCase()} must not be empty.`);
