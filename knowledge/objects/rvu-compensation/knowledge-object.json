@@ -1,0 +1,417 @@
+{
+  "id": "topic:rvu-compensation",
+  "slug": "rvu-compensation",
+  "title": "RVU Compensation",
+  "type": "topic",
+  "summary30": "RVU Compensation decisions require a structured review of economics, risk, operations, and future options.",
+  "summary120": "Use this canonical knowledge object to organize rvu compensation decisions, claims awaiting evidence, corroboration work, relationships, and a progressive learning path.",
+  "summary300": "RVU Compensation is a physician decision topic that should be evaluated through explicit terms, assumptions, incentives, risks, operating context, and professional advice where appropriate. This object intentionally keeps evidence records empty until verifiable sources can be attached. Its lessons establish a repeatable review sequence from initial framing through diligence, documentation, and ongoing reassessment.",
+  "references": [],
+  "corroboration": {
+    "status": "pending_evidence",
+    "record_ids": [
+      "corroboration:rvu-compensation:1",
+      "corroboration:rvu-compensation:2",
+      "corroboration:rvu-compensation:3",
+      "corroboration:rvu-compensation:4",
+      "corroboration:rvu-compensation:5"
+    ]
+  },
+  "relationships": [
+    {
+      "id": "relationship:rvu-compensation:decision-1",
+      "from_id": "topic:rvu-compensation",
+      "predicate": "has_decision",
+      "to_id": "decision:rvu-compensation:1"
+    },
+    {
+      "id": "relationship:rvu-compensation:decision-2",
+      "from_id": "topic:rvu-compensation",
+      "predicate": "has_decision",
+      "to_id": "decision:rvu-compensation:2"
+    },
+    {
+      "id": "relationship:rvu-compensation:decision-3",
+      "from_id": "topic:rvu-compensation",
+      "predicate": "has_decision",
+      "to_id": "decision:rvu-compensation:3"
+    },
+    {
+      "id": "relationship:rvu-compensation:decision-4",
+      "from_id": "topic:rvu-compensation",
+      "predicate": "has_decision",
+      "to_id": "decision:rvu-compensation:4"
+    },
+    {
+      "id": "relationship:rvu-compensation:decision-5",
+      "from_id": "topic:rvu-compensation",
+      "predicate": "has_decision",
+      "to_id": "decision:rvu-compensation:5"
+    }
+  ],
+  "seo": {
+    "title": "RVU Compensation | BOMSociety",
+    "description": ""
+  },
+  "analytics": {
+    "events": [
+      "knowledge_object_view",
+      "learning_path_started",
+      "lesson_depth_selected",
+      "learning_path_completed"
+    ]
+  },
+  "canonical_kind": "knowledge_object",
+  "status": "production_ready_structure",
+  "taxonomy": [
+    "Finance",
+    "Compensation",
+    "Practice"
+  ],
+  "decision_objects": [
+    {
+      "id": "decision:rvu-compensation:1",
+      "title": "Measured unit",
+      "order": 1,
+      "status": "ready_for_evidence",
+      "evidence_ids": [
+        "evidence:rvu-compensation:1"
+      ],
+      "claim_ids": [
+        "claim:rvu-compensation:1"
+      ]
+    },
+    {
+      "id": "decision:rvu-compensation:2",
+      "title": "Conversion factor",
+      "order": 2,
+      "status": "ready_for_evidence",
+      "evidence_ids": [
+        "evidence:rvu-compensation:2"
+      ],
+      "claim_ids": [
+        "claim:rvu-compensation:2"
+      ]
+    },
+    {
+      "id": "decision:rvu-compensation:3",
+      "title": "Thresholds",
+      "order": 3,
+      "status": "ready_for_evidence",
+      "evidence_ids": [
+        "evidence:rvu-compensation:3"
+      ],
+      "claim_ids": [
+        "claim:rvu-compensation:3"
+      ]
+    },
+    {
+      "id": "decision:rvu-compensation:4",
+      "title": "Attribution",
+      "order": 4,
+      "status": "ready_for_evidence",
+      "evidence_ids": [
+        "evidence:rvu-compensation:4"
+      ],
+      "claim_ids": [
+        "claim:rvu-compensation:4"
+      ]
+    },
+    {
+      "id": "decision:rvu-compensation:5",
+      "title": "Quality adjustments",
+      "order": 5,
+      "status": "ready_for_evidence",
+      "evidence_ids": [
+        "evidence:rvu-compensation:5"
+      ],
+      "claim_ids": [
+        "claim:rvu-compensation:5"
+      ]
+    }
+  ],
+  "claims": [
+    {
+      "id": "claim:rvu-compensation:1",
+      "decision_id": "decision:rvu-compensation:1",
+      "statement": "Decision review should address measured unit.",
+      "status": "requires_evidence",
+      "evidence_ids": [
+        "evidence:rvu-compensation:1"
+      ],
+      "corroboration_id": "corroboration:rvu-compensation:1"
+    },
+    {
+      "id": "claim:rvu-compensation:2",
+      "decision_id": "decision:rvu-compensation:2",
+      "statement": "Decision review should address conversion factor.",
+      "status": "requires_evidence",
+      "evidence_ids": [
+        "evidence:rvu-compensation:2"
+      ],
+      "corroboration_id": "corroboration:rvu-compensation:2"
+    },
+    {
+      "id": "claim:rvu-compensation:3",
+      "decision_id": "decision:rvu-compensation:3",
+      "statement": "Decision review should address thresholds.",
+      "status": "requires_evidence",
+      "evidence_ids": [
+        "evidence:rvu-compensation:3"
+      ],
+      "corroboration_id": "corroboration:rvu-compensation:3"
+    },
+    {
+      "id": "claim:rvu-compensation:4",
+      "decision_id": "decision:rvu-compensation:4",
+      "statement": "Decision review should address attribution.",
+      "status": "requires_evidence",
+      "evidence_ids": [
+        "evidence:rvu-compensation:4"
+      ],
+      "corroboration_id": "corroboration:rvu-compensation:4"
+    },
+    {
+      "id": "claim:rvu-compensation:5",
+      "decision_id": "decision:rvu-compensation:5",
+      "statement": "Decision review should address quality adjustments.",
+      "status": "requires_evidence",
+      "evidence_ids": [
+        "evidence:rvu-compensation:5"
+      ],
+      "corroboration_id": "corroboration:rvu-compensation:5"
+    }
+  ],
+  "evidence_placeholders": [
+    {
+      "id": "evidence:rvu-compensation:1",
+      "claim_id": "claim:rvu-compensation:1",
+      "status": "empty_placeholder",
+      "citation": {
+        "title": "",
+        "authors": [],
+        "publisher": "",
+        "publication_date": "",
+        "url": "",
+        "locator": ""
+      },
+      "notes": ""
+    },
+    {
+      "id": "evidence:rvu-compensation:2",
+      "claim_id": "claim:rvu-compensation:2",
+      "status": "empty_placeholder",
+      "citation": {
+        "title": "",
+        "authors": [],
+        "publisher": "",
+        "publication_date": "",
+        "url": "",
+        "locator": ""
+      },
+      "notes": ""
+    },
+    {
+      "id": "evidence:rvu-compensation:3",
+      "claim_id": "claim:rvu-compensation:3",
+      "status": "empty_placeholder",
+      "citation": {
+        "title": "",
+        "authors": [],
+        "publisher": "",
+        "publication_date": "",
+        "url": "",
+        "locator": ""
+      },
+      "notes": ""
+    },
+    {
+      "id": "evidence:rvu-compensation:4",
+      "claim_id": "claim:rvu-compensation:4",
+      "status": "empty_placeholder",
+      "citation": {
+        "title": "",
+        "authors": [],
+        "publisher": "",
+        "publication_date": "",
+        "url": "",
+        "locator": ""
+      },
+      "notes": ""
+    },
+    {
+      "id": "evidence:rvu-compensation:5",
+      "claim_id": "claim:rvu-compensation:5",
+      "status": "empty_placeholder",
+      "citation": {
+        "title": "",
+        "authors": [],
+        "publisher": "",
+        "publication_date": "",
+        "url": "",
+        "locator": ""
+      },
+      "notes": ""
+    }
+  ],
+  "corroboration_records": [
+    {
+      "id": "corroboration:rvu-compensation:1",
+      "claim_id": "claim:rvu-compensation:1",
+      "status": "pending_evidence",
+      "supporting_evidence_ids": [],
+      "contradicting_evidence_ids": [],
+      "assessment": ""
+    },
+    {
+      "id": "corroboration:rvu-compensation:2",
+      "claim_id": "claim:rvu-compensation:2",
+      "status": "pending_evidence",
+      "supporting_evidence_ids": [],
+      "contradicting_evidence_ids": [],
+      "assessment": ""
+    },
+    {
+      "id": "corroboration:rvu-compensation:3",
+      "claim_id": "claim:rvu-compensation:3",
+      "status": "pending_evidence",
+      "supporting_evidence_ids": [],
+      "contradicting_evidence_ids": [],
+      "assessment": ""
+    },
+    {
+      "id": "corroboration:rvu-compensation:4",
+      "claim_id": "claim:rvu-compensation:4",
+      "status": "pending_evidence",
+      "supporting_evidence_ids": [],
+      "contradicting_evidence_ids": [],
+      "assessment": ""
+    },
+    {
+      "id": "corroboration:rvu-compensation:5",
+      "claim_id": "claim:rvu-compensation:5",
+      "status": "pending_evidence",
+      "supporting_evidence_ids": [],
+      "contradicting_evidence_ids": [],
+      "assessment": ""
+    }
+  ],
+  "learning_path": {
+    "id": "learning-path:rvu-compensation",
+    "title": "RVU Compensation Learning Path",
+    "ordered_lesson_ids": [
+      "lesson:rvu-compensation:1",
+      "lesson:rvu-compensation:2",
+      "lesson:rvu-compensation:3",
+      "lesson:rvu-compensation:4",
+      "lesson:rvu-compensation:5",
+      "lesson:rvu-compensation:6",
+      "lesson:rvu-compensation:7",
+      "lesson:rvu-compensation:8",
+      "lesson:rvu-compensation:9",
+      "lesson:rvu-compensation:10"
+    ]
+  },
+  "lessons": [
+    {
+      "id": "lesson:rvu-compensation:1",
+      "order": 1,
+      "title": "Measured unit",
+      "versions": {
+        "seconds_30": "Assess measured unit before making this rvu compensation decision.",
+        "minutes_2": "Assess measured unit before making this rvu compensation decision. Identify the written terms, assumptions, responsible parties, and unresolved questions that require review.",
+        "minutes_5": "Assess measured unit before making this rvu compensation decision. Document what is known, what must be confirmed, and which specialist review may be needed. Compare the proposed arrangement against your objectives, risk tolerance, and operational context. Do not treat projections or informal representations as settled terms; preserve questions and decisions in the canonical record."
+      }
+    },
+    {
+      "id": "lesson:rvu-compensation:2",
+      "order": 2,
+      "title": "Conversion factor",
+      "versions": {
+        "seconds_30": "Assess conversion factor before making this rvu compensation decision.",
+        "minutes_2": "Assess conversion factor before making this rvu compensation decision. Identify the written terms, assumptions, responsible parties, and unresolved questions that require review.",
+        "minutes_5": "Assess conversion factor before making this rvu compensation decision. Document what is known, what must be confirmed, and which specialist review may be needed. Compare the proposed arrangement against your objectives, risk tolerance, and operational context. Do not treat projections or informal representations as settled terms; preserve questions and decisions in the canonical record."
+      }
+    },
+    {
+      "id": "lesson:rvu-compensation:3",
+      "order": 3,
+      "title": "Thresholds",
+      "versions": {
+        "seconds_30": "Assess thresholds before making this rvu compensation decision.",
+        "minutes_2": "Assess thresholds before making this rvu compensation decision. Identify the written terms, assumptions, responsible parties, and unresolved questions that require review.",
+        "minutes_5": "Assess thresholds before making this rvu compensation decision. Document what is known, what must be confirmed, and which specialist review may be needed. Compare the proposed arrangement against your objectives, risk tolerance, and operational context. Do not treat projections or informal representations as settled terms; preserve questions and decisions in the canonical record."
+      }
+    },
+    {
+      "id": "lesson:rvu-compensation:4",
+      "order": 4,
+      "title": "Attribution",
+      "versions": {
+        "seconds_30": "Assess attribution before making this rvu compensation decision.",
+        "minutes_2": "Assess attribution before making this rvu compensation decision. Identify the written terms, assumptions, responsible parties, and unresolved questions that require review.",
+        "minutes_5": "Assess attribution before making this rvu compensation decision. Document what is known, what must be confirmed, and which specialist review may be needed. Compare the proposed arrangement against your objectives, risk tolerance, and operational context. Do not treat projections or informal representations as settled terms; preserve questions and decisions in the canonical record."
+      }
+    },
+    {
+      "id": "lesson:rvu-compensation:5",
+      "order": 5,
+      "title": "Quality adjustments",
+      "versions": {
+        "seconds_30": "Assess quality adjustments before making this rvu compensation decision.",
+        "minutes_2": "Assess quality adjustments before making this rvu compensation decision. Identify the written terms, assumptions, responsible parties, and unresolved questions that require review.",
+        "minutes_5": "Assess quality adjustments before making this rvu compensation decision. Document what is known, what must be confirmed, and which specialist review may be needed. Compare the proposed arrangement against your objectives, risk tolerance, and operational context. Do not treat projections or informal representations as settled terms; preserve questions and decisions in the canonical record."
+      }
+    },
+    {
+      "id": "lesson:rvu-compensation:6",
+      "order": 6,
+      "title": "Unpaid work",
+      "versions": {
+        "seconds_30": "Assess unpaid work before making this rvu compensation decision.",
+        "minutes_2": "Assess unpaid work before making this rvu compensation decision. Identify the written terms, assumptions, responsible parties, and unresolved questions that require review.",
+        "minutes_5": "Assess unpaid work before making this rvu compensation decision. Document what is known, what must be confirmed, and which specialist review may be needed. Compare the proposed arrangement against your objectives, risk tolerance, and operational context. Do not treat projections or informal representations as settled terms; preserve questions and decisions in the canonical record."
+      }
+    },
+    {
+      "id": "lesson:rvu-compensation:7",
+      "order": 7,
+      "title": "Operational capacity",
+      "versions": {
+        "seconds_30": "Assess operational capacity before making this rvu compensation decision.",
+        "minutes_2": "Assess operational capacity before making this rvu compensation decision. Identify the written terms, assumptions, responsible parties, and unresolved questions that require review.",
+        "minutes_5": "Assess operational capacity before making this rvu compensation decision. Document what is known, what must be confirmed, and which specialist review may be needed. Compare the proposed arrangement against your objectives, risk tolerance, and operational context. Do not treat projections or informal representations as settled terms; preserve questions and decisions in the canonical record."
+      }
+    },
+    {
+      "id": "lesson:rvu-compensation:8",
+      "order": 8,
+      "title": "Data reconciliation",
+      "versions": {
+        "seconds_30": "Assess data reconciliation before making this rvu compensation decision.",
+        "minutes_2": "Assess data reconciliation before making this rvu compensation decision. Identify the written terms, assumptions, responsible parties, and unresolved questions that require review.",
+        "minutes_5": "Assess data reconciliation before making this rvu compensation decision. Document what is known, what must be confirmed, and which specialist review may be needed. Compare the proposed arrangement against your objectives, risk tolerance, and operational context. Do not treat projections or informal representations as settled terms; preserve questions and decisions in the canonical record."
+      }
+    },
+    {
+      "id": "lesson:rvu-compensation:9",
+      "order": 9,
+      "title": "Plan revisions",
+      "versions": {
+        "seconds_30": "Assess plan revisions before making this rvu compensation decision.",
+        "minutes_2": "Assess plan revisions before making this rvu compensation decision. Identify the written terms, assumptions, responsible parties, and unresolved questions that require review.",
+        "minutes_5": "Assess plan revisions before making this rvu compensation decision. Document what is known, what must be confirmed, and which specialist review may be needed. Compare the proposed arrangement against your objectives, risk tolerance, and operational context. Do not treat projections or informal representations as settled terms; preserve questions and decisions in the canonical record."
+      }
+    },
+    {
+      "id": "lesson:rvu-compensation:10",
+      "order": 10,
+      "title": "Scenario decisions",
+      "versions": {
+        "seconds_30": "Assess scenario decisions before making this rvu compensation decision.",
+        "minutes_2": "Assess scenario decisions before making this rvu compensation decision. Identify the written terms, assumptions, responsible parties, and unresolved questions that require review.",
+        "minutes_5": "Assess scenario decisions before making this rvu compensation decision. Document what is known, what must be confirmed, and which specialist review may be needed. Compare the proposed arrangement against your objectives, risk tolerance, and operational context. Do not treat projections or informal representations as settled terms; preserve questions and decisions in the canonical record."
+      }
+    }
+  ]
+}

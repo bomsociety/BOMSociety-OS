@@ -1,0 +1,418 @@
+{
+  "id": "topic:artificial-intelligence",
+  "slug": "artificial-intelligence",
+  "title": "Artificial Intelligence",
+  "type": "topic",
+  "summary30": "Artificial Intelligence decisions require a structured review of economics, risk, operations, and future options.",
+  "summary120": "Use this canonical knowledge object to organize artificial intelligence decisions, claims awaiting evidence, corroboration work, relationships, and a progressive learning path.",
+  "summary300": "Artificial Intelligence is a physician decision topic that should be evaluated through explicit terms, assumptions, incentives, risks, operating context, and professional advice where appropriate. This object intentionally keeps evidence records empty until verifiable sources can be attached. Its lessons establish a repeatable review sequence from initial framing through diligence, documentation, and ongoing reassessment.",
+  "references": [],
+  "corroboration": {
+    "status": "pending_evidence",
+    "record_ids": [
+      "corroboration:artificial-intelligence:1",
+      "corroboration:artificial-intelligence:2",
+      "corroboration:artificial-intelligence:3",
+      "corroboration:artificial-intelligence:4",
+      "corroboration:artificial-intelligence:5"
+    ]
+  },
+  "relationships": [
+    {
+      "id": "relationship:artificial-intelligence:decision-1",
+      "from_id": "topic:artificial-intelligence",
+      "predicate": "has_decision",
+      "to_id": "decision:artificial-intelligence:1"
+    },
+    {
+      "id": "relationship:artificial-intelligence:decision-2",
+      "from_id": "topic:artificial-intelligence",
+      "predicate": "has_decision",
+      "to_id": "decision:artificial-intelligence:2"
+    },
+    {
+      "id": "relationship:artificial-intelligence:decision-3",
+      "from_id": "topic:artificial-intelligence",
+      "predicate": "has_decision",
+      "to_id": "decision:artificial-intelligence:3"
+    },
+    {
+      "id": "relationship:artificial-intelligence:decision-4",
+      "from_id": "topic:artificial-intelligence",
+      "predicate": "has_decision",
+      "to_id": "decision:artificial-intelligence:4"
+    },
+    {
+      "id": "relationship:artificial-intelligence:decision-5",
+      "from_id": "topic:artificial-intelligence",
+      "predicate": "has_decision",
+      "to_id": "decision:artificial-intelligence:5"
+    }
+  ],
+  "seo": {
+    "title": "Artificial Intelligence | BOMSociety",
+    "description": ""
+  },
+  "analytics": {
+    "events": [
+      "knowledge_object_view",
+      "learning_path_started",
+      "lesson_depth_selected",
+      "learning_path_completed"
+    ]
+  },
+  "canonical_kind": "knowledge_object",
+  "status": "production_ready_structure",
+  "taxonomy": [
+    "Technology",
+    "Artificial Intelligence",
+    "Practice",
+    "Legal"
+  ],
+  "decision_objects": [
+    {
+      "id": "decision:artificial-intelligence:1",
+      "title": "Use case",
+      "order": 1,
+      "status": "ready_for_evidence",
+      "evidence_ids": [
+        "evidence:artificial-intelligence:1"
+      ],
+      "claim_ids": [
+        "claim:artificial-intelligence:1"
+      ]
+    },
+    {
+      "id": "decision:artificial-intelligence:2",
+      "title": "Risk classification",
+      "order": 2,
+      "status": "ready_for_evidence",
+      "evidence_ids": [
+        "evidence:artificial-intelligence:2"
+      ],
+      "claim_ids": [
+        "claim:artificial-intelligence:2"
+      ]
+    },
+    {
+      "id": "decision:artificial-intelligence:3",
+      "title": "Data flows",
+      "order": 3,
+      "status": "ready_for_evidence",
+      "evidence_ids": [
+        "evidence:artificial-intelligence:3"
+      ],
+      "claim_ids": [
+        "claim:artificial-intelligence:3"
+      ]
+    },
+    {
+      "id": "decision:artificial-intelligence:4",
+      "title": "Human oversight",
+      "order": 4,
+      "status": "ready_for_evidence",
+      "evidence_ids": [
+        "evidence:artificial-intelligence:4"
+      ],
+      "claim_ids": [
+        "claim:artificial-intelligence:4"
+      ]
+    },
+    {
+      "id": "decision:artificial-intelligence:5",
+      "title": "Local validation",
+      "order": 5,
+      "status": "ready_for_evidence",
+      "evidence_ids": [
+        "evidence:artificial-intelligence:5"
+      ],
+      "claim_ids": [
+        "claim:artificial-intelligence:5"
+      ]
+    }
+  ],
+  "claims": [
+    {
+      "id": "claim:artificial-intelligence:1",
+      "decision_id": "decision:artificial-intelligence:1",
+      "statement": "Decision review should address use case.",
+      "status": "requires_evidence",
+      "evidence_ids": [
+        "evidence:artificial-intelligence:1"
+      ],
+      "corroboration_id": "corroboration:artificial-intelligence:1"
+    },
+    {
+      "id": "claim:artificial-intelligence:2",
+      "decision_id": "decision:artificial-intelligence:2",
+      "statement": "Decision review should address risk classification.",
+      "status": "requires_evidence",
+      "evidence_ids": [
+        "evidence:artificial-intelligence:2"
+      ],
+      "corroboration_id": "corroboration:artificial-intelligence:2"
+    },
+    {
+      "id": "claim:artificial-intelligence:3",
+      "decision_id": "decision:artificial-intelligence:3",
+      "statement": "Decision review should address data flows.",
+      "status": "requires_evidence",
+      "evidence_ids": [
+        "evidence:artificial-intelligence:3"
+      ],
+      "corroboration_id": "corroboration:artificial-intelligence:3"
+    },
+    {
+      "id": "claim:artificial-intelligence:4",
+      "decision_id": "decision:artificial-intelligence:4",
+      "statement": "Decision review should address human oversight.",
+      "status": "requires_evidence",
+      "evidence_ids": [
+        "evidence:artificial-intelligence:4"
+      ],
+      "corroboration_id": "corroboration:artificial-intelligence:4"
+    },
+    {
+      "id": "claim:artificial-intelligence:5",
+      "decision_id": "decision:artificial-intelligence:5",
+      "statement": "Decision review should address local validation.",
+      "status": "requires_evidence",
+      "evidence_ids": [
+        "evidence:artificial-intelligence:5"
+      ],
+      "corroboration_id": "corroboration:artificial-intelligence:5"
+    }
+  ],
+  "evidence_placeholders": [
+    {
+      "id": "evidence:artificial-intelligence:1",
+      "claim_id": "claim:artificial-intelligence:1",
+      "status": "empty_placeholder",
+      "citation": {
+        "title": "",
+        "authors": [],
+        "publisher": "",
+        "publication_date": "",
+        "url": "",
+        "locator": ""
+      },
+      "notes": ""
+    },
+    {
+      "id": "evidence:artificial-intelligence:2",
+      "claim_id": "claim:artificial-intelligence:2",
+      "status": "empty_placeholder",
+      "citation": {
+        "title": "",
+        "authors": [],
+        "publisher": "",
+        "publication_date": "",
+        "url": "",
+        "locator": ""
+      },
+      "notes": ""
+    },
+    {
+      "id": "evidence:artificial-intelligence:3",
+      "claim_id": "claim:artificial-intelligence:3",
+      "status": "empty_placeholder",
+      "citation": {
+        "title": "",
+        "authors": [],
+        "publisher": "",
+        "publication_date": "",
+        "url": "",
+        "locator": ""
+      },
+      "notes": ""
+    },
+    {
+      "id": "evidence:artificial-intelligence:4",
+      "claim_id": "claim:artificial-intelligence:4",
+      "status": "empty_placeholder",
+      "citation": {
+        "title": "",
+        "authors": [],
+        "publisher": "",
+        "publication_date": "",
+        "url": "",
+        "locator": ""
+      },
+      "notes": ""
+    },
+    {
+      "id": "evidence:artificial-intelligence:5",
+      "claim_id": "claim:artificial-intelligence:5",
+      "status": "empty_placeholder",
+      "citation": {
+        "title": "",
+        "authors": [],
+        "publisher": "",
+        "publication_date": "",
+        "url": "",
+        "locator": ""
+      },
+      "notes": ""
+    }
+  ],
+  "corroboration_records": [
+    {
+      "id": "corroboration:artificial-intelligence:1",
+      "claim_id": "claim:artificial-intelligence:1",
+      "status": "pending_evidence",
+      "supporting_evidence_ids": [],
+      "contradicting_evidence_ids": [],
+      "assessment": ""
+    },
+    {
+      "id": "corroboration:artificial-intelligence:2",
+      "claim_id": "claim:artificial-intelligence:2",
+      "status": "pending_evidence",
+      "supporting_evidence_ids": [],
+      "contradicting_evidence_ids": [],
+      "assessment": ""
+    },
+    {
+      "id": "corroboration:artificial-intelligence:3",
+      "claim_id": "claim:artificial-intelligence:3",
+      "status": "pending_evidence",
+      "supporting_evidence_ids": [],
+      "contradicting_evidence_ids": [],
+      "assessment": ""
+    },
+    {
+      "id": "corroboration:artificial-intelligence:4",
+      "claim_id": "claim:artificial-intelligence:4",
+      "status": "pending_evidence",
+      "supporting_evidence_ids": [],
+      "contradicting_evidence_ids": [],
+      "assessment": ""
+    },
+    {
+      "id": "corroboration:artificial-intelligence:5",
+      "claim_id": "claim:artificial-intelligence:5",
+      "status": "pending_evidence",
+      "supporting_evidence_ids": [],
+      "contradicting_evidence_ids": [],
+      "assessment": ""
+    }
+  ],
+  "learning_path": {
+    "id": "learning-path:artificial-intelligence",
+    "title": "Artificial Intelligence Learning Path",
+    "ordered_lesson_ids": [
+      "lesson:artificial-intelligence:1",
+      "lesson:artificial-intelligence:2",
+      "lesson:artificial-intelligence:3",
+      "lesson:artificial-intelligence:4",
+      "lesson:artificial-intelligence:5",
+      "lesson:artificial-intelligence:6",
+      "lesson:artificial-intelligence:7",
+      "lesson:artificial-intelligence:8",
+      "lesson:artificial-intelligence:9",
+      "lesson:artificial-intelligence:10"
+    ]
+  },
+  "lessons": [
+    {
+      "id": "lesson:artificial-intelligence:1",
+      "order": 1,
+      "title": "Use case",
+      "versions": {
+        "seconds_30": "Assess use case before making this artificial intelligence decision.",
+        "minutes_2": "Assess use case before making this artificial intelligence decision. Identify the written terms, assumptions, responsible parties, and unresolved questions that require review.",
+        "minutes_5": "Assess use case before making this artificial intelligence decision. Document what is known, what must be confirmed, and which specialist review may be needed. Compare the proposed arrangement against your objectives, risk tolerance, and operational context. Do not treat projections or informal representations as settled terms; preserve questions and decisions in the canonical record."
+      }
+    },
+    {
+      "id": "lesson:artificial-intelligence:2",
+      "order": 2,
+      "title": "Risk classification",
+      "versions": {
+        "seconds_30": "Assess risk classification before making this artificial intelligence decision.",
+        "minutes_2": "Assess risk classification before making this artificial intelligence decision. Identify the written terms, assumptions, responsible parties, and unresolved questions that require review.",
+        "minutes_5": "Assess risk classification before making this artificial intelligence decision. Document what is known, what must be confirmed, and which specialist review may be needed. Compare the proposed arrangement against your objectives, risk tolerance, and operational context. Do not treat projections or informal representations as settled terms; preserve questions and decisions in the canonical record."
+      }
+    },
+    {
+      "id": "lesson:artificial-intelligence:3",
+      "order": 3,
+      "title": "Data flows",
+      "versions": {
+        "seconds_30": "Assess data flows before making this artificial intelligence decision.",
+        "minutes_2": "Assess data flows before making this artificial intelligence decision. Identify the written terms, assumptions, responsible parties, and unresolved questions that require review.",
+        "minutes_5": "Assess data flows before making this artificial intelligence decision. Document what is known, what must be confirmed, and which specialist review may be needed. Compare the proposed arrangement against your objectives, risk tolerance, and operational context. Do not treat projections or informal representations as settled terms; preserve questions and decisions in the canonical record."
+      }
+    },
+    {
+      "id": "lesson:artificial-intelligence:4",
+      "order": 4,
+      "title": "Human oversight",
+      "versions": {
+        "seconds_30": "Assess human oversight before making this artificial intelligence decision.",
+        "minutes_2": "Assess human oversight before making this artificial intelligence decision. Identify the written terms, assumptions, responsible parties, and unresolved questions that require review.",
+        "minutes_5": "Assess human oversight before making this artificial intelligence decision. Document what is known, what must be confirmed, and which specialist review may be needed. Compare the proposed arrangement against your objectives, risk tolerance, and operational context. Do not treat projections or informal representations as settled terms; preserve questions and decisions in the canonical record."
+      }
+    },
+    {
+      "id": "lesson:artificial-intelligence:5",
+      "order": 5,
+      "title": "Local validation",
+      "versions": {
+        "seconds_30": "Assess local validation before making this artificial intelligence decision.",
+        "minutes_2": "Assess local validation before making this artificial intelligence decision. Identify the written terms, assumptions, responsible parties, and unresolved questions that require review.",
+        "minutes_5": "Assess local validation before making this artificial intelligence decision. Document what is known, what must be confirmed, and which specialist review may be needed. Compare the proposed arrangement against your objectives, risk tolerance, and operational context. Do not treat projections or informal representations as settled terms; preserve questions and decisions in the canonical record."
+      }
+    },
+    {
+      "id": "lesson:artificial-intelligence:6",
+      "order": 6,
+      "title": "Workflow fit",
+      "versions": {
+        "seconds_30": "Assess workflow fit before making this artificial intelligence decision.",
+        "minutes_2": "Assess workflow fit before making this artificial intelligence decision. Identify the written terms, assumptions, responsible parties, and unresolved questions that require review.",
+        "minutes_5": "Assess workflow fit before making this artificial intelligence decision. Document what is known, what must be confirmed, and which specialist review may be needed. Compare the proposed arrangement against your objectives, risk tolerance, and operational context. Do not treat projections or informal representations as settled terms; preserve questions and decisions in the canonical record."
+      }
+    },
+    {
+      "id": "lesson:artificial-intelligence:7",
+      "order": 7,
+      "title": "Vendor obligations",
+      "versions": {
+        "seconds_30": "Assess vendor obligations before making this artificial intelligence decision.",
+        "minutes_2": "Assess vendor obligations before making this artificial intelligence decision. Identify the written terms, assumptions, responsible parties, and unresolved questions that require review.",
+        "minutes_5": "Assess vendor obligations before making this artificial intelligence decision. Document what is known, what must be confirmed, and which specialist review may be needed. Compare the proposed arrangement against your objectives, risk tolerance, and operational context. Do not treat projections or informal representations as settled terms; preserve questions and decisions in the canonical record."
+      }
+    },
+    {
+      "id": "lesson:artificial-intelligence:8",
+      "order": 8,
+      "title": "Post-launch monitoring",
+      "versions": {
+        "seconds_30": "Assess post-launch monitoring before making this artificial intelligence decision.",
+        "minutes_2": "Assess post-launch monitoring before making this artificial intelligence decision. Identify the written terms, assumptions, responsible parties, and unresolved questions that require review.",
+        "minutes_5": "Assess post-launch monitoring before making this artificial intelligence decision. Document what is known, what must be confirmed, and which specialist review may be needed. Compare the proposed arrangement against your objectives, risk tolerance, and operational context. Do not treat projections or informal representations as settled terms; preserve questions and decisions in the canonical record."
+      }
+    },
+    {
+      "id": "lesson:artificial-intelligence:9",
+      "order": 9,
+      "title": "User communication",
+      "versions": {
+        "seconds_30": "Assess user communication before making this artificial intelligence decision.",
+        "minutes_2": "Assess user communication before making this artificial intelligence decision. Identify the written terms, assumptions, responsible parties, and unresolved questions that require review.",
+        "minutes_5": "Assess user communication before making this artificial intelligence decision. Document what is known, what must be confirmed, and which specialist review may be needed. Compare the proposed arrangement against your objectives, risk tolerance, and operational context. Do not treat projections or informal representations as settled terms; preserve questions and decisions in the canonical record."
+      }
+    },
+    {
+      "id": "lesson:artificial-intelligence:10",
+      "order": 10,
+      "title": "Lifecycle governance",
+      "versions": {
+        "seconds_30": "Assess lifecycle governance before making this artificial intelligence decision.",
+        "minutes_2": "Assess lifecycle governance before making this artificial intelligence decision. Identify the written terms, assumptions, responsible parties, and unresolved questions that require review.",
+        "minutes_5": "Assess lifecycle governance before making this artificial intelligence decision. Document what is known, what must be confirmed, and which specialist review may be needed. Compare the proposed arrangement against your objectives, risk tolerance, and operational context. Do not treat projections or informal representations as settled terms; preserve questions and decisions in the canonical record."
+      }
+    }
+  ]
+}

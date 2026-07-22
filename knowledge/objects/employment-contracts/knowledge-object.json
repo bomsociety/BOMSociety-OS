@@ -1,0 +1,418 @@
+{
+  "id": "topic:employment-contracts",
+  "slug": "employment-contracts",
+  "title": "Employment Contracts",
+  "type": "topic",
+  "summary30": "Employment Contracts decisions require a structured review of economics, risk, operations, and future options.",
+  "summary120": "Use this canonical knowledge object to organize employment contracts decisions, claims awaiting evidence, corroboration work, relationships, and a progressive learning path.",
+  "summary300": "Employment Contracts is a physician decision topic that should be evaluated through explicit terms, assumptions, incentives, risks, operating context, and professional advice where appropriate. This object intentionally keeps evidence records empty until verifiable sources can be attached. Its lessons establish a repeatable review sequence from initial framing through diligence, documentation, and ongoing reassessment.",
+  "references": [],
+  "corroboration": {
+    "status": "pending_evidence",
+    "record_ids": [
+      "corroboration:employment-contracts:1",
+      "corroboration:employment-contracts:2",
+      "corroboration:employment-contracts:3",
+      "corroboration:employment-contracts:4",
+      "corroboration:employment-contracts:5"
+    ]
+  },
+  "relationships": [
+    {
+      "id": "relationship:employment-contracts:decision-1",
+      "from_id": "topic:employment-contracts",
+      "predicate": "has_decision",
+      "to_id": "decision:employment-contracts:1"
+    },
+    {
+      "id": "relationship:employment-contracts:decision-2",
+      "from_id": "topic:employment-contracts",
+      "predicate": "has_decision",
+      "to_id": "decision:employment-contracts:2"
+    },
+    {
+      "id": "relationship:employment-contracts:decision-3",
+      "from_id": "topic:employment-contracts",
+      "predicate": "has_decision",
+      "to_id": "decision:employment-contracts:3"
+    },
+    {
+      "id": "relationship:employment-contracts:decision-4",
+      "from_id": "topic:employment-contracts",
+      "predicate": "has_decision",
+      "to_id": "decision:employment-contracts:4"
+    },
+    {
+      "id": "relationship:employment-contracts:decision-5",
+      "from_id": "topic:employment-contracts",
+      "predicate": "has_decision",
+      "to_id": "decision:employment-contracts:5"
+    }
+  ],
+  "seo": {
+    "title": "Employment Contracts | BOMSociety",
+    "description": ""
+  },
+  "analytics": {
+    "events": [
+      "knowledge_object_view",
+      "learning_path_started",
+      "lesson_depth_selected",
+      "learning_path_completed"
+    ]
+  },
+  "canonical_kind": "knowledge_object",
+  "status": "production_ready_structure",
+  "taxonomy": [
+    "Career",
+    "Contracts",
+    "Employment",
+    "Legal"
+  ],
+  "decision_objects": [
+    {
+      "id": "decision:employment-contracts:1",
+      "title": "Whole agreement",
+      "order": 1,
+      "status": "ready_for_evidence",
+      "evidence_ids": [
+        "evidence:employment-contracts:1"
+      ],
+      "claim_ids": [
+        "claim:employment-contracts:1"
+      ]
+    },
+    {
+      "id": "decision:employment-contracts:2",
+      "title": "Compensation formula",
+      "order": 2,
+      "status": "ready_for_evidence",
+      "evidence_ids": [
+        "evidence:employment-contracts:2"
+      ],
+      "claim_ids": [
+        "claim:employment-contracts:2"
+      ]
+    },
+    {
+      "id": "decision:employment-contracts:3",
+      "title": "Workload and call",
+      "order": 3,
+      "status": "ready_for_evidence",
+      "evidence_ids": [
+        "evidence:employment-contracts:3"
+      ],
+      "claim_ids": [
+        "claim:employment-contracts:3"
+      ]
+    },
+    {
+      "id": "decision:employment-contracts:4",
+      "title": "Termination rights",
+      "order": 4,
+      "status": "ready_for_evidence",
+      "evidence_ids": [
+        "evidence:employment-contracts:4"
+      ],
+      "claim_ids": [
+        "claim:employment-contracts:4"
+      ]
+    },
+    {
+      "id": "decision:employment-contracts:5",
+      "title": "Restrictive covenants",
+      "order": 5,
+      "status": "ready_for_evidence",
+      "evidence_ids": [
+        "evidence:employment-contracts:5"
+      ],
+      "claim_ids": [
+        "claim:employment-contracts:5"
+      ]
+    }
+  ],
+  "claims": [
+    {
+      "id": "claim:employment-contracts:1",
+      "decision_id": "decision:employment-contracts:1",
+      "statement": "Decision review should address whole agreement.",
+      "status": "requires_evidence",
+      "evidence_ids": [
+        "evidence:employment-contracts:1"
+      ],
+      "corroboration_id": "corroboration:employment-contracts:1"
+    },
+    {
+      "id": "claim:employment-contracts:2",
+      "decision_id": "decision:employment-contracts:2",
+      "statement": "Decision review should address compensation formula.",
+      "status": "requires_evidence",
+      "evidence_ids": [
+        "evidence:employment-contracts:2"
+      ],
+      "corroboration_id": "corroboration:employment-contracts:2"
+    },
+    {
+      "id": "claim:employment-contracts:3",
+      "decision_id": "decision:employment-contracts:3",
+      "statement": "Decision review should address workload and call.",
+      "status": "requires_evidence",
+      "evidence_ids": [
+        "evidence:employment-contracts:3"
+      ],
+      "corroboration_id": "corroboration:employment-contracts:3"
+    },
+    {
+      "id": "claim:employment-contracts:4",
+      "decision_id": "decision:employment-contracts:4",
+      "statement": "Decision review should address termination rights.",
+      "status": "requires_evidence",
+      "evidence_ids": [
+        "evidence:employment-contracts:4"
+      ],
+      "corroboration_id": "corroboration:employment-contracts:4"
+    },
+    {
+      "id": "claim:employment-contracts:5",
+      "decision_id": "decision:employment-contracts:5",
+      "statement": "Decision review should address restrictive covenants.",
+      "status": "requires_evidence",
+      "evidence_ids": [
+        "evidence:employment-contracts:5"
+      ],
+      "corroboration_id": "corroboration:employment-contracts:5"
+    }
+  ],
+  "evidence_placeholders": [
+    {
+      "id": "evidence:employment-contracts:1",
+      "claim_id": "claim:employment-contracts:1",
+      "status": "empty_placeholder",
+      "citation": {
+        "title": "",
+        "authors": [],
+        "publisher": "",
+        "publication_date": "",
+        "url": "",
+        "locator": ""
+      },
+      "notes": ""
+    },
+    {
+      "id": "evidence:employment-contracts:2",
+      "claim_id": "claim:employment-contracts:2",
+      "status": "empty_placeholder",
+      "citation": {
+        "title": "",
+        "authors": [],
+        "publisher": "",
+        "publication_date": "",
+        "url": "",
+        "locator": ""
+      },
+      "notes": ""
+    },
+    {
+      "id": "evidence:employment-contracts:3",
+      "claim_id": "claim:employment-contracts:3",
+      "status": "empty_placeholder",
+      "citation": {
+        "title": "",
+        "authors": [],
+        "publisher": "",
+        "publication_date": "",
+        "url": "",
+        "locator": ""
+      },
+      "notes": ""
+    },
+    {
+      "id": "evidence:employment-contracts:4",
+      "claim_id": "claim:employment-contracts:4",
+      "status": "empty_placeholder",
+      "citation": {
+        "title": "",
+        "authors": [],
+        "publisher": "",
+        "publication_date": "",
+        "url": "",
+        "locator": ""
+      },
+      "notes": ""
+    },
+    {
+      "id": "evidence:employment-contracts:5",
+      "claim_id": "claim:employment-contracts:5",
+      "status": "empty_placeholder",
+      "citation": {
+        "title": "",
+        "authors": [],
+        "publisher": "",
+        "publication_date": "",
+        "url": "",
+        "locator": ""
+      },
+      "notes": ""
+    }
+  ],
+  "corroboration_records": [
+    {
+      "id": "corroboration:employment-contracts:1",
+      "claim_id": "claim:employment-contracts:1",
+      "status": "pending_evidence",
+      "supporting_evidence_ids": [],
+      "contradicting_evidence_ids": [],
+      "assessment": ""
+    },
+    {
+      "id": "corroboration:employment-contracts:2",
+      "claim_id": "claim:employment-contracts:2",
+      "status": "pending_evidence",
+      "supporting_evidence_ids": [],
+      "contradicting_evidence_ids": [],
+      "assessment": ""
+    },
+    {
+      "id": "corroboration:employment-contracts:3",
+      "claim_id": "claim:employment-contracts:3",
+      "status": "pending_evidence",
+      "supporting_evidence_ids": [],
+      "contradicting_evidence_ids": [],
+      "assessment": ""
+    },
+    {
+      "id": "corroboration:employment-contracts:4",
+      "claim_id": "claim:employment-contracts:4",
+      "status": "pending_evidence",
+      "supporting_evidence_ids": [],
+      "contradicting_evidence_ids": [],
+      "assessment": ""
+    },
+    {
+      "id": "corroboration:employment-contracts:5",
+      "claim_id": "claim:employment-contracts:5",
+      "status": "pending_evidence",
+      "supporting_evidence_ids": [],
+      "contradicting_evidence_ids": [],
+      "assessment": ""
+    }
+  ],
+  "learning_path": {
+    "id": "learning-path:employment-contracts",
+    "title": "Employment Contracts Learning Path",
+    "ordered_lesson_ids": [
+      "lesson:employment-contracts:1",
+      "lesson:employment-contracts:2",
+      "lesson:employment-contracts:3",
+      "lesson:employment-contracts:4",
+      "lesson:employment-contracts:5",
+      "lesson:employment-contracts:6",
+      "lesson:employment-contracts:7",
+      "lesson:employment-contracts:8",
+      "lesson:employment-contracts:9",
+      "lesson:employment-contracts:10"
+    ]
+  },
+  "lessons": [
+    {
+      "id": "lesson:employment-contracts:1",
+      "order": 1,
+      "title": "Whole agreement",
+      "versions": {
+        "seconds_30": "Assess whole agreement before making this employment contracts decision.",
+        "minutes_2": "Assess whole agreement before making this employment contracts decision. Identify the written terms, assumptions, responsible parties, and unresolved questions that require review.",
+        "minutes_5": "Assess whole agreement before making this employment contracts decision. Document what is known, what must be confirmed, and which specialist review may be needed. Compare the proposed arrangement against your objectives, risk tolerance, and operational context. Do not treat projections or informal representations as settled terms; preserve questions and decisions in the canonical record."
+      }
+    },
+    {
+      "id": "lesson:employment-contracts:2",
+      "order": 2,
+      "title": "Compensation formula",
+      "versions": {
+        "seconds_30": "Assess compensation formula before making this employment contracts decision.",
+        "minutes_2": "Assess compensation formula before making this employment contracts decision. Identify the written terms, assumptions, responsible parties, and unresolved questions that require review.",
+        "minutes_5": "Assess compensation formula before making this employment contracts decision. Document what is known, what must be confirmed, and which specialist review may be needed. Compare the proposed arrangement against your objectives, risk tolerance, and operational context. Do not treat projections or informal representations as settled terms; preserve questions and decisions in the canonical record."
+      }
+    },
+    {
+      "id": "lesson:employment-contracts:3",
+      "order": 3,
+      "title": "Workload and call",
+      "versions": {
+        "seconds_30": "Assess workload and call before making this employment contracts decision.",
+        "minutes_2": "Assess workload and call before making this employment contracts decision. Identify the written terms, assumptions, responsible parties, and unresolved questions that require review.",
+        "minutes_5": "Assess workload and call before making this employment contracts decision. Document what is known, what must be confirmed, and which specialist review may be needed. Compare the proposed arrangement against your objectives, risk tolerance, and operational context. Do not treat projections or informal representations as settled terms; preserve questions and decisions in the canonical record."
+      }
+    },
+    {
+      "id": "lesson:employment-contracts:4",
+      "order": 4,
+      "title": "Termination rights",
+      "versions": {
+        "seconds_30": "Assess termination rights before making this employment contracts decision.",
+        "minutes_2": "Assess termination rights before making this employment contracts decision. Identify the written terms, assumptions, responsible parties, and unresolved questions that require review.",
+        "minutes_5": "Assess termination rights before making this employment contracts decision. Document what is known, what must be confirmed, and which specialist review may be needed. Compare the proposed arrangement against your objectives, risk tolerance, and operational context. Do not treat projections or informal representations as settled terms; preserve questions and decisions in the canonical record."
+      }
+    },
+    {
+      "id": "lesson:employment-contracts:5",
+      "order": 5,
+      "title": "Restrictive covenants",
+      "versions": {
+        "seconds_30": "Assess restrictive covenants before making this employment contracts decision.",
+        "minutes_2": "Assess restrictive covenants before making this employment contracts decision. Identify the written terms, assumptions, responsible parties, and unresolved questions that require review.",
+        "minutes_5": "Assess restrictive covenants before making this employment contracts decision. Document what is known, what must be confirmed, and which specialist review may be needed. Compare the proposed arrangement against your objectives, risk tolerance, and operational context. Do not treat projections or informal representations as settled terms; preserve questions and decisions in the canonical record."
+      }
+    },
+    {
+      "id": "lesson:employment-contracts:6",
+      "order": 6,
+      "title": "Liability coverage",
+      "versions": {
+        "seconds_30": "Assess liability coverage before making this employment contracts decision.",
+        "minutes_2": "Assess liability coverage before making this employment contracts decision. Identify the written terms, assumptions, responsible parties, and unresolved questions that require review.",
+        "minutes_5": "Assess liability coverage before making this employment contracts decision. Document what is known, what must be confirmed, and which specialist review may be needed. Compare the proposed arrangement against your objectives, risk tolerance, and operational context. Do not treat projections or informal representations as settled terms; preserve questions and decisions in the canonical record."
+      }
+    },
+    {
+      "id": "lesson:employment-contracts:7",
+      "order": 7,
+      "title": "Advancement path",
+      "versions": {
+        "seconds_30": "Assess advancement path before making this employment contracts decision.",
+        "minutes_2": "Assess advancement path before making this employment contracts decision. Identify the written terms, assumptions, responsible parties, and unresolved questions that require review.",
+        "minutes_5": "Assess advancement path before making this employment contracts decision. Document what is known, what must be confirmed, and which specialist review may be needed. Compare the proposed arrangement against your objectives, risk tolerance, and operational context. Do not treat projections or informal representations as settled terms; preserve questions and decisions in the canonical record."
+      }
+    },
+    {
+      "id": "lesson:employment-contracts:8",
+      "order": 8,
+      "title": "Operational assumptions",
+      "versions": {
+        "seconds_30": "Assess operational assumptions before making this employment contracts decision.",
+        "minutes_2": "Assess operational assumptions before making this employment contracts decision. Identify the written terms, assumptions, responsible parties, and unresolved questions that require review.",
+        "minutes_5": "Assess operational assumptions before making this employment contracts decision. Document what is known, what must be confirmed, and which specialist review may be needed. Compare the proposed arrangement against your objectives, risk tolerance, and operational context. Do not treat projections or informal representations as settled terms; preserve questions and decisions in the canonical record."
+      }
+    },
+    {
+      "id": "lesson:employment-contracts:9",
+      "order": 9,
+      "title": "Negotiation priorities",
+      "versions": {
+        "seconds_30": "Assess negotiation priorities before making this employment contracts decision.",
+        "minutes_2": "Assess negotiation priorities before making this employment contracts decision. Identify the written terms, assumptions, responsible parties, and unresolved questions that require review.",
+        "minutes_5": "Assess negotiation priorities before making this employment contracts decision. Document what is known, what must be confirmed, and which specialist review may be needed. Compare the proposed arrangement against your objectives, risk tolerance, and operational context. Do not treat projections or informal representations as settled terms; preserve questions and decisions in the canonical record."
+      }
+    },
+    {
+      "id": "lesson:employment-contracts:10",
+      "order": 10,
+      "title": "Qualified review",
+      "versions": {
+        "seconds_30": "Assess qualified review before making this employment contracts decision.",
+        "minutes_2": "Assess qualified review before making this employment contracts decision. Identify the written terms, assumptions, responsible parties, and unresolved questions that require review.",
+        "minutes_5": "Assess qualified review before making this employment contracts decision. Document what is known, what must be confirmed, and which specialist review may be needed. Compare the proposed arrangement against your objectives, risk tolerance, and operational context. Do not treat projections or informal representations as settled terms; preserve questions and decisions in the canonical record."
+      }
+    }
+  ]
+}

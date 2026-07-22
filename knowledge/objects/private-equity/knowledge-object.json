@@ -1,0 +1,418 @@
+{
+  "id": "topic:private-equity",
+  "slug": "private-equity",
+  "title": "Private Equity",
+  "type": "topic",
+  "summary30": "Private Equity decisions require a structured review of economics, risk, operations, and future options.",
+  "summary120": "Use this canonical knowledge object to organize private equity decisions, claims awaiting evidence, corroboration work, relationships, and a progressive learning path.",
+  "summary300": "Private Equity is a physician decision topic that should be evaluated through explicit terms, assumptions, incentives, risks, operating context, and professional advice where appropriate. This object intentionally keeps evidence records empty until verifiable sources can be attached. Its lessons establish a repeatable review sequence from initial framing through diligence, documentation, and ongoing reassessment.",
+  "references": [],
+  "corroboration": {
+    "status": "pending_evidence",
+    "record_ids": [
+      "corroboration:private-equity:1",
+      "corroboration:private-equity:2",
+      "corroboration:private-equity:3",
+      "corroboration:private-equity:4",
+      "corroboration:private-equity:5"
+    ]
+  },
+  "relationships": [
+    {
+      "id": "relationship:private-equity:decision-1",
+      "from_id": "topic:private-equity",
+      "predicate": "has_decision",
+      "to_id": "decision:private-equity:1"
+    },
+    {
+      "id": "relationship:private-equity:decision-2",
+      "from_id": "topic:private-equity",
+      "predicate": "has_decision",
+      "to_id": "decision:private-equity:2"
+    },
+    {
+      "id": "relationship:private-equity:decision-3",
+      "from_id": "topic:private-equity",
+      "predicate": "has_decision",
+      "to_id": "decision:private-equity:3"
+    },
+    {
+      "id": "relationship:private-equity:decision-4",
+      "from_id": "topic:private-equity",
+      "predicate": "has_decision",
+      "to_id": "decision:private-equity:4"
+    },
+    {
+      "id": "relationship:private-equity:decision-5",
+      "from_id": "topic:private-equity",
+      "predicate": "has_decision",
+      "to_id": "decision:private-equity:5"
+    }
+  ],
+  "seo": {
+    "title": "Private Equity | BOMSociety",
+    "description": ""
+  },
+  "analytics": {
+    "events": [
+      "knowledge_object_view",
+      "learning_path_started",
+      "lesson_depth_selected",
+      "learning_path_completed"
+    ]
+  },
+  "canonical_kind": "knowledge_object",
+  "status": "production_ready_structure",
+  "taxonomy": [
+    "Ownership",
+    "Private Equity",
+    "Finance",
+    "Practice"
+  ],
+  "decision_objects": [
+    {
+      "id": "decision:private-equity:1",
+      "title": "Transaction structure",
+      "order": 1,
+      "status": "ready_for_evidence",
+      "evidence_ids": [
+        "evidence:private-equity:1"
+      ],
+      "claim_ids": [
+        "claim:private-equity:1"
+      ]
+    },
+    {
+      "id": "decision:private-equity:2",
+      "title": "Stakeholder incentives",
+      "order": 2,
+      "status": "ready_for_evidence",
+      "evidence_ids": [
+        "evidence:private-equity:2"
+      ],
+      "claim_ids": [
+        "claim:private-equity:2"
+      ]
+    },
+    {
+      "id": "decision:private-equity:3",
+      "title": "Transaction economics",
+      "order": 3,
+      "status": "ready_for_evidence",
+      "evidence_ids": [
+        "evidence:private-equity:3"
+      ],
+      "claim_ids": [
+        "claim:private-equity:3"
+      ]
+    },
+    {
+      "id": "decision:private-equity:4",
+      "title": "Governance",
+      "order": 4,
+      "status": "ready_for_evidence",
+      "evidence_ids": [
+        "evidence:private-equity:4"
+      ],
+      "claim_ids": [
+        "claim:private-equity:4"
+      ]
+    },
+    {
+      "id": "decision:private-equity:5",
+      "title": "Clinical judgment",
+      "order": 5,
+      "status": "ready_for_evidence",
+      "evidence_ids": [
+        "evidence:private-equity:5"
+      ],
+      "claim_ids": [
+        "claim:private-equity:5"
+      ]
+    }
+  ],
+  "claims": [
+    {
+      "id": "claim:private-equity:1",
+      "decision_id": "decision:private-equity:1",
+      "statement": "Decision review should address transaction structure.",
+      "status": "requires_evidence",
+      "evidence_ids": [
+        "evidence:private-equity:1"
+      ],
+      "corroboration_id": "corroboration:private-equity:1"
+    },
+    {
+      "id": "claim:private-equity:2",
+      "decision_id": "decision:private-equity:2",
+      "statement": "Decision review should address stakeholder incentives.",
+      "status": "requires_evidence",
+      "evidence_ids": [
+        "evidence:private-equity:2"
+      ],
+      "corroboration_id": "corroboration:private-equity:2"
+    },
+    {
+      "id": "claim:private-equity:3",
+      "decision_id": "decision:private-equity:3",
+      "statement": "Decision review should address transaction economics.",
+      "status": "requires_evidence",
+      "evidence_ids": [
+        "evidence:private-equity:3"
+      ],
+      "corroboration_id": "corroboration:private-equity:3"
+    },
+    {
+      "id": "claim:private-equity:4",
+      "decision_id": "decision:private-equity:4",
+      "statement": "Decision review should address governance.",
+      "status": "requires_evidence",
+      "evidence_ids": [
+        "evidence:private-equity:4"
+      ],
+      "corroboration_id": "corroboration:private-equity:4"
+    },
+    {
+      "id": "claim:private-equity:5",
+      "decision_id": "decision:private-equity:5",
+      "statement": "Decision review should address clinical judgment.",
+      "status": "requires_evidence",
+      "evidence_ids": [
+        "evidence:private-equity:5"
+      ],
+      "corroboration_id": "corroboration:private-equity:5"
+    }
+  ],
+  "evidence_placeholders": [
+    {
+      "id": "evidence:private-equity:1",
+      "claim_id": "claim:private-equity:1",
+      "status": "empty_placeholder",
+      "citation": {
+        "title": "",
+        "authors": [],
+        "publisher": "",
+        "publication_date": "",
+        "url": "",
+        "locator": ""
+      },
+      "notes": ""
+    },
+    {
+      "id": "evidence:private-equity:2",
+      "claim_id": "claim:private-equity:2",
+      "status": "empty_placeholder",
+      "citation": {
+        "title": "",
+        "authors": [],
+        "publisher": "",
+        "publication_date": "",
+        "url": "",
+        "locator": ""
+      },
+      "notes": ""
+    },
+    {
+      "id": "evidence:private-equity:3",
+      "claim_id": "claim:private-equity:3",
+      "status": "empty_placeholder",
+      "citation": {
+        "title": "",
+        "authors": [],
+        "publisher": "",
+        "publication_date": "",
+        "url": "",
+        "locator": ""
+      },
+      "notes": ""
+    },
+    {
+      "id": "evidence:private-equity:4",
+      "claim_id": "claim:private-equity:4",
+      "status": "empty_placeholder",
+      "citation": {
+        "title": "",
+        "authors": [],
+        "publisher": "",
+        "publication_date": "",
+        "url": "",
+        "locator": ""
+      },
+      "notes": ""
+    },
+    {
+      "id": "evidence:private-equity:5",
+      "claim_id": "claim:private-equity:5",
+      "status": "empty_placeholder",
+      "citation": {
+        "title": "",
+        "authors": [],
+        "publisher": "",
+        "publication_date": "",
+        "url": "",
+        "locator": ""
+      },
+      "notes": ""
+    }
+  ],
+  "corroboration_records": [
+    {
+      "id": "corroboration:private-equity:1",
+      "claim_id": "claim:private-equity:1",
+      "status": "pending_evidence",
+      "supporting_evidence_ids": [],
+      "contradicting_evidence_ids": [],
+      "assessment": ""
+    },
+    {
+      "id": "corroboration:private-equity:2",
+      "claim_id": "claim:private-equity:2",
+      "status": "pending_evidence",
+      "supporting_evidence_ids": [],
+      "contradicting_evidence_ids": [],
+      "assessment": ""
+    },
+    {
+      "id": "corroboration:private-equity:3",
+      "claim_id": "claim:private-equity:3",
+      "status": "pending_evidence",
+      "supporting_evidence_ids": [],
+      "contradicting_evidence_ids": [],
+      "assessment": ""
+    },
+    {
+      "id": "corroboration:private-equity:4",
+      "claim_id": "claim:private-equity:4",
+      "status": "pending_evidence",
+      "supporting_evidence_ids": [],
+      "contradicting_evidence_ids": [],
+      "assessment": ""
+    },
+    {
+      "id": "corroboration:private-equity:5",
+      "claim_id": "claim:private-equity:5",
+      "status": "pending_evidence",
+      "supporting_evidence_ids": [],
+      "contradicting_evidence_ids": [],
+      "assessment": ""
+    }
+  ],
+  "learning_path": {
+    "id": "learning-path:private-equity",
+    "title": "Private Equity Learning Path",
+    "ordered_lesson_ids": [
+      "lesson:private-equity:1",
+      "lesson:private-equity:2",
+      "lesson:private-equity:3",
+      "lesson:private-equity:4",
+      "lesson:private-equity:5",
+      "lesson:private-equity:6",
+      "lesson:private-equity:7",
+      "lesson:private-equity:8",
+      "lesson:private-equity:9",
+      "lesson:private-equity:10"
+    ]
+  },
+  "lessons": [
+    {
+      "id": "lesson:private-equity:1",
+      "order": 1,
+      "title": "Transaction structure",
+      "versions": {
+        "seconds_30": "Assess transaction structure before making this private equity decision.",
+        "minutes_2": "Assess transaction structure before making this private equity decision. Identify the written terms, assumptions, responsible parties, and unresolved questions that require review.",
+        "minutes_5": "Assess transaction structure before making this private equity decision. Document what is known, what must be confirmed, and which specialist review may be needed. Compare the proposed arrangement against your objectives, risk tolerance, and operational context. Do not treat projections or informal representations as settled terms; preserve questions and decisions in the canonical record."
+      }
+    },
+    {
+      "id": "lesson:private-equity:2",
+      "order": 2,
+      "title": "Stakeholder incentives",
+      "versions": {
+        "seconds_30": "Assess stakeholder incentives before making this private equity decision.",
+        "minutes_2": "Assess stakeholder incentives before making this private equity decision. Identify the written terms, assumptions, responsible parties, and unresolved questions that require review.",
+        "minutes_5": "Assess stakeholder incentives before making this private equity decision. Document what is known, what must be confirmed, and which specialist review may be needed. Compare the proposed arrangement against your objectives, risk tolerance, and operational context. Do not treat projections or informal representations as settled terms; preserve questions and decisions in the canonical record."
+      }
+    },
+    {
+      "id": "lesson:private-equity:3",
+      "order": 3,
+      "title": "Transaction economics",
+      "versions": {
+        "seconds_30": "Assess transaction economics before making this private equity decision.",
+        "minutes_2": "Assess transaction economics before making this private equity decision. Identify the written terms, assumptions, responsible parties, and unresolved questions that require review.",
+        "minutes_5": "Assess transaction economics before making this private equity decision. Document what is known, what must be confirmed, and which specialist review may be needed. Compare the proposed arrangement against your objectives, risk tolerance, and operational context. Do not treat projections or informal representations as settled terms; preserve questions and decisions in the canonical record."
+      }
+    },
+    {
+      "id": "lesson:private-equity:4",
+      "order": 4,
+      "title": "Governance",
+      "versions": {
+        "seconds_30": "Assess governance before making this private equity decision.",
+        "minutes_2": "Assess governance before making this private equity decision. Identify the written terms, assumptions, responsible parties, and unresolved questions that require review.",
+        "minutes_5": "Assess governance before making this private equity decision. Document what is known, what must be confirmed, and which specialist review may be needed. Compare the proposed arrangement against your objectives, risk tolerance, and operational context. Do not treat projections or informal representations as settled terms; preserve questions and decisions in the canonical record."
+      }
+    },
+    {
+      "id": "lesson:private-equity:5",
+      "order": 5,
+      "title": "Clinical judgment",
+      "versions": {
+        "seconds_30": "Assess clinical judgment before making this private equity decision.",
+        "minutes_2": "Assess clinical judgment before making this private equity decision. Identify the written terms, assumptions, responsible parties, and unresolved questions that require review.",
+        "minutes_5": "Assess clinical judgment before making this private equity decision. Document what is known, what must be confirmed, and which specialist review may be needed. Compare the proposed arrangement against your objectives, risk tolerance, and operational context. Do not treat projections or informal representations as settled terms; preserve questions and decisions in the canonical record."
+      }
+    },
+    {
+      "id": "lesson:private-equity:6",
+      "order": 6,
+      "title": "Operating model",
+      "versions": {
+        "seconds_30": "Assess operating model before making this private equity decision.",
+        "minutes_2": "Assess operating model before making this private equity decision. Identify the written terms, assumptions, responsible parties, and unresolved questions that require review.",
+        "minutes_5": "Assess operating model before making this private equity decision. Document what is known, what must be confirmed, and which specialist review may be needed. Compare the proposed arrangement against your objectives, risk tolerance, and operational context. Do not treat projections or informal representations as settled terms; preserve questions and decisions in the canonical record."
+      }
+    },
+    {
+      "id": "lesson:private-equity:7",
+      "order": 7,
+      "title": "Retained equity",
+      "versions": {
+        "seconds_30": "Assess retained equity before making this private equity decision.",
+        "minutes_2": "Assess retained equity before making this private equity decision. Identify the written terms, assumptions, responsible parties, and unresolved questions that require review.",
+        "minutes_5": "Assess retained equity before making this private equity decision. Document what is known, what must be confirmed, and which specialist review may be needed. Compare the proposed arrangement against your objectives, risk tolerance, and operational context. Do not treat projections or informal representations as settled terms; preserve questions and decisions in the canonical record."
+      }
+    },
+    {
+      "id": "lesson:private-equity:8",
+      "order": 8,
+      "title": "Exit terms",
+      "versions": {
+        "seconds_30": "Assess exit terms before making this private equity decision.",
+        "minutes_2": "Assess exit terms before making this private equity decision. Identify the written terms, assumptions, responsible parties, and unresolved questions that require review.",
+        "minutes_5": "Assess exit terms before making this private equity decision. Document what is known, what must be confirmed, and which specialist review may be needed. Compare the proposed arrangement against your objectives, risk tolerance, and operational context. Do not treat projections or informal representations as settled terms; preserve questions and decisions in the canonical record."
+      }
+    },
+    {
+      "id": "lesson:private-equity:9",
+      "order": 9,
+      "title": "Due diligence",
+      "versions": {
+        "seconds_30": "Assess due diligence before making this private equity decision.",
+        "minutes_2": "Assess due diligence before making this private equity decision. Identify the written terms, assumptions, responsible parties, and unresolved questions that require review.",
+        "minutes_5": "Assess due diligence before making this private equity decision. Document what is known, what must be confirmed, and which specialist review may be needed. Compare the proposed arrangement against your objectives, risk tolerance, and operational context. Do not treat projections or informal representations as settled terms; preserve questions and decisions in the canonical record."
+      }
+    },
+    {
+      "id": "lesson:private-equity:10",
+      "order": 10,
+      "title": "Decision criteria",
+      "versions": {
+        "seconds_30": "Assess decision criteria before making this private equity decision.",
+        "minutes_2": "Assess decision criteria before making this private equity decision. Identify the written terms, assumptions, responsible parties, and unresolved questions that require review.",
+        "minutes_5": "Assess decision criteria before making this private equity decision. Document what is known, what must be confirmed, and which specialist review may be needed. Compare the proposed arrangement against your objectives, risk tolerance, and operational context. Do not treat projections or informal representations as settled terms; preserve questions and decisions in the canonical record."
+      }
+    }
+  ]
+}
