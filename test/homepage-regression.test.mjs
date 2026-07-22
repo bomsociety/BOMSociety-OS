@@ -13,29 +13,20 @@ const zipBuilder = await readFile(new URL("../automation/build-theme-zip.mjs", i
 const deploymentWorkflow = await readFile(new URL("../.github/workflows/deploy-ghost-theme.yml", import.meta.url), "utf8");
 const deploymentScript = await readFile(new URL("../automation/deploy-ghost-theme.mjs", import.meta.url), "utf8");
 
-test("homepage has the Sprint 9 decision-first hero and user-centered navigation", () => {
-  const hero = home.slice(0, home.indexOf('<section class="section for-you-section"'));
-  assert.match(hero, /What decision needs your attention\?/);
-  assert.equal((hero.match(/data-hero-decision=/g) ?? []).length, 6);
-  assert.match(hero, /data-hero-decision-result/);
-  assert.doesNotMatch(hero, /<p/);
-  for (const label of ["For You", "Level Up", "Decisions", "Topics", "Briefs", "About"]) assert.match(header, new RegExp(`>${label}<`));
-  assert.match(header, />Start</); assert.doesNotMatch(header, /BOMGraph/i);
+test("homepage ships one complete physician product module", () => {
+  assert.match(home, /BOM SCORE/);
+  assert.match(home, /GET PAID MORE/);
+  for (const depth of ["Quick Win", "Brief Overview", "Deep Dive"]) assert.match(home, new RegExp(depth));
+  assert.doesNotMatch(home, /Decision Brief/);
+  for (const step of ["REAL CASE", "KNOWLEDGE CHECK", "NEXT RECOMMENDED MODULE"]) assert.match(home, new RegExp(step));
+  assert.match(home, /LIVE PHYSICIAN INTELLIGENCE/);
+  for (const product of ["Physician Decision Index™", "Compensation Intelligence™", "AI Adoption Intelligence™"]) assert.match(home, new RegExp(product));
+  assert.match(home, /data-intelligence-action/);
 });
-test("homepage has all three depths, explicit membership value, and value before membership", () => {
-  for (const depth of ["30 SECONDS", "2 MINUTES", "5 MINUTES"]) assert.match(depths, new RegExp(depth));
-  assert.match(home, /Save your progress, personalize your learning path, and receive only the decisions and updates that matter to you\./);
-  assert.ok(home.indexOf('id="for-you"') < home.indexOf('id="join"'));
-});
-test("homepage has exactly six primary decision paths and no public BOMGraph", () => {
-  assert.equal((home.match(/data-decision-card/g) ?? []).length, 6);
-  assert.doesNotMatch(home, /BOMGraph/i);
-  assert.match(home, /\{\{#get "posts" limit="6" include="tags,authors"\}\}/);
-});
-test("analytics and accessibility hooks remain connected", () => {
-  assert.match(home, /data-track-section="hero"/); assert.match(home, /data-for-you-topic/);
-  assert.match(main, /topic_preference_selected/); assert.match(main, /depth_selected/); assert.match(home, /membership_cta_selected/);
-  assert.match(analytics, /data-track-section/); assert.match(layout, /class="skip-link" href="#main"/);
+test("product behavior keeps score and intelligence instrumentation connected", () => {
+  assert.match(main, /intelligence_action/); assert.match(main, /data-bom-score/);
+  assert.match(main, /compensation_lesson_advanced/); assert.match(main, /compensation_knowledge_check_answered/);
+  assert.match(analytics, /intelligence_action/); assert.match(layout, /class="skip-link" href="#main"/);
   assert.match(post, /\{\{> level-up-components\}\}/);
 });
 test("version is synchronized and the theme ZIP builder packages from the theme root", async () => {

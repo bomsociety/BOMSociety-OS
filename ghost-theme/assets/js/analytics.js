@@ -7,7 +7,7 @@
     'topic_preference_selected', 'career_stage_selected', 'depth_selected',
     'lesson_started', 'lesson_completed', 'case_opened', 'quiz_started',
     'quiz_completed', 'decision_started', 'related_decision_selected',
-    'membership_cta_selected', 'for_you_recommendation_selected'
+    'membership_cta_selected', 'for_you_recommendation_selected', 'intelligence_action'
   ]);
   const queue = [];
   const session = crypto.randomUUID ? crypto.randomUUID() : `${Date.now()}-${Math.random()}`;
