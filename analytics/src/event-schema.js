@@ -2,7 +2,10 @@ export const EVENT_SCHEMA_VERSION = 1;
 export const EVENT_TYPES = Object.freeze([
   "page_view", "section_view", "scroll_depth", "reading_depth_selected", "article_complete",
   "decision_path_started", "decision_path_step", "decision_path_completed", "search_submitted",
-  "search_no_results", "newsletter_attributed", "newsletter_signup", "member_verified"
+  "search_no_results", "newsletter_attributed", "newsletter_signup", "member_verified",
+  "topic_preference_selected", "career_stage_selected", "depth_selected", "lesson_started",
+  "lesson_completed", "case_opened", "quiz_started", "quiz_completed", "decision_started",
+  "related_decision_selected", "membership_cta_selected", "for_you_recommendation_selected"
 ]);
 export const CONSENT_STATES = Object.freeze(["granted", "denied", "unknown"]);
 export const ACTOR_KINDS = Object.freeze(["anonymous", "verified_member"]);

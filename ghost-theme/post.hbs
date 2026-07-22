@@ -9,10 +9,11 @@
   </header>
   {{#if feature_image}}<figure class="post-image shell-wide"><img src="{{img_url feature_image size="xl"}}" alt="{{#if feature_image_alt}}{{feature_image_alt}}{{else}}{{title}}{{/if}}">{{#if feature_image_caption}}<figcaption>{{feature_image_caption}}</figcaption>{{/if}}</figure>{{/if}}
   <div class="post-body shell-narrow">
-    <aside class="decision-rail"><span>READING DEPTH</span><a href="#bottom-line">30 sec</a><a href="#decision-context">2 min</a><a href="#full-brief">5 min</a></aside>
+    <aside class="decision-rail" aria-label="Choose reading depth"><span>LESSON DEPTH</span><a href="#bottom-line" data-depth-select="30_seconds">30 sec</a><a href="#decision-brief" data-depth-select="2_minutes">2 min</a><a href="#complete-guide" data-depth-select="5_minutes">5 min</a></aside>
+    {{> level-up-components}}
     <div class="gh-content">{{content}}</div>
   </div>
   <footer class="post-footer shell-narrow"><div class="post-principle"><strong>Respect your time. Earn your trust. Improve your decisions.</strong><p>BOMSociety content is educational and does not replace individualized legal, financial, tax, or medical advice.</p></div></footer>
-  {{#if primary_tag}}{{#get "posts" filter="primary_tag:{{primary_tag.slug}}+id:-{{id}}" limit="3" include="tags,authors"}}<section class="related section-soft"><div class="shell"><p class="eyebrow">CONNECTED NEXT READS</p><div class="article-grid">{{#foreach posts}}{{> article-card}}{{/foreach}}</div></div></section>{{/get}}{{/if}}
+  {{#if primary_tag}}{{#get "posts" filter="primary_tag:{{primary_tag.slug}}+id:-{{id}}" limit="3" include="tags,authors"}}<section class="related section-soft" data-track-section="related-decisions"><div class="shell"><p class="eyebrow">RELATED DECISIONS / NEXT LEVEL</p><h2>Continue when it is useful.</h2><div class="article-grid">{{#foreach posts}}{{> article-card}}{{/foreach}}</div></div></section>{{/get}}{{/if}}
 </article>
 {{/post}}
