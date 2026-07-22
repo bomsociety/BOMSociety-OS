@@ -31,19 +31,24 @@ jobs:
       - name: run tests
         run: npm test && npm run knowledge:validate && npm run validate:publishing && npm run validate:decision && npm run validate:measurement
       - name: build ZIP
-        run: npm run theme:zip
+        id: build
+        run: |
+          npm run theme:zip
+          ZIP_PATH="releases/UPLOAD-TO-GHOST-bomsociety-theme-v$(node -p "require('./ghost-theme/package.json').version").zip"
+          printf 'zip_path=%s\n' "$ZIP_PATH" >> "$GITHUB_OUTPUT"
       - name: inspect ZIP
         id: zip
         run: |
-          ZIP_PATH="releases/UPLOAD-TO-GHOST-bomsociety-theme-v$(node -p "require('./ghost-theme/package.json').version").zip"
+          ZIP_PATH='${{ steps.build.outputs.zip_path }}'
           node automation/deploy-ghost-theme.mjs inspect "$ZIP_PATH"
           echo "path=$ZIP_PATH" >> "$GITHUB_OUTPUT"
       - name: upload
         id: upload
         run: |
-          theme_name="$(node automation/deploy-ghost-theme.mjs upload '${{ steps.zip.outputs.path }}')"
+          theme_name="$(node automation/deploy-ghost-theme.mjs upload "${{ steps.build.outputs.zip_path }}")"
           test -n "$theme_name"
-          echo "theme_name=$theme_name" >> "$GITHUB_OUTPUT"
+          ! [[ "$theme_name" == *$'\r'* || "$theme_name" == *$'\n'* ]]
+          printf 'theme_name=%s\n' "$theme_name" >> "$GITHUB_OUTPUT"
       - name: activate
         run: node automation/deploy-ghost-theme.mjs activate '${{ steps.upload.outputs.theme_name }}'
       - name: verify Ghost publication URL
