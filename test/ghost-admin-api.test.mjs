@@ -91,7 +91,7 @@ test("uploads a ZIP to Ghost's themes upload endpoint as multipart form data", a
   await writeFile(archive, "PK");
   try {
     const { port } = server.address();
-    const child = spawn(process.execPath, ["automation/deploy-ghost-theme.mjs", "upload", archive], {
+    const child = spawn(process.execPath, ["automation/deploy-ghost-theme.mjs", "upload", archive, "bomsociety"], {
       cwd: process.cwd(),
       env: { ...process.env, GHOST_API_VERSION: "v6.54", GHOST_ADMIN_URL: `http://127.0.0.1:${port}/`, GHOST_ADMIN_KEY: adminKey, GHOST_SITE_URL: "https://example.com" },
     });
@@ -102,6 +102,7 @@ test("uploads a ZIP to Ghost's themes upload endpoint as multipart form data", a
     const [code] = await once(child, "close");
     assert.equal(code, 0, stderr);
     assert.equal(stdout.trim(), "bomsociety");
+    assert.equal(stderr.trim(), 'Ghost theme upload response: {"themes":[{"name":"bomsociety"}]}');
   } finally {
     await new Promise((resolve, reject) => server.close((error) => error ? reject(error) : resolve()));
     await rm(directory, { recursive: true, force: true });
@@ -114,7 +115,7 @@ test("uploads a ZIP to Ghost's themes upload endpoint as multipart form data", a
   assert.match(request.headers.authorization, /^Ghost /);
 });
 
-test("deployment commands upload, activate, verify, and can roll back with the configured API version", async () => {
+test("deployment activates the installed package name when the ZIP name differs and Ghost omits an upload identifier", async () => {
   const activeThemes = new Set(["previous-theme"]);
   let activeTheme = "previous-theme";
   let homepageIsValid = true;
@@ -135,8 +136,8 @@ test("deployment commands upload, activate, verify, and can roll back with the c
     if (incoming.method === "GET" && incoming.url === "/ghost/api/admin/themes/") {
       outgoing.end(JSON.stringify({ themes: [...activeThemes].map((name) => ({ name, active: name === activeTheme })) }));
     } else if (incoming.method === "POST" && incoming.url === "/ghost/api/admin/themes/upload/") {
-      activeThemes.add("uploaded-theme");
-      outgoing.end(JSON.stringify({ themes: [{ name: "uploaded-theme" }] }));
+      activeThemes.add("bomsociety-theme");
+      outgoing.end(JSON.stringify({ themes: [{}] }));
     } else if (incoming.method === "PUT" && incoming.url?.startsWith("/ghost/api/admin/themes/")) {
       activeTheme = decodeURIComponent(incoming.url.split("/").at(-2));
       outgoing.end(JSON.stringify({ themes: [{ name: activeTheme, active: true }] }));
@@ -169,10 +170,11 @@ test("deployment commands upload, activate, verify, and can roll back with the c
   };
   try {
     assert.equal((await run("active-theme")).stdout.trim(), "previous-theme");
-    const upload = await run("upload", archive);
-    assert.equal(upload.stdout.trim(), "uploaded-theme");
+    const upload = await run("upload", archive, "bomsociety-theme");
+    assert.equal(upload.stdout.trim(), "bomsociety-theme");
+    assert.equal(upload.stderr.trim(), 'Ghost theme upload response: {"themes":[{}]}');
     assert.equal((await run("activate", upload.stdout.trim())).code, 0);
-    assert.equal(activeTheme, "uploaded-theme");
+    assert.equal(activeTheme, "bomsociety-theme");
     assert.equal((await run("verify")).code, 0);
     homepageIsValid = false;
     const verification = await run("verify");
@@ -187,6 +189,7 @@ test("deployment commands upload, activate, verify, and can roll back with the c
   for (const request of requests.filter(({ url }) => url !== "/")) {
     assert.equal(request.headers["accept-version"], "v6.54");
   }
-  assert.ok(requests.some(({ method, url }) => method === "PUT" && url === "/ghost/api/admin/themes/uploaded-theme/"));
+  assert.ok(requests.some(({ method, url }) => method === "GET" && url === "/ghost/api/admin/themes/"));
+  assert.ok(requests.some(({ method, url }) => method === "PUT" && url === "/ghost/api/admin/themes/bomsociety-theme/"));
   assert.ok(!requests.some(({ method, url }) => method === "PUT" && url.includes("UPLOAD-TO-GHOST")));
 });
