@@ -2,6 +2,10 @@
 
 Production launch-candidate repository for the BOMSociety knowledge and intelligence platform.
 
+## Publishing engine
+
+Sprint 4 adds a deterministic, non-publishing generator for canonical Knowledge Objects. It emits versioned Ghost draft, newsletter, podcast, FAQ, metadata, recommendation, and dashboard artifacts without generating factual content. See [the publishing engine guide](docs/PUBLISHING-ENGINE.md).
+
 ## Ghost upload
 
 Upload only:

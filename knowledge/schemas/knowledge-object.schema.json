@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "BOMSociety Knowledge Object",
+  "type": "object",
+  "required": ["id", "version", "slug", "title", "claims"],
+  "properties": {
+    "id": { "type": "string", "format": "uuid" },
+    "version": { "type": "string", "format": "uuid" },
+    "slug": { "type": "string" },
+    "title": { "type": "string" },
+    "claims": { "type": "array", "items": { "type": "object", "required": ["id", "statement", "evidence"], "properties": { "id": { "type": "string", "format": "uuid" }, "statement": { "type": "string" }, "evidence": {} } } }
+  }
+}

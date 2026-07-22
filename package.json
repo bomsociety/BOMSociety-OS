@@ -4,6 +4,8 @@
   "private": true,
   "scripts": {
     "test": "node --test",
+    "validate:publishing": "node --test test/publishing-engine.test.mjs",
+    "publishing:generate": "node automation/generate-publishing-artifacts.mjs",
     "theme:zip": "node automation/build-theme-zip.mjs"
   },
   "engines": {
