@@ -28,43 +28,36 @@ function escapeRegExp(value) {
   return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 }
 
-function uploadedThemeIdentifier(uploadResult) {
-  const theme = uploadResult.themes?.find((item) => typeof item.name === "string" && item.name.trim());
-  return theme?.name;
+function sanitizedUploadResponse(response) {
+  return JSON.stringify(response, (key, value) => (
+    /authorization|cookie|key|password|secret|token/i.test(key) ? "[REDACTED]" : value
+  ));
 }
 
-async function installedThemeIdentifier(uploadResult, packageName) {
-  const identifier = uploadedThemeIdentifier(uploadResult);
-  if (identifier) return identifier;
-
-  const installedThemes = await ghostRequest(adminUrl, adminKey, "/themes/", { method: "GET" });
-  const installedTheme = installedThemes.themes?.find((theme) => theme.name === packageName);
-  if (!installedTheme?.name) {
-    throw new Error(`Ghost upload response did not include a theme identifier, and no installed theme matched package name: ${packageName}`);
+function uploadedThemeName(uploadResponse) {
+  const name = uploadResponse.themes?.[0]?.name;
+  if (typeof name !== "string" || !name.trim()) {
+    throw new Error("Ghost upload response did not include themes[0].name; refusing to guess an activation name.");
   }
-  return installedTheme.name;
+  return name;
 }
 
 if (command === "upload") {
   requireGhostEnvironment();
-  const packageName = process.argv[4];
-  if (!value || !packageName) throw new Error("Usage: deploy-ghost-theme.mjs upload <zip-path> <package-name>");
+  if (!value) throw new Error("Usage: deploy-ghost-theme.mjs upload <zip-path>");
   const archive = await readFile(value);
   const form = new FormData();
   form.append("file", new Blob([archive], { type: "application/zip" }), basename(value));
-  let responseBody = "";
   const result = await ghostRequest(adminUrl, adminKey, "/themes/upload/", {
     method: "POST",
     body: form,
-    onResponse: ({ body }) => { responseBody = body; },
   });
-  console.error(`Ghost theme upload response: ${responseBody}`);
-  // Ghost identifies themes from their package, never from the uploaded ZIP filename.
-  console.log(await installedThemeIdentifier(result, packageName));
+  console.error(`Ghost theme upload response: ${sanitizedUploadResponse(result)}`);
+  console.log(uploadedThemeName(result));
 } else if (command === "activate") {
   requireGhostEnvironment(["adminUrl", "adminKey"]);
   if (!value) throw new Error("Usage: deploy-ghost-theme.mjs activate <theme-name>");
-  await ghostRequest(adminUrl, adminKey, `/themes/${encodeURIComponent(value)}/`, {
+  await ghostRequest(adminUrl, adminKey, `/themes/${encodeURIComponent(value)}/activate/`, {
     method: "PUT",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ themes: [{ active: true }] }),
