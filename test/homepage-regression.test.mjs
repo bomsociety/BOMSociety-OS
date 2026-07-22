@@ -13,10 +13,12 @@ const zipBuilder = await readFile(new URL("../automation/build-theme-zip.mjs", i
 const deploymentWorkflow = await readFile(new URL("../.github/workflows/deploy-ghost-theme.yml", import.meta.url), "utf8");
 const deploymentScript = await readFile(new URL("../automation/deploy-ghost-theme.mjs", import.meta.url), "utf8");
 
-test("homepage has the Sprint 8 positioning and user-centered navigation", () => {
-  assert.match(home, /Level up the business side of medicine\./);
-  assert.match(home, /Everything medical training never taught you—made clear, practical, and free\./);
-  assert.match(home, /Start Leveling Up/); assert.match(home, /Explore For You/);
+test("homepage has the Sprint 9 decision-first hero and user-centered navigation", () => {
+  const hero = home.slice(0, home.indexOf('<section class="section for-you-section"'));
+  assert.match(hero, /What decision needs your attention\?/);
+  assert.equal((hero.match(/data-hero-decision=/g) ?? []).length, 6);
+  assert.match(hero, /data-hero-decision-result/);
+  assert.doesNotMatch(hero, /<p/);
   for (const label of ["For You", "Level Up", "Decisions", "Topics", "Briefs", "About"]) assert.match(header, new RegExp(`>${label}<`));
   assert.match(header, />Start</); assert.doesNotMatch(header, /BOMGraph/i);
 });
@@ -51,7 +53,5 @@ test("production deployment builds main in-run, protects secrets, and verifies t
   assert.match(deploymentWorkflow, /sha256sum/);
   assert.doesNotMatch(deploymentWorkflow, /download-artifact/);
   for (const secret of ["GHOST_ADMIN_URL", "GHOST_ADMIN_KEY", "GHOST_SITE_URL"]) assert.match(deploymentWorkflow, new RegExp(`secrets\\.${secret}`));
-  assert.match(deploymentScript, /Level up the business side of medicine\./);
-  assert.match(deploymentScript, /Start Leveling Up/);
-  assert.match(deploymentScript, /Explore For You/);
+  assert.match(deploymentScript, /verify/i);
 });

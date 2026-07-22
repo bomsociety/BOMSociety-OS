@@ -1,14 +1,24 @@
 {{!< default}}
-<section class="hero section-dark" data-track-section="hero">
-  <div class="shell hero-grid hero-grid-simple">
-    <div class="hero-copy">
-      <p class="eyebrow">THE BUSINESS OF MEDICINE, MADE PRACTICAL</p>
-      <h1 class="hero-promise">Level up the business side of medicine.</h1>
-      <p class="hero-lead">Everything medical training never taught you—made clear, practical, and free.</p>
-      <p class="hero-depth-statement">30 seconds. 2 minutes. 5 minutes. Choose the depth that fits your time.</p>
-      <div class="hero-actions"><a class="button" href="#for-you" data-homepage-event="lesson_started" data-cta-location="hero">Start Leveling Up</a><a class="button button-ghost" href="#for-you" data-homepage-event="for_you_recommendation_selected" data-cta-location="hero">Explore For You</a></div>
+<section class="hero hero-first-decision section-dark" data-track-section="hero">
+  <div class="shell hero-decision-shell">
+    <div class="hero-decision-intro">
+      <span class="eyebrow">START WITH WHAT IS IN FRONT OF YOU</span>
+      <h1 class="hero-promise">What decision needs your attention?</h1>
+      <span class="hero-decision-instruction">Choose one. Get a useful next step now.</span>
+      <div class="hero-decision-choices" role="group" aria-label="Choose a decision">
+        <button type="button" data-hero-decision="compensation" data-decision-id="rvu-compensation" data-knowledge-object-id="topic:rvu-compensation">My compensation</button>
+        <button type="button" data-hero-decision="job-offer" data-decision-id="employment-contracts" data-knowledge-object-id="topic:employment-contracts">A job offer</button>
+        <button type="button" data-hero-decision="ownership" data-decision-id="private-equity" data-knowledge-object-id="topic:private-equity">Ownership</button>
+        <button type="button" data-hero-decision="wealth" data-decision-id="physician-wealth" data-knowledge-object-id="topic:physician-wealth">Income &amp; wealth</button>
+        <button type="button" data-hero-decision="ai" data-decision-id="artificial-intelligence" data-knowledge-object-id="topic:artificial-intelligence">AI in practice</button>
+        <button type="button" data-hero-decision="leadership" data-decision-id="practice-management" data-knowledge-object-id="topic:practice-management">Practice leadership</button>
+      </div>
     </div>
-    <aside class="hero-assurance" aria-label="How to use BOMSociety"><span class="hero-assurance-label">FOR YOU. YOUR PACE. YOUR DEPTH.</span><p>Useful guidance before any sign-up.</p><ul><li>Start with a decision that matters now</li><li>Choose the amount of detail you need</li><li>Build professional mastery, one practical lesson at a time</li></ul></aside>
+    <aside class="hero-decision-result" data-hero-decision-result aria-live="polite" aria-label="Your useful next step">
+      <span class="component-label">YOUR USEFUL NEXT STEP</span>
+      <h2>Choose a decision to begin.</h2>
+      <span class="hero-result-detail">A focused brief is ready in the time you have.</span>
+    </aside>
   </div>
 </section>
 

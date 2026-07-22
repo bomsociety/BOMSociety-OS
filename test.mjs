@@ -2,9 +2,10 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 
-test("brand is BOMSociety", async () => {
+test("homepage begins with a decision instead of brand positioning", async () => {
   const home = await readFile(new URL("./ghost-theme/home.hbs", import.meta.url), "utf8");
-  assert.match(home, /BOMSociety/);
+  assert.match(home, /What decision needs your attention\?/);
+  assert.doesNotMatch(home.slice(0, home.indexOf('<section class="section for-you-section"')), /<p/);
 });
 
 test("Ghost theme is the canonical homepage and uses topic routes", async () => {
@@ -23,13 +24,12 @@ test("default layout loads the shared analytics implementation", async () => {
   assert.match(layout, /js\/analytics\.js/);
 });
 
-test("homepage provides the Sprint 8 mastery positioning and six decision paths", async () => {
+test("homepage provides the Sprint 9 decision-first hero and six decision paths", async () => {
   const home = await readFile(new URL("./ghost-theme/home.hbs", import.meta.url), "utf8");
   const cards = [...home.matchAll(/data-decision-card/g)];
-  assert.match(home, /Level up the business side of medicine\./);
-  assert.match(home, /Everything medical training never taught you—made clear, practical, and free\./);
-  assert.match(home, />Start Leveling Up</);
-  assert.match(home, />Explore For You</);
+  assert.match(home, /data-hero-decision="compensation"/);
+  assert.match(home, /data-hero-decision="leadership"/);
+  assert.match(home, /data-hero-decision-result/);
   assert.equal(cards.length, 6);
   assert.doesNotMatch(home, /BOMGraph/i);
 });
