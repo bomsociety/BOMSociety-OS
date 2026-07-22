@@ -18,7 +18,9 @@ jobs:
     runs-on: ubuntu-latest
     environment: production
     env:
-      GHOST_API_VERSION: ${{ vars.GHOST_API_VERSION || 'v6.54' }}
+      # Ghost retires older Accept-Version values. Keep the installed instance's
+      # supported Admin API version in this production environment secret.
+      GHOST_API_VERSION: ${{ secrets.GHOST_API_VERSION || 'v6.54' }}
     steps:
       - name: Check out merged main
         uses: actions/checkout@v4

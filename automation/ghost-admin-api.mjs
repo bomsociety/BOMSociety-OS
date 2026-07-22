@@ -6,7 +6,11 @@ const API_AUDIENCE = "/admin/";
 export const DEFAULT_ADMIN_API_VERSION = "v6.54";
 
 export function adminApiVersion() {
-  return process.env.GHOST_API_VERSION || DEFAULT_ADMIN_API_VERSION;
+  const version = process.env.GHOST_API_VERSION || DEFAULT_ADMIN_API_VERSION;
+  if (!/^v\d+\.\d+$/.test(version)) {
+    throw new Error("GHOST_API_VERSION must use Ghost's v<major>.<minor> format (for example, v6.54).");
+  }
+  return version;
 }
 
 function base64Url(value) {

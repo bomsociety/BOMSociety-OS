@@ -6,9 +6,12 @@
 
 The workflow creates a short-lived Ghost Admin API JWT at runtime. Configure these encrypted GitHub Actions secrets in the `production` environment; do not put their values in repository files, logs, or workflow inputs:
 
-- `GHOST_ADMIN_URL` — Ghost administrative site URL (for example, `https://example.com`).
-- `GHOST_ADMIN_KEY` — Ghost Admin API key with theme upload and activation permission.
-- `GHOST_SITE_URL` — public site URL to verify after activation.
+- `GHOST_ADMIN_URL` — Ghost administrative site URL (for example, `https://example.com`). Change it only when the Ghost Admin endpoint moves, including a domain or path change.
+- `GHOST_ADMIN_KEY` — Ghost Admin API key with theme upload and activation permission. Replace it when the key is rotated, revoked, or its integration is replaced.
+- `GHOST_SITE_URL` — public site URL used for homepage verification. Change it only when the public site origin changes.
+- `GHOST_API_VERSION` — the `Accept-Version` value supported by the target Ghost Admin API, in `v<major>.<minor>` form (for example, `v6.54`). The workflow default is `v6.54` for the currently supported production instance. Ghost does not provide a forever-stable Admin API compatibility version: it can retire older client versions with `UPDATE_CLIENT`. Set this secret to the version reported by Ghost when that occurs; a future Ghost minor upgrade then needs only this secret update, not a repository change.
+
+Every Admin API request sends `Accept-Version` from `GHOST_API_VERSION`, including reading the active theme, uploading, activating, and rollback. The workflow uses the documented default only when the secret is not set; production should set the secret explicitly so its configuration is independent of the repository default.
 
 Before upload, the workflow reads and records the currently active Ghost theme. After upload, Ghost returns the uploaded theme name and the workflow activates precisely that returned name. It then requests the public homepage and requires an HTTP 200 plus a title, hero headline, and CTA marker. The markers default to `BOMSociety`, `What decision needs your attention?`, and `Create My Free Profile`; override them with GitHub Actions environment variables `GHOST_VERIFY_TITLE`, `GHOST_VERIFY_HERO`, and `GHOST_VERIFY_CTA`. Each successful phase writes `BUILD SUCCESS`, `UPLOAD SUCCESS`, `ACTIVATION SUCCESS`, or `VERIFICATION SUCCESS` to the job summary. Deployments are serialized with a production concurrency lock.
 
