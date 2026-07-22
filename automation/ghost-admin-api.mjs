@@ -36,16 +36,18 @@ export function adminApiUrl(adminUrl, path) {
 }
 
 export async function ghostRequest(adminUrl, adminKey, path, options = {}) {
+  const { onResponse, ...requestOptions } = options;
   const response = await fetch(adminApiUrl(adminUrl, path), {
-    ...options,
+    ...requestOptions,
     headers: {
       Authorization: `Ghost ${createAdminToken(adminKey)}`,
       Accept: "application/json",
-      ...options.headers,
+      ...requestOptions.headers,
       "Accept-Version": adminApiVersion(),
     },
   });
   const body = await response.text();
-  if (!response.ok) throw new Error(`Ghost Admin API ${options.method ?? "GET"} ${path} failed (${response.status}): ${body}`);
+  onResponse?.({ body, status: response.status });
+  if (!response.ok) throw new Error(`Ghost Admin API ${requestOptions.method ?? "GET"} ${path} failed (${response.status}): ${body}`);
   return body ? JSON.parse(body) : {};
 }
