@@ -27,7 +27,7 @@ npm run theme:zip
 
 ## Deployment
 
-The **Deploy Ghost theme** workflow is manually dispatched from GitHub Actions. It checks out `main`, tests and builds a new theme archive in the same run, uploads and activates that exact archive through the Ghost Admin API, then verifies the live homepage. See [Ghost deployment and rollback](docs/GHOST-DEPLOYMENT.md) for required secrets, safeguards, and the rollback procedure.
+The **Deploy Ghost theme** workflow starts automatically when a pull request is merged into `main`. It validates, builds, uploads, activates, and verifies the exact theme archive through the Ghost Admin API. If live verification fails after activation, it automatically restores the previously active theme. See [Ghost deployment and rollback](docs/GHOST-DEPLOYMENT.md) for required secrets, configurable markers, and safeguards.
 
 ## Versioning
 
