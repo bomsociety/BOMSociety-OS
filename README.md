@@ -44,3 +44,4 @@ The root package, theme package, and `VERSION` file use the same SemVer prerelea
 
 - [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) describes system boundaries and operational responsibilities.
 - [`docs/PRODUCT-ORIENTATION.md`](docs/PRODUCT-ORIENTATION.md) describes product strategy and information hierarchy.
+- [`docs/PUBLISHING-ENGINE.md`](docs/PUBLISHING-ENGINE.md) documents the deterministic, offline draft-artifact pipeline for canonical Knowledge Objects.
