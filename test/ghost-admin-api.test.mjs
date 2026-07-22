@@ -148,7 +148,7 @@ test("deployment commands upload, activate, verify, and can roll back with the c
   server.listen(0, "127.0.0.1");
   await once(server, "listening");
   const directory = await mkdtemp(join(tmpdir(), "ghost-theme-deploy-"));
-  const archive = join(directory, "theme.zip");
+  const archive = join(directory, "UPLOAD-TO-GHOST-bomsociety-theme-v1.3.0.zip");
   await writeFile(archive, "PK");
   const { port } = server.address();
   const env = {
@@ -169,8 +169,9 @@ test("deployment commands upload, activate, verify, and can roll back with the c
   };
   try {
     assert.equal((await run("active-theme")).stdout.trim(), "previous-theme");
-    assert.equal((await run("upload", archive)).stdout.trim(), "uploaded-theme");
-    assert.equal((await run("activate", "uploaded-theme")).code, 0);
+    const upload = await run("upload", archive);
+    assert.equal(upload.stdout.trim(), "uploaded-theme");
+    assert.equal((await run("activate", upload.stdout.trim())).code, 0);
     assert.equal(activeTheme, "uploaded-theme");
     assert.equal((await run("verify")).code, 0);
     homepageIsValid = false;
@@ -186,4 +187,6 @@ test("deployment commands upload, activate, verify, and can roll back with the c
   for (const request of requests.filter(({ url }) => url !== "/")) {
     assert.equal(request.headers["accept-version"], "v6.54");
   }
+  assert.ok(requests.some(({ method, url }) => method === "PUT" && url === "/ghost/api/admin/themes/uploaded-theme/"));
+  assert.ok(!requests.some(({ method, url }) => method === "PUT" && url.includes("UPLOAD-TO-GHOST")));
 });
