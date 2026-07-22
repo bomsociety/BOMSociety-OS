@@ -2,46 +2,22 @@
 <section class="hero section-dark" data-track-section="hero">
   <div class="shell hero-grid">
     <div class="hero-copy">
-      <p class="hero-product">THE BUSINESS OF MEDICINE,<br><span>FINALLY ORGANIZED.<span class="hero-for-you"> FOR YOU</span></span></p>
-      <h1 class="hero-promise">
-        <span class="hero-line hero-line-time">Respect your time.</span>
-        <span class="hero-line hero-line-trust">Earn your trust.</span>
-        <span class="hero-line hero-line-decisions">Improve your decisions.</span>
-      </h1>
-      <div class="hero-depths" aria-label="Choose how deeply to learn">
-        <a href="#briefs" class="hero-depth"><strong>30 seconds</strong><span>Bottom line</span></a>
-        <a href="#briefs" class="hero-depth"><strong>2 minutes</strong><span>Decision brief</span></a>
-        <a href="#briefs" class="hero-depth"><strong>5 minutes</strong><span>Complete guide</span></a>
-      </div>
+      <p class="eyebrow">BOMSOCIETY FOR PHYSICIANS</p>
+      <h1 class="hero-promise">Make better business decisions in medicine.</h1>
+      <p class="hero-system">Clear, corroborated guidance for the decisions medical training never taught you to make.</p>
       <div class="hero-actions">
-        <a class="button" href="#decisions">Start learning</a>
-        <a class="button button-secondary" href="#/portal/signup">Join free</a>
+        <a class="button" href="#/portal/signup" data-analytics-event="hero_cta_selected" data-analytics-label="join_free">Join Free</a>
+        <a class="button button-secondary" href="#decisions" data-analytics-event="hero_cta_selected" data-analytics-label="explore_decisions">Explore Decisions</a>
       </div>
     </div>
-    <div class="graph-stage" aria-label="Interactive BOMGraph preview" data-bomgraph>
-      <div class="graph-grid" aria-hidden="true"></div>
-      <svg class="graph-links" viewBox="0 0 600 520" aria-hidden="true" preserveAspectRatio="none">
-        <path data-link="contracts compensation" d="M160 105 C240 145 250 210 300 260"/>
-        <path data-link="compensation practice" d="M470 130 C420 170 390 220 300 260"/>
-        <path data-link="ai practice" d="M535 265 C445 265 390 260 300 260"/>
-        <path data-link="practice ownership" d="M455 405 C405 360 360 310 300 260"/>
-        <path data-link="finance ownership" d="M145 425 C205 370 245 315 300 260"/>
-        <path data-link="contracts finance" d="M160 105 C100 220 105 330 145 425"/>
-        <path data-link="contracts ownership" d="M160 105 C250 160 360 290 455 405"/>
-        <path data-link="compensation finance" d="M470 130 C350 175 245 300 145 425"/>
-      </svg>
-      <div class="graph-orbit orbit-a"></div><div class="graph-orbit orbit-b"></div><div class="graph-orbit orbit-c"></div>
-      <div class="graph-pulse pulse-a"></div><div class="graph-pulse pulse-b"></div>
-      <button class="graph-core" type="button" data-graph-topic="core" aria-label="Show all BOMGraph topics">
-        <small>CORE ASSET</small><strong>BOMGraph</strong><span>Evidence → relationships → intelligence</span>
-      </button>
-      <a class="graph-chip chip-a" data-graph-topic="contracts" href="{{@site.url}}/tag/contracts/"><span>Contracts</span><small>terms · risk · negotiation</small></a>
-      <a class="graph-chip chip-b" data-graph-topic="compensation" href="{{@site.url}}/tag/compensation/"><span>Compensation</span><small>RVUs · incentives · value</small></a>
-      <a class="graph-chip chip-c" data-graph-topic="ai" href="{{@site.url}}/tag/artificial-intelligence/"><span>AI</span><small>workflow · evidence · adoption</small></a>
-      <a class="graph-chip chip-d" data-graph-topic="practice" href="{{@site.url}}/tag/practice-management/"><span>Practice</span><small>operations · growth · people</small></a>
-      <a class="graph-chip chip-e" data-graph-topic="finance" href="{{@site.url}}/tag/finance/"><span>Finance</span><small>wealth · debt · optionality</small></a>
-      <a class="graph-chip chip-f" data-graph-topic="ownership" href="{{@site.url}}/tag/ownership/"><span>Ownership</span><small>control · equity · exit</small></a>
-      <div class="graph-caption" aria-live="polite" data-graph-caption>Explore how one decision changes the others.</div>
+    <div class="hero-decision-panel" aria-label="Decisions BOMSociety can help you navigate">
+      <p>Start with the decision in front of you.</p>
+      <ul>
+        <li>Review an employment offer</li>
+        <li>Understand an RVU formula</li>
+        <li>Evaluate an ownership opportunity</li>
+      </ul>
+      <a href="#decisions" class="hero-panel-link">Explore decision guidance <span aria-hidden="true">→</span></a>
     </div>
   </div>
 </section>
@@ -95,15 +71,13 @@
 <section class="section section-soft" id="decisions" data-track-section="decisions">
   <div class="shell">
     <div class="section-head"><div><p class="eyebrow">TODAY'S DECISIONS</p><h2>Start with the question you actually have.</h2></div><p>These are not generic categories. They are the real decisions that bring people here—and the durable search intents that grow the knowledge system.</p></div>
-    <div class="decision-grid">
-      <a class="decision-card decision-featured" data-decision-card data-keywords="contract career employment restrictive covenant malpractice negotiation compensation" href="{{@site.url}}/tag/contracts/"><span class="decision-number">01</span><div><small>CAREER</small><h3>Should I sign this physician contract?</h3><p>Compensation, restrictive covenants, termination rights, malpractice tail, call, and partnership path.</p></div><b>Explore decision →</b></a>
-      <a class="decision-card" data-decision-card data-keywords="rvu compensation productivity bonus benchmark incentive collections" href="{{@site.url}}/tag/compensation/"><span class="decision-number">02</span><div><small>COMPENSATION</small><h3>How do RVUs really work?</h3><p>Understand formulas, benchmarks, thresholds, and hidden incentives.</p></div><b>Learn →</b></a>
-      <a class="decision-card" data-decision-card data-keywords="private equity sale ownership rollover equity control exit" href="{{@site.url}}/tag/private-equity/"><span class="decision-number">03</span><div><small>OWNERSHIP</small><h3>Should I sell to private equity?</h3><p>Price, rollover equity, control, risk, and what happens after closing.</p></div><b>Evaluate →</b></a>
-      <a class="decision-card" data-decision-card data-keywords="ai artificial intelligence technology automation workflow" href="{{@site.url}}/tag/artificial-intelligence/"><span class="decision-number">04</span><div><small>TECHNOLOGY</small><h3>Which AI tools matter in medicine?</h3><p>Practical use cases, workflow impact, evidence, risk, and adoption.</p></div><b>See the map →</b></a>
-      <a class="decision-card" data-decision-card data-keywords="practice ownership partnership employment operations control" href="{{@site.url}}/tag/practice-management/"><span class="decision-number">05</span><div><small>PRACTICE</small><h3>Employment, partnership, or ownership?</h3><p>Compare control, income, capital, lifestyle, and long-term upside.</p></div><b>Compare paths →</b></a>
-      <a class="decision-card" data-decision-card data-keywords="finance wealth debt investing retirement optionality" href="{{@site.url}}/tag/finance/"><span class="decision-number">06</span><div><small>FINANCE</small><h3>How should physicians build wealth?</h3><p>Cash flow, debt, investing, protection, ownership, and optionality.</p></div><b>Build a framework →</b></a>
-      <a class="decision-card" data-decision-card data-keywords="malpractice tail coverage insurance legal contract" href="{{@site.url}}/tag/malpractice/"><span class="decision-number">07</span><div><small>LEGAL</small><h3>Who pays malpractice tail coverage?</h3><p>Know the trigger, cost, contract language, and negotiation options.</p></div><b>Understand exposure →</b></a>
-      <a class="decision-card" data-decision-card data-keywords="leadership administration governance influence career" href="{{@site.url}}/tag/leadership/"><span class="decision-number">08</span><div><small>LEADERSHIP</small><h3>How do I lead beyond the exam room?</h3><p>Governance, influence, administration, negotiation, and enterprise value.</p></div><b>Develop leverage →</b></a>
+    <div class="decision-grid decision-grid-six">
+      <a class="decision-card" data-decision-card data-decision-name="Employment Contracts" data-keywords="contract career employment restrictive covenant malpractice negotiation compensation" href="{{@site.url}}/tag/contracts/"><span class="decision-number">01</span><div><small>CAREER</small><h3>Employment Contracts</h3><p>Review compensation, restrictive covenants, termination rights, malpractice tail, call, and partnership path.</p></div><b>Explore decision →</b></a>
+      <a class="decision-card" data-decision-card data-decision-name="RVU Compensation" data-keywords="rvu compensation productivity bonus benchmark incentive collections" href="{{@site.url}}/tag/compensation/"><span class="decision-number">02</span><div><small>COMPENSATION</small><h3>RVU Compensation</h3><p>Understand formulas, benchmarks, thresholds, and the incentives behind your compensation.</p></div><b>Explore decision →</b></a>
+      <a class="decision-card" data-decision-card data-decision-name="Private Equity" data-keywords="private equity sale ownership rollover equity control exit" href="{{@site.url}}/tag/private-equity/"><span class="decision-number">03</span><div><small>OWNERSHIP</small><h3>Private Equity</h3><p>Evaluate price, rollover equity, control, risk, and what changes after closing.</p></div><b>Explore decision →</b></a>
+      <a class="decision-card" data-decision-card data-decision-name="ASC Ownership" data-keywords="asc ambulatory surgery center ownership equity partnership control investment" href="{{@site.url}}/tag/practice-management/"><span class="decision-number">04</span><div><small>OWNERSHIP</small><h3>ASC Ownership</h3><p>Assess ownership structure, governance, economics, and the tradeoffs of investing in an ASC.</p></div><b>Explore decision →</b></a>
+      <a class="decision-card" data-decision-card data-decision-name="Artificial Intelligence" data-keywords="ai artificial intelligence technology automation workflow" href="{{@site.url}}/tag/artificial-intelligence/"><span class="decision-number">05</span><div><small>TECHNOLOGY</small><h3>Artificial Intelligence</h3><p>Identify useful clinical and business applications, evidence, risk, and workflow impact.</p></div><b>Explore decision →</b></a>
+      <a class="decision-card" data-decision-card data-decision-name="Physician Wealth" data-keywords="physician finance wealth debt investing retirement optionality" href="{{@site.url}}/tag/finance/"><span class="decision-number">06</span><div><small>FINANCE</small><h3>Physician Wealth</h3><p>Build a framework for cash flow, debt, investing, protection, and long-term optionality.</p></div><b>Explore decision →</b></a>
     </div>
   </div>
 </section>

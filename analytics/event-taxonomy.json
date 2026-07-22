@@ -16,5 +16,8 @@
   "resource_download",
   "conference_interest",
   "product_interest",
-  "outbound_link"
+  "outbound_link",
+  "hero_cta_selected",
+  "decision_card_selected",
+  "decision_finder_used"
 ]

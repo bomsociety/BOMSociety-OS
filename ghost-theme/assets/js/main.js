@@ -61,6 +61,24 @@ const decisionStatus = document.querySelector('[data-decision-status]');
 const decisionCards = [...document.querySelectorAll('[data-decision-card]')];
 const decisionChips = [...document.querySelectorAll('[data-decision-chip]')];
 
+document.querySelectorAll('[data-analytics-event]').forEach(element => {
+  element.addEventListener('click', () => {
+    window.BOMAnalytics?.track(element.dataset.analyticsEvent, {
+      label: element.dataset.analyticsLabel || element.textContent.trim(),
+      destination: element.href || null
+    });
+  });
+});
+
+decisionCards.forEach(card => {
+  card.addEventListener('click', () => {
+    window.BOMAnalytics?.track('decision_card_selected', {
+      decision: card.dataset.decisionName || card.querySelector('h3')?.textContent?.trim(),
+      destination: card.href
+    });
+  });
+});
+
 function normalizeDecisionQuery(value) {
   return value.toLowerCase().replace(/[^\w\s-]/g, ' ').replace(/\s+/g, ' ').trim();
 }

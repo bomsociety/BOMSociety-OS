@@ -433,3 +433,9 @@
 }
 @keyframes heroForYouFade{from{opacity:0}to{opacity:1}}
 @media (prefers-reduced-motion:reduce){.hero-for-you{opacity:1;animation:none}}
+
+/* Sprint 7 — decision-led product homepage */
+.button-secondary{border-color:rgba(255,255,255,.44);background:transparent;color:#fff}.button-secondary:hover{background:rgba(255,255,255,.1);box-shadow:none}
+.hero h1.hero-promise{max-width:690px;color:#fff;font-size:clamp(3rem,5.8vw,5.8rem);line-height:.94}.hero-system{max-width:650px;margin-bottom:0;color:#d4e0e8;font-size:clamp(1.15rem,1.8vw,1.42rem);line-height:1.4}.hero-decision-panel{display:grid;align-content:center;min-height:390px;padding:42px;border:1px solid rgba(255,255,255,.15);border-radius:28px;background:linear-gradient(145deg,rgba(49,117,172,.25),rgba(23,125,112,.2));box-shadow:0 30px 80px rgba(0,0,0,.23)}.hero-decision-panel p{margin:0 0 22px;color:#fff;font-size:1.35rem;font-weight:850;letter-spacing:-.025em}.hero-decision-panel ul{display:grid;gap:12px;padding:0;margin:0;list-style:none}.hero-decision-panel li{padding:13px 0;border-top:1px solid rgba(255,255,255,.16);color:#d4e0e8;font-weight:720}.hero-decision-panel li:before{content:"→";margin-right:10px;color:#8ed7cb;font-weight:900}.hero-panel-link{margin-top:28px;color:#a8e1d7;font-weight:900}.hero-panel-link:hover{text-decoration:underline}.decision-grid-six .decision-card{min-height:275px}.decision-grid-six .decision-card:focus-visible,.hero-panel-link:focus-visible{outline:3px solid #2f6fb5;outline-offset:4px}
+@media(max-width:1050px){.hero-decision-panel{min-height:270px}}
+@media(max-width:680px){.hero h1.hero-promise{font-size:clamp(2.7rem,12vw,4rem)}.hero-decision-panel{min-height:auto;padding:28px}.decision-grid-six .decision-card{min-height:240px}}
