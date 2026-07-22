@@ -1,0 +1,5 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema", "$id":"https://bomsociety.org/knowledge/schemas/evidence.schema.json", "title":"Evidence", "type":"object", "additionalProperties":false,
+  "required":["id","claimId","sourceId","kind","excerpt","collectedAt","version","createdAt","updatedAt"],
+  "properties":{"id":{"$ref":"common.schema.json#/$defs/uuid"},"claimId":{"$ref":"common.schema.json#/$defs/uuid"},"sourceId":{"$ref":"common.schema.json#/$defs/uuid"},"kind":{"enum":["study","guideline","statute","report","expert-review","primary-source"]},"excerpt":{"type":"string","minLength":1},"collectedAt":{"$ref":"common.schema.json#/$defs/timestamp"},"version":{"$ref":"common.schema.json#/$defs/version"},"createdAt":{"$ref":"common.schema.json#/$defs/timestamp"},"updatedAt":{"$ref":"common.schema.json#/$defs/timestamp"}}
+}

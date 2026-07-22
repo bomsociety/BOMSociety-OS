@@ -1,0 +1,12 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://bomsociety.org/knowledge/schemas/common.schema.json",
+  "title": "BOMSociety Knowledge Common Definitions",
+  "$defs": {
+    "uuid": { "type": "string", "format": "uuid" },
+    "timestamp": { "type": "string", "format": "date-time" },
+    "slug": { "type": "string", "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$" },
+    "version": { "type": "integer", "minimum": 1 },
+    "identifierList": { "type": "array", "items": { "$ref": "#/$defs/uuid" }, "uniqueItems": true }
+  }
+}

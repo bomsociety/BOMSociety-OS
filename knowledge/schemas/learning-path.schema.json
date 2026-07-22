@@ -1,0 +1,5 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema", "$id":"https://bomsociety.org/knowledge/schemas/learning-path.schema.json", "title":"Learning Path", "type":"object", "additionalProperties":false,
+  "required":["id","title","slug","lessonIds","version","createdAt","updatedAt"],
+  "properties":{"id":{"$ref":"common.schema.json#/$defs/uuid"},"title":{"type":"string","minLength":1},"slug":{"$ref":"common.schema.json#/$defs/slug"},"lessonIds":{"$ref":"common.schema.json#/$defs/identifierList"},"version":{"$ref":"common.schema.json#/$defs/version"},"createdAt":{"$ref":"common.schema.json#/$defs/timestamp"},"updatedAt":{"$ref":"common.schema.json#/$defs/timestamp"}}
+}

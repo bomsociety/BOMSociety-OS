@@ -1,0 +1,5 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema", "$id":"https://bomsociety.org/knowledge/schemas/lesson.schema.json", "title":"Lesson", "type":"object", "additionalProperties":false,
+  "required":["id","learningPathId","title","position","knowledgeObjectIds","version","createdAt","updatedAt"],
+  "properties":{"id":{"$ref":"common.schema.json#/$defs/uuid"},"learningPathId":{"$ref":"common.schema.json#/$defs/uuid"},"title":{"type":"string","minLength":1},"position":{"type":"integer","minimum":1},"knowledgeObjectIds":{"$ref":"common.schema.json#/$defs/identifierList"},"version":{"$ref":"common.schema.json#/$defs/version"},"createdAt":{"$ref":"common.schema.json#/$defs/timestamp"},"updatedAt":{"$ref":"common.schema.json#/$defs/timestamp"}}
+}
