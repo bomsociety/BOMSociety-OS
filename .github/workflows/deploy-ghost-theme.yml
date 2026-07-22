@@ -1,7 +1,9 @@
 name: Deploy Ghost theme
 
 on:
-  workflow_dispatch:
+  push:
+    branches:
+      - main
 
 permissions:
   contents: read
@@ -19,7 +21,6 @@ jobs:
       - name: Check out merged main
         uses: actions/checkout@v4
         with:
-          ref: main
           fetch-depth: 1
 
       - name: Set up Node.js 20
@@ -27,12 +28,16 @@ jobs:
         with:
           node-version: 20
 
-      - name: Build and test theme
+      - name: Validate and build Ghost theme
         id: build
         shell: bash
         run: |
           set -euo pipefail
           npm test
+          npm run knowledge:validate
+          npm run validate:publishing
+          npm run validate:decision
+          npm run validate:measurement
           npm run theme:zip
           VERSION="$(node -p "require('./ghost-theme/package.json').version")"
           ZIP_PATH="releases/UPLOAD-TO-GHOST-bomsociety-theme-v${VERSION}.zip"
@@ -40,8 +45,19 @@ jobs:
           unzip -Z1 "$ZIP_PATH" | grep -Fxq 'package.json'
           echo "zip_path=$ZIP_PATH" >> "$GITHUB_OUTPUT"
           echo "zip_sha256=$(sha256sum "$ZIP_PATH" | awk '{print $1}')" >> "$GITHUB_OUTPUT"
-          echo "## Build: passed" >> "$GITHUB_STEP_SUMMARY"
+          echo "## BUILD SUCCESS" >> "$GITHUB_STEP_SUMMARY"
           echo "Built \`$ZIP_PATH\` from the checked-out \`main\` revision." >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Capture currently active theme
+        id: previous
+        env:
+          GHOST_ADMIN_URL: ${{ secrets.GHOST_ADMIN_URL }}
+          GHOST_ADMIN_KEY: ${{ secrets.GHOST_ADMIN_KEY }}
+          GHOST_SITE_URL: ${{ secrets.GHOST_SITE_URL }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          echo "theme_name=$(node automation/deploy-ghost-theme.mjs active-theme)" >> "$GITHUB_OUTPUT"
 
       - name: Upload newly built theme to Ghost
         id: upload
@@ -55,10 +71,11 @@ jobs:
           test "$(sha256sum "${{ steps.build.outputs.zip_path }}" | awk '{print $1}')" = "${{ steps.build.outputs.zip_sha256 }}"
           THEME_NAME="$(node automation/deploy-ghost-theme.mjs upload "${{ steps.build.outputs.zip_path }}")"
           echo "theme_name=$THEME_NAME" >> "$GITHUB_OUTPUT"
-          echo "## Upload: passed" >> "$GITHUB_STEP_SUMMARY"
+          echo "## UPLOAD SUCCESS" >> "$GITHUB_STEP_SUMMARY"
           echo "Uploaded the ZIP built in this run (SHA-256: \`${{ steps.build.outputs.zip_sha256 }}\`)." >> "$GITHUB_STEP_SUMMARY"
 
       - name: Activate uploaded Ghost theme
+        id: activate
         env:
           GHOST_ADMIN_URL: ${{ secrets.GHOST_ADMIN_URL }}
           GHOST_ADMIN_KEY: ${{ secrets.GHOST_ADMIN_KEY }}
@@ -67,7 +84,7 @@ jobs:
         run: |
           set -euo pipefail
           node automation/deploy-ghost-theme.mjs activate "${{ steps.upload.outputs.theme_name }}"
-          echo "## Activation: passed" >> "$GITHUB_STEP_SUMMARY"
+          echo "## ACTIVATION SUCCESS" >> "$GITHUB_STEP_SUMMARY"
           echo "Activated the theme returned by the upload API." >> "$GITHUB_STEP_SUMMARY"
 
       - name: Verify live homepage
@@ -75,9 +92,25 @@ jobs:
           GHOST_ADMIN_URL: ${{ secrets.GHOST_ADMIN_URL }}
           GHOST_ADMIN_KEY: ${{ secrets.GHOST_ADMIN_KEY }}
           GHOST_SITE_URL: ${{ secrets.GHOST_SITE_URL }}
+          GHOST_VERIFY_TITLE: ${{ vars.GHOST_VERIFY_TITLE }}
+          GHOST_VERIFY_HERO: ${{ vars.GHOST_VERIFY_HERO }}
+          GHOST_VERIFY_CTA: ${{ vars.GHOST_VERIFY_CTA }}
         shell: bash
         run: |
           set -euo pipefail
           node automation/deploy-ghost-theme.mjs verify
-          echo "## Verification: passed" >> "$GITHUB_STEP_SUMMARY"
-          echo "Confirmed all required homepage text is live." >> "$GITHUB_STEP_SUMMARY"
+          echo "## VERIFICATION SUCCESS" >> "$GITHUB_STEP_SUMMARY"
+          echo "Confirmed the configured homepage title, hero, and CTA markers are live." >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Roll back previously active Ghost theme
+        if: ${{ failure() && steps.activate.outcome == 'success' }}
+        env:
+          GHOST_ADMIN_URL: ${{ secrets.GHOST_ADMIN_URL }}
+          GHOST_ADMIN_KEY: ${{ secrets.GHOST_ADMIN_KEY }}
+          GHOST_SITE_URL: ${{ secrets.GHOST_SITE_URL }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          node automation/deploy-ghost-theme.mjs activate "${{ steps.previous.outputs.theme_name }}"
+          echo "## ROLLBACK SUCCESS" >> "$GITHUB_STEP_SUMMARY"
+          echo "Reactivated \`${{ steps.previous.outputs.theme_name }}\` after verification failed." >> "$GITHUB_STEP_SUMMARY"

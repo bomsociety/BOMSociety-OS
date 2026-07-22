@@ -21,10 +21,10 @@ The Worker validates request shape and forwards POST requests to Apps Script. Ap
 ## Release process
 
 ```text
-Pull request → GitHub Actions validation → theme ZIP artifact → manual Ghost upload and activation
+Pull request merge to `main` → GitHub Actions validation → theme ZIP → Ghost Admin API upload and activation → live verification
 ```
 
-GitHub Actions runs repository tests and packages a versioned Ghost ZIP as an artifact. The workflow deliberately does not commit binaries, upload themes, or activate production changes. An operator backs up, uploads, activates, and verifies the release in Ghost.
+GitHub Actions runs all repository validations, packages a versioned Ghost ZIP without committing it, uploads and activates it through the Ghost Admin API, then verifies the public homepage. It captures the previously active theme first and automatically restores it if verification fails.
 
 ## Operational verification
 

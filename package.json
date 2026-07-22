@@ -7,6 +7,8 @@
     "theme:zip": "node automation/build-theme-zip.mjs",
     "knowledge:validate": "node knowledge/scripts/validate-sprint-3.mjs",
     "validate:publishing": "node --test test/publishing-engine.test.mjs",
+    "validate:decision": "node --test test/decision-engine.test.mjs",
+    "validate:measurement": "node --test analytics/test/measurement-engine.test.mjs",
     "publishing:generate": "node automation/generate-publishing-artifacts.mjs"
   },
   "engines": {
