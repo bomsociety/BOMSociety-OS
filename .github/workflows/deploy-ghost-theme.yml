@@ -44,12 +44,10 @@ jobs:
           npm run validate:measurement
           npm run theme:zip
           VERSION="$(node -p "require('./ghost-theme/package.json').version")"
-          PACKAGE_NAME="$(node -p "require('./ghost-theme/package.json').name")"
           ZIP_PATH="releases/UPLOAD-TO-GHOST-bomsociety-theme-v${VERSION}.zip"
           test -f "$ZIP_PATH"
           unzip -Z1 "$ZIP_PATH" | grep -Fxq 'package.json'
           echo "zip_path=$ZIP_PATH" >> "$GITHUB_OUTPUT"
-          echo "package_name=$PACKAGE_NAME" >> "$GITHUB_OUTPUT"
           echo "zip_sha256=$(sha256sum "$ZIP_PATH" | awk '{print $1}')" >> "$GITHUB_OUTPUT"
           echo "## BUILD SUCCESS" >> "$GITHUB_STEP_SUMMARY"
           echo "Built \`$ZIP_PATH\` from the checked-out \`main\` revision." >> "$GITHUB_STEP_SUMMARY"
@@ -75,7 +73,7 @@ jobs:
         run: |
           set -euo pipefail
           test "$(sha256sum "${{ steps.build.outputs.zip_path }}" | awk '{print $1}')" = "${{ steps.build.outputs.zip_sha256 }}"
-          THEME_NAME="$(node automation/deploy-ghost-theme.mjs upload "${{ steps.build.outputs.zip_path }}" "${{ steps.build.outputs.package_name }}")"
+          THEME_NAME="$(node automation/deploy-ghost-theme.mjs upload "${{ steps.build.outputs.zip_path }}")"
           echo "theme_name=$THEME_NAME" >> "$GITHUB_OUTPUT"
           echo "## UPLOAD SUCCESS" >> "$GITHUB_STEP_SUMMARY"
           echo "Uploaded the ZIP built in this run (SHA-256: \`${{ steps.build.outputs.zip_sha256 }}\`)." >> "$GITHUB_STEP_SUMMARY"

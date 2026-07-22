@@ -115,7 +115,37 @@ test("uploads a ZIP to Ghost's themes upload endpoint as multipart form data", a
   assert.match(request.headers.authorization, /^Ghost /);
 });
 
-test("deployment activates the installed package name when the ZIP name differs and Ghost omits an upload identifier", async () => {
+test("refuses to guess an activation name when Ghost omits themes[0].name", async () => {
+  const server = createServer((incoming, outgoing) => {
+    assert.equal(incoming.method, "POST");
+    assert.equal(incoming.url, "/ghost/api/admin/themes/upload/");
+    outgoing.setHeader("Content-Type", "application/json");
+    outgoing.end(JSON.stringify({ themes: [{}], token: "must-not-be-logged" }));
+  });
+  server.listen(0, "127.0.0.1");
+  await once(server, "listening");
+  const directory = await mkdtemp(join(tmpdir(), "ghost-theme-missing-name-"));
+  const archive = join(directory, "UPLOAD-TO-GHOST-bomsociety-theme-v1.3.0.zip");
+  await writeFile(archive, "PK");
+  try {
+    const { port } = server.address();
+    const child = spawn(process.execPath, ["automation/deploy-ghost-theme.mjs", "upload", archive], {
+      cwd: process.cwd(),
+      env: { ...process.env, GHOST_ADMIN_URL: `http://127.0.0.1:${port}/`, GHOST_ADMIN_KEY: adminKey, GHOST_SITE_URL: "https://example.com" },
+    });
+    let stderr = "";
+    child.stderr.on("data", (chunk) => { stderr += chunk; });
+    const [code] = await once(child, "close");
+    assert.notEqual(code, 0);
+    assert.match(stderr, /Ghost theme upload response: .*"token":"\[REDACTED\]"/);
+    assert.match(stderr, /did not include themes\[0\]\.name; refusing to guess an activation name/);
+  } finally {
+    await new Promise((resolve, reject) => server.close((error) => error ? reject(error) : resolve()));
+    await rm(directory, { recursive: true, force: true });
+  }
+});
+
+test("deployment activates the exact theme name returned by Ghost upload", async () => {
   const activeThemes = new Set(["previous-theme"]);
   let activeTheme = "previous-theme";
   let homepageIsValid = true;
@@ -137,9 +167,9 @@ test("deployment activates the installed package name when the ZIP name differs 
       outgoing.end(JSON.stringify({ themes: [...activeThemes].map((name) => ({ name, active: name === activeTheme })) }));
     } else if (incoming.method === "POST" && incoming.url === "/ghost/api/admin/themes/upload/") {
       activeThemes.add("bomsociety-theme");
-      outgoing.end(JSON.stringify({ themes: [{}] }));
+      outgoing.end(JSON.stringify({ themes: [{ name: "bomsociety-theme", active: false }] }));
     } else if (incoming.method === "PUT" && incoming.url?.startsWith("/ghost/api/admin/themes/")) {
-      activeTheme = decodeURIComponent(incoming.url.split("/").at(-2));
+      activeTheme = decodeURIComponent(incoming.url.split("/").at(-3));
       outgoing.end(JSON.stringify({ themes: [{ name: activeTheme, active: true }] }));
     } else {
       outgoing.statusCode = 404;
@@ -170,9 +200,9 @@ test("deployment activates the installed package name when the ZIP name differs 
   };
   try {
     assert.equal((await run("active-theme")).stdout.trim(), "previous-theme");
-    const upload = await run("upload", archive, "bomsociety-theme");
+    const upload = await run("upload", archive);
     assert.equal(upload.stdout.trim(), "bomsociety-theme");
-    assert.equal(upload.stderr.trim(), 'Ghost theme upload response: {"themes":[{}]}');
+    assert.equal(upload.stderr.trim(), 'Ghost theme upload response: {"themes":[{"name":"bomsociety-theme","active":false}]}');
     assert.equal((await run("activate", upload.stdout.trim())).code, 0);
     assert.equal(activeTheme, "bomsociety-theme");
     assert.equal((await run("verify")).code, 0);
@@ -190,6 +220,6 @@ test("deployment activates the installed package name when the ZIP name differs 
     assert.equal(request.headers["accept-version"], "v6.54");
   }
   assert.ok(requests.some(({ method, url }) => method === "GET" && url === "/ghost/api/admin/themes/"));
-  assert.ok(requests.some(({ method, url }) => method === "PUT" && url === "/ghost/api/admin/themes/bomsociety-theme/"));
-  assert.ok(!requests.some(({ method, url }) => method === "PUT" && url.includes("UPLOAD-TO-GHOST")));
+  assert.ok(requests.some(({ method, url }) => method === "PUT" && url === "/ghost/api/admin/themes/bomsociety-theme/activate/"));
+  assert.ok(!requests.some(({ method, url }) => method === "PUT" && url === "/ghost/api/admin/themes/UPLOAD-TO-GHOST-bomsociety-theme-v1.3.0/"));
 });
