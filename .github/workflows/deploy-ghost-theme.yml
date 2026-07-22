@@ -61,7 +61,12 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          echo "theme_name=$(node automation/deploy-ghost-theme.mjs active-theme)" >> "$GITHUB_OUTPUT"
+          theme_name="$(node automation/deploy-ghost-theme.mjs active-theme)"
+          test -n "$theme_name" || { echo "Ghost did not return an active theme name." >&2; exit 1; }
+          case "$theme_name" in *$'\n'*|*$'\r'*) echo "Ghost returned an unsafe active theme name." >&2; exit 1;; esac
+          printf 'theme_name<<EOF\n%s\nEOF\n' "$theme_name" >> "$GITHUB_OUTPUT"
+          echo "## PREVIOUS THEME CAPTURED" >> "$GITHUB_STEP_SUMMARY"
+          echo "Captured active theme: \`$theme_name\`." >> "$GITHUB_STEP_SUMMARY"
 
       - name: Upload and activate newly built theme in Ghost
         id: activate
@@ -73,9 +78,12 @@ jobs:
         run: |
           set -euo pipefail
           test "$(sha256sum "${{ steps.build.outputs.zip_path }}" | awk '{print $1}')" = "${{ steps.build.outputs.zip_sha256 }}"
-          node automation/deploy-ghost-theme.mjs upload "${{ steps.build.outputs.zip_path }}"
+          theme_name="$(node automation/deploy-ghost-theme.mjs upload "${{ steps.build.outputs.zip_path }}")"
+          test -n "$theme_name" || { echo "Ghost upload did not return an activated theme name." >&2; exit 1; }
+          case "$theme_name" in *$'\n'*|*$'\r'*) echo "Ghost returned an unsafe activated theme name." >&2; exit 1;; esac
+          printf 'theme_name<<EOF\n%s\nEOF\n' "$theme_name" >> "$GITHUB_OUTPUT"
           echo "## UPLOAD SUCCESS" >> "$GITHUB_STEP_SUMMARY"
-          echo "Uploaded the ZIP built in this run (SHA-256: \`${{ steps.build.outputs.zip_sha256 }}\`)." >> "$GITHUB_STEP_SUMMARY"
+          echo "Uploaded and activated \`$theme_name\` from the ZIP built in this run (SHA-256: \`${{ steps.build.outputs.zip_sha256 }}\`)." >> "$GITHUB_STEP_SUMMARY"
           echo "## ACTIVATION SUCCESS" >> "$GITHUB_STEP_SUMMARY"
           echo "Activated the theme returned by the upload API." >> "$GITHUB_STEP_SUMMARY"
 
@@ -95,7 +103,8 @@ jobs:
           echo "Confirmed the configured homepage title, hero, and CTA markers are live." >> "$GITHUB_STEP_SUMMARY"
 
       - name: Roll back previously active Ghost theme
-        if: ${{ failure() && steps.activate.outcome == 'success' }}
+        if: ${{ failure() && steps.activate.outcome == 'success' && steps.previous.outputs.theme_name != '' && steps.previous.outputs.theme_name != steps.activate.outputs.theme_name }}
+        continue-on-error: true
         env:
           GHOST_ADMIN_URL: ${{ secrets.GHOST_ADMIN_URL }}
           GHOST_ADMIN_KEY: ${{ secrets.GHOST_ADMIN_KEY }}
@@ -106,3 +115,16 @@ jobs:
           node automation/deploy-ghost-theme.mjs restore "${{ steps.previous.outputs.theme_name }}"
           echo "## ROLLBACK SUCCESS" >> "$GITHUB_STEP_SUMMARY"
           echo "Reactivated \`${{ steps.previous.outputs.theme_name }}\` after verification failed." >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Report unavailable rollback theme
+        if: ${{ failure() && steps.activate.outcome == 'success' && steps.previous.outputs.theme_name == '' }}
+        shell: bash
+        run: |
+          echo "## ROLLBACK SKIPPED — previous theme unavailable" >> "$GITHUB_STEP_SUMMARY"
+          echo "ROLLBACK SKIPPED — previous theme unavailable"
+
+      - name: Report rollback already active
+        if: ${{ failure() && steps.activate.outcome == 'success' && steps.previous.outputs.theme_name != '' && steps.previous.outputs.theme_name == steps.activate.outputs.theme_name }}
+        shell: bash
+        run: |
+          echo "## ROLLBACK SKIPPED — previous theme is already active" >> "$GITHUB_STEP_SUMMARY"

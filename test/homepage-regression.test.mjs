@@ -50,6 +50,14 @@ test("production deployment runs after main changes, validates, verifies, and ro
     assert.match(deploymentWorkflow, new RegExp(result));
   }
   assert.match(deploymentWorkflow, /steps\.activate\.outcome == 'success'/);
+  assert.match(deploymentWorkflow, /steps\.previous\.outputs\.theme_name != ''/);
+  assert.match(deploymentWorkflow, /steps\.previous\.outputs\.theme_name != steps\.activate\.outputs\.theme_name/);
+  assert.match(deploymentWorkflow, /ROLLBACK SKIPPED — previous theme unavailable/);
+  assert.match(deploymentWorkflow, /continue-on-error: true/);
+  assert.match(deploymentWorkflow, /theme_name="\$\(node automation\/deploy-ghost-theme\.mjs upload/);
+  assert.match(deploymentWorkflow, /PREVIOUS THEME CAPTURED/);
   assert.match(deploymentScript, /active-theme/);
   assert.match(deploymentScript, /GHOST_VERIFY_TITLE/);
+  assert.match(deploymentScript, /GET PAID MORE/);
+  assert.match(deploymentScript, /How intelligence is built/);
 });
