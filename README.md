@@ -27,14 +27,7 @@ npm run theme:zip
 
 ## Deployment
 
-1. Open a pull request and let the validation workflow pass.
-2. Merge the approved change.
-3. Download the `bomsociety-ghost-theme` workflow artifact.
-4. Back up the active Ghost theme.
-5. Upload and activate the archive in Ghost Admin.
-6. Verify the homepage, navigation, member Portal, posts, pages, and topic archives.
-
-The GitHub workflow validates and packages the theme; it does not activate a theme in Ghost.
+The **Deploy Ghost theme** workflow is manually dispatched from GitHub Actions. It checks out `main`, tests and builds a new theme archive in the same run, uploads and activates that exact archive through the Ghost Admin API, then verifies the live homepage. See [Ghost deployment and rollback](docs/GHOST-DEPLOYMENT.md) for required secrets, safeguards, and the rollback procedure.
 
 ## Versioning
 
