@@ -35,29 +35,24 @@ test("version is synchronized and the theme ZIP builder packages from the theme 
   assert.equal(root.version, "1.3.0"); assert.equal(theme.version, root.version); assert.equal(version, root.version);
   assert.match(zipBuilder, /cwd: theme/); assert.match(zipBuilder, /UPLOAD-TO-GHOST-bomsociety-theme-v/); assert.match(zipBuilder, /rm\(output, \{ force: true \}\)/);
 });
-test("production deployment runs after main changes, validates, verifies, and rolls back automatically", () => {
+test("production deployment preflights, activates the upload response, and verifies both public URLs", () => {
   assert.match(deploymentWorkflow, /push:\s+branches:\s+- main/);
   assert.match(deploymentWorkflow, /npm test/);
   for (const validation of ["knowledge:validate", "validate:publishing", "validate:decision", "validate:measurement"]) {
     assert.match(deploymentWorkflow, new RegExp(`npm run ${validation}`));
   }
   assert.match(deploymentWorkflow, /npm run theme:zip/);
-  assert.match(deploymentWorkflow, /unzip -Z1.*package\.json/);
-  assert.match(deploymentWorkflow, /sha256sum/);
+  assert.match(deploymentWorkflow, /deploy-ghost-theme\.mjs inspect/);
   assert.doesNotMatch(deploymentWorkflow, /download-artifact/);
   for (const secret of ["GHOST_ADMIN_URL", "GHOST_ADMIN_KEY", "GHOST_SITE_URL", "GHOST_API_VERSION"]) assert.match(deploymentWorkflow, new RegExp(`secrets\\.${secret}`));
-  for (const result of ["BUILD SUCCESS", "UPLOAD SUCCESS", "ACTIVATION SUCCESS", "VERIFICATION SUCCESS", "ROLLBACK SUCCESS"]) {
-    assert.match(deploymentWorkflow, new RegExp(result));
-  }
-  assert.match(deploymentWorkflow, /steps\.activate\.outcome == 'success'/);
-  assert.match(deploymentWorkflow, /steps\.previous\.outputs\.theme_name != ''/);
-  assert.match(deploymentWorkflow, /steps\.previous\.outputs\.theme_name != steps\.activate\.outputs\.theme_name/);
-  assert.match(deploymentWorkflow, /ROLLBACK SKIPPED — previous theme unavailable/);
-  assert.match(deploymentWorkflow, /continue-on-error: true/);
+  assert.match(deploymentWorkflow, /workflow_dispatch/);
+  assert.match(deploymentWorkflow, /preflight/);
+  assert.match(deploymentWorkflow, /verify-admin/);
+  assert.match(deploymentWorkflow, /verify-site/);
+  assert.doesNotMatch(deploymentWorkflow, /rollback|continue-on-error|Capture currently active theme/i);
   assert.match(deploymentWorkflow, /theme_name="\$\(node automation\/deploy-ghost-theme\.mjs upload/);
-  assert.match(deploymentWorkflow, /PREVIOUS THEME CAPTURED/);
-  assert.match(deploymentScript, /active-theme/);
-  assert.match(deploymentScript, /GHOST_VERIFY_TITLE/);
+  assert.doesNotMatch(deploymentScript, /active-theme|restore/);
+  assert.match(deploymentScript, /GET \/site\//);
   assert.match(deploymentScript, /GET PAID MORE/);
-  assert.match(deploymentScript, /How intelligence is built/);
+  assert.match(deploymentScript, /LIVE PHYSICIAN INTELLIGENCE/);
 });
