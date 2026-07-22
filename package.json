@@ -5,7 +5,9 @@
   "scripts": {
     "test": "node --test",
     "theme:zip": "node automation/build-theme-zip.mjs",
-    "knowledge:validate": "node knowledge/scripts/validate-sprint-3.mjs"
+    "knowledge:validate": "node knowledge/scripts/validate-sprint-3.mjs",
+    "validate:publishing": "node --test test/publishing-engine.test.mjs",
+    "publishing:generate": "node automation/generate-publishing-artifacts.mjs"
   },
   "engines": {
     "node": ">=20"
