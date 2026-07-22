@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://bomsociety.org/knowledge/schemas/knowledge-object.schema.json",
+  "title": "Knowledge Object",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "kind", "title", "slug", "summary", "status", "claimIds", "decisionIds", "evidenceIds", "sourceIds", "relationshipIds", "version", "createdAt", "updatedAt"],
+  "properties": {
+    "id": { "$ref": "common.schema.json#/$defs/uuid" },
+    "kind": { "enum": ["topic", "guide", "article", "framework", "reference"] },
+    "title": { "type": "string", "minLength": 1 },
+    "slug": { "$ref": "common.schema.json#/$defs/slug" },
+    "summary": { "type": "string", "minLength": 1 },
+    "status": { "enum": ["draft", "review", "published", "archived"] },
+    "claimIds": { "$ref": "common.schema.json#/$defs/identifierList" },
+    "decisionIds": { "$ref": "common.schema.json#/$defs/identifierList" },
+    "evidenceIds": { "$ref": "common.schema.json#/$defs/identifierList" },
+    "sourceIds": { "$ref": "common.schema.json#/$defs/identifierList" },
+    "relationshipIds": { "$ref": "common.schema.json#/$defs/identifierList" },
+    "version": { "$ref": "common.schema.json#/$defs/version" },
+    "createdAt": { "$ref": "common.schema.json#/$defs/timestamp" },
+    "updatedAt": { "$ref": "common.schema.json#/$defs/timestamp" }
+  }
+}

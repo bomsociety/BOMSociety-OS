@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "BOMSociety Knowledge Engine Schema Catalog",
+  "schemas": {
+    "knowledgeObject": "knowledge-object.schema.json",
+    "decision": "decision.schema.json",
+    "evidence": "evidence.schema.json",
+    "claim": "claim.schema.json",
+    "source": "source.schema.json",
+    "corroboration": "corroboration.schema.json",
+    "learningPath": "learning-path.schema.json",
+    "lesson": "lesson.schema.json",
+    "relationship": "relationship.schema.json"
+  }
+}

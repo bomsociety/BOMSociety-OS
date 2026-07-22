@@ -1,0 +1,5 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema", "$id":"https://bomsociety.org/knowledge/schemas/decision.schema.json", "title":"Decision", "type":"object", "additionalProperties":false,
+  "required":["id","knowledgeObjectId","question","outcome","status","claimIds","version","createdAt","updatedAt"],
+  "properties":{"id":{"$ref":"common.schema.json#/$defs/uuid"},"knowledgeObjectId":{"$ref":"common.schema.json#/$defs/uuid"},"question":{"type":"string","minLength":1},"outcome":{"type":"string","minLength":1},"status":{"enum":["proposed","accepted","superseded","rejected"]},"claimIds":{"$ref":"common.schema.json#/$defs/identifierList"},"version":{"$ref":"common.schema.json#/$defs/version"},"createdAt":{"$ref":"common.schema.json#/$defs/timestamp"},"updatedAt":{"$ref":"common.schema.json#/$defs/timestamp"}}
+}

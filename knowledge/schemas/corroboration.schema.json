@@ -1,0 +1,5 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema", "$id":"https://bomsociety.org/knowledge/schemas/corroboration.schema.json", "title":"Corroboration", "type":"object", "additionalProperties":false,
+  "required":["id","claimId","evidenceIds","score","method","version","createdAt","updatedAt"],
+  "properties":{"id":{"$ref":"common.schema.json#/$defs/uuid"},"claimId":{"$ref":"common.schema.json#/$defs/uuid"},"evidenceIds":{"$ref":"common.schema.json#/$defs/identifierList"},"score":{"type":"number","minimum":0,"maximum":1},"method":{"enum":["manual-review","source-count","weighted-review"]},"version":{"$ref":"common.schema.json#/$defs/version"},"createdAt":{"$ref":"common.schema.json#/$defs/timestamp"},"updatedAt":{"$ref":"common.schema.json#/$defs/timestamp"}}
+}

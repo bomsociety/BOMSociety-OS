@@ -1,0 +1,5 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema", "$id":"https://bomsociety.org/knowledge/schemas/relationship.schema.json", "title":"Relationship", "type":"object", "additionalProperties":false,
+  "required":["id","fromId","toId","relation","version","createdAt","updatedAt"],
+  "properties":{"id":{"$ref":"common.schema.json#/$defs/uuid"},"fromId":{"$ref":"common.schema.json#/$defs/uuid"},"toId":{"$ref":"common.schema.json#/$defs/uuid"},"relation":{"enum":["supports","contradicts","depends-on","extends","references","prerequisite-for"]},"version":{"$ref":"common.schema.json#/$defs/version"},"createdAt":{"$ref":"common.schema.json#/$defs/timestamp"},"updatedAt":{"$ref":"common.schema.json#/$defs/timestamp"}}
+}
