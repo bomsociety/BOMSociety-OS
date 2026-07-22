@@ -1,6 +1,9 @@
 import { createHmac } from "node:crypto";
 
-const API_AUDIENCE = "/v5/admin/";
+// Ghost 6 Admin API uses version negotiation rather than a versioned URL.
+// Keep the JWT audience aligned with the current Admin API contract.
+const API_AUDIENCE = "/admin/";
+export const ADMIN_API_VERSION = "v6.0";
 
 function base64Url(value) {
   return Buffer.from(value).toString("base64url");
@@ -20,7 +23,8 @@ export function createAdminToken(key, now = Math.floor(Date.now() / 1000)) {
 
 export function adminApiUrl(adminUrl, path) {
   const origin = new URL(adminUrl);
-  return new URL(`/ghost/api/admin${path}`, origin).toString();
+  const endpoint = path.startsWith("/") ? path : `/${path}`;
+  return new URL(`/ghost/api/admin${endpoint}`, origin).toString();
 }
 
 export async function ghostRequest(adminUrl, adminKey, path, options = {}) {
@@ -29,6 +33,7 @@ export async function ghostRequest(adminUrl, adminKey, path, options = {}) {
     headers: {
       Authorization: `Ghost ${createAdminToken(adminKey)}`,
       Accept: "application/json",
+      "Accept-Version": ADMIN_API_VERSION,
       ...options.headers,
     },
   });
