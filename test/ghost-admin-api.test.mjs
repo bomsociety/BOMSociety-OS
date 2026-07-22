@@ -6,7 +6,7 @@ import { join } from "node:path";
 import { once } from "node:events";
 import { spawn } from "node:child_process";
 import test from "node:test";
-import { ADMIN_API_VERSION, adminApiUrl, createAdminToken, ghostRequest } from "../automation/ghost-admin-api.mjs";
+import { DEFAULT_ADMIN_API_VERSION, adminApiUrl, createAdminToken, ghostRequest } from "../automation/ghost-admin-api.mjs";
 
 const adminKey = "0123456789abcdef:0123456789abcdef0123456789abcdef";
 
@@ -14,24 +14,54 @@ function tokenPayload(token) {
   return JSON.parse(Buffer.from(token.split(".")[1], "base64url").toString());
 }
 
-test("uses the Ghost 6 Admin API URL, audience, and version header", async () => {
+test("uses the Ghost 6 Admin API URL, audience, and default version header for every request", async () => {
   assert.equal(adminApiUrl("https://example.com/ghost/", "/themes/upload/"), "https://example.com/ghost/api/admin/themes/upload/");
   assert.equal(tokenPayload(createAdminToken(adminKey, 100)).aud, "/admin/");
 
   const originalFetch = globalThis.fetch;
+  const originalVersion = process.env.GHOST_API_VERSION;
+  const requests = [];
+  globalThis.fetch = async (url, options) => {
+    requests.push({ url, options });
+    return new Response(JSON.stringify({ themes: [] }), { status: 200 });
+  };
+  delete process.env.GHOST_API_VERSION;
+  try {
+    await Promise.all([
+      ghostRequest("https://example.com", adminKey, "/themes/", { method: "GET" }),
+      ghostRequest("https://example.com", adminKey, "/themes/upload/", { method: "POST", headers: { "Accept-Version": "v0.0" } }),
+      ghostRequest("https://example.com", adminKey, "/themes/bomsociety/", { method: "PUT" }),
+    ]);
+  } finally {
+    globalThis.fetch = originalFetch;
+    if (originalVersion === undefined) delete process.env.GHOST_API_VERSION;
+    else process.env.GHOST_API_VERSION = originalVersion;
+  }
+  assert.equal(requests[0].url, "https://example.com/ghost/api/admin/themes/");
+  for (const request of requests) {
+    assert.equal(request.options.headers["Accept-Version"], "v6.54");
+    assert.match(request.options.headers.Authorization, /^Ghost /);
+  }
+  assert.equal(DEFAULT_ADMIN_API_VERSION, "v6.54");
+});
+
+test("uses GHOST_API_VERSION when it is configured", async () => {
+  const originalFetch = globalThis.fetch;
+  const originalVersion = process.env.GHOST_API_VERSION;
   let request;
   globalThis.fetch = async (url, options) => {
     request = { url, options };
     return new Response(JSON.stringify({ themes: [] }), { status: 200 });
   };
+  process.env.GHOST_API_VERSION = "v6.99";
   try {
     await ghostRequest("https://example.com", adminKey, "/themes/");
   } finally {
     globalThis.fetch = originalFetch;
+    if (originalVersion === undefined) delete process.env.GHOST_API_VERSION;
+    else process.env.GHOST_API_VERSION = originalVersion;
   }
-  assert.equal(request.url, "https://example.com/ghost/api/admin/themes/");
-  assert.equal(request.options.headers["Accept-Version"], ADMIN_API_VERSION);
-  assert.match(request.options.headers.Authorization, /^Ghost /);
+  assert.equal(request.options.headers["Accept-Version"], "v6.99");
 });
 
 test("uploads a ZIP to Ghost's themes upload endpoint as multipart form data", async () => {
@@ -52,7 +82,7 @@ test("uploads a ZIP to Ghost's themes upload endpoint as multipart form data", a
     const { port } = server.address();
     const child = spawn(process.execPath, ["automation/deploy-ghost-theme.mjs", "upload", archive], {
       cwd: process.cwd(),
-      env: { ...process.env, GHOST_ADMIN_URL: `http://127.0.0.1:${port}/`, GHOST_ADMIN_KEY: adminKey, GHOST_SITE_URL: "https://example.com" },
+      env: { ...process.env, GHOST_API_VERSION: "v6.54", GHOST_ADMIN_URL: `http://127.0.0.1:${port}/`, GHOST_ADMIN_KEY: adminKey, GHOST_SITE_URL: "https://example.com" },
     });
     let stdout = "";
     let stderr = "";
@@ -67,7 +97,7 @@ test("uploads a ZIP to Ghost's themes upload endpoint as multipart form data", a
   }
   assert.equal(request.method, "POST");
   assert.equal(request.url, "/ghost/api/admin/themes/upload/");
-  assert.equal(request.headers["accept-version"], ADMIN_API_VERSION);
+  assert.equal(request.headers["accept-version"], "v6.54");
   assert.match(request.headers["content-type"], /^multipart\/form-data; boundary=/);
   assert.match(request.body, /name="file"; filename="bomsociety theme\.zip"/);
   assert.match(request.headers.authorization, /^Ghost /);

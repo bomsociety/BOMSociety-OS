@@ -17,6 +17,8 @@ jobs:
     name: Build, upload, activate, and verify Ghost theme
     runs-on: ubuntu-latest
     environment: production
+    env:
+      GHOST_API_VERSION: ${{ vars.GHOST_API_VERSION || 'v6.54' }}
     steps:
       - name: Check out merged main
         uses: actions/checkout@v4
