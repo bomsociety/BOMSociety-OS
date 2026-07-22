@@ -3,58 +3,6 @@ const tabs=document.querySelectorAll('[data-collection-tab]');const panels=docum
 const search=document.querySelector('.decision-search');if(search){search.addEventListener('submit',event=>{const input=search.querySelector('input');if(!input.value.trim()){event.preventDefault();input.focus()}})}
 
 
-const graph=document.querySelector('[data-bomgraph]');
-if(graph){
-  const topics=[...graph.querySelectorAll('[data-graph-topic]')];
-  const links=[...graph.querySelectorAll('[data-link]')];
-  const caption=graph.querySelector('[data-graph-caption]');
-  const copy={
-    contracts:'Contracts connect compensation, finance, ownership, and long-term flexibility.',
-    compensation:'Compensation connects incentives, practice economics, contracts, and career value.',
-    ai:'AI changes workflow, practice economics, risk, and the value of human judgment.',
-    practice:'Practice decisions connect people, technology, compensation, ownership, and growth.',
-    finance:'Finance connects career choices, contracts, ownership, risk, and optionality.',
-    ownership:'Ownership connects control, equity, operations, capital, and exit paths.'
-  };
-  const clear=()=>{
-    graph.classList.remove('is-focused');
-    topics.forEach(t=>t.classList.remove('is-active'));
-    links.forEach(l=>l.classList.remove('is-active'));
-    if(caption)caption.textContent='Explore how one decision changes the others.';
-  };
-  const focus=topic=>{
-    if(topic==='core'){clear();return}
-    graph.classList.add('is-focused');
-    topics.forEach(t=>t.classList.toggle('is-active',t.dataset.graphTopic===topic));
-    links.forEach(l=>l.classList.toggle('is-active',l.dataset.link.split(' ').includes(topic)));
-    if(caption)caption.textContent=copy[topic]||'Connected knowledge creates better decisions.';
-  };
-  topics.forEach(t=>{
-    const topic=t.dataset.graphTopic;
-    t.addEventListener('mouseenter',()=>focus(topic));
-    t.addEventListener('focus',()=>focus(topic));
-    t.addEventListener('mouseleave',clear);
-    t.addEventListener('blur',clear);
-  });
-  graph.addEventListener('pointermove',e=>{
-    if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;
-    const r=graph.getBoundingClientRect();
-    const x=((e.clientX-r.left)/r.width-.5)*8;
-    const y=((e.clientY-r.top)/r.height-.5)*8;
-    graph.style.setProperty('--graph-x',`${x}px`);
-    graph.style.setProperty('--graph-y',`${y}px`);
-    topics.forEach((t,i)=>{
-      const f=(i%3+1)/3;
-      t.style.setProperty('--drift-x',`${x*f}px`);
-      t.style.setProperty('--drift-y',`${y*f}px`);
-    });
-  });
-  graph.addEventListener('pointerleave',()=>{
-    topics.forEach(t=>{t.style.removeProperty('--drift-x');t.style.removeProperty('--drift-y')});
-  });
-}
-
-
 const decisionInput = document.querySelector('[data-decision-input]');
 const decisionSearch = document.querySelector('[data-decision-search]');
 const decisionStatus = document.querySelector('[data-decision-status]');
@@ -95,6 +43,7 @@ function runDecisionFinder(rawQuery) {
   const best = ranked[0];
   if (!best || best.score === 0) {
     if (decisionStatus) decisionStatus.textContent = 'No exact match yet. Browse the decisions below or explore Topics.';
+    window.BOMAnalytics?.track('search_no_results', { source: 'decision_finder', resultCount: 0 });
     document.querySelector('#decisions')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
     return;
   }
@@ -106,9 +55,10 @@ function runDecisionFinder(rawQuery) {
   if (decisionStatus) decisionStatus.textContent = `Best starting point: ${title}`;
   best.card.scrollIntoView({ behavior: 'smooth', block: 'center' });
 
-  window.BOMAnalytics?.track('decision_finder_used', {
-    query,
-    result: title
+  window.BOMAnalytics?.track('search_submitted', {
+    source: 'decision_finder',
+    resultCount: 1,
+    matchedDecisionId: best.card.dataset.decisionId
   });
 }
 
@@ -124,5 +74,25 @@ decisionChips.forEach(chip => {
     const value = chip.dataset.decisionChip || '';
     if (decisionInput) decisionInput.value = value;
     runDecisionFinder(value);
+  });
+});
+
+
+decisionCards.forEach(card => {
+  card.addEventListener('click', () => {
+    window.BOMAnalytics?.track('decision_path_started', {
+      source: 'homepage_decision_card',
+      decisionId: card.dataset.decisionId,
+      knowledgeObjectId: card.dataset.knowledgeObjectId
+    });
+  });
+});
+
+document.querySelectorAll('[data-homepage-event]').forEach(control => {
+  control.addEventListener('click', () => {
+    window.BOMAnalytics?.track(control.dataset.homepageEvent, {
+      source: 'homepage_hero_cta',
+      location: control.dataset.ctaLocation
+    });
   });
 });

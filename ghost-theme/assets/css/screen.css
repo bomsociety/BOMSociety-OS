@@ -433,3 +433,8 @@
 }
 @keyframes heroForYouFade{from{opacity:0}to{opacity:1}}
 @media (prefers-reduced-motion:reduce){.hero-for-you{opacity:1;animation:none}}
+
+/* Sprint 7 — decision-led homepage hero */
+.hero-decisions{display:grid;align-content:center;gap:22px;min-height:320px;padding:42px;border:1px solid rgba(255,255,255,.14);border-radius:30px;background:linear-gradient(145deg,rgba(255,255,255,.1),rgba(255,255,255,.035));box-shadow:0 35px 100px rgba(0,0,0,.2)}
+.hero-decisions p{margin:0;color:#ffd782;font-size:1.25rem;font-weight:850;letter-spacing:-.02em}.hero-decisions ul{display:grid;gap:12px;margin:0;padding:0;list-style:none}.hero-decisions li{padding:15px 0;border-top:1px solid rgba(255,255,255,.16);color:#eaf1f5;font-weight:760}.hero-decisions li:last-child{border-bottom:1px solid rgba(255,255,255,.16)}
+@media(max-width:1050px){.hero-decisions{min-height:auto}}@media(max-width:680px){.hero-decisions{padding:28px}}
