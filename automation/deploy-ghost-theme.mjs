@@ -29,9 +29,27 @@ function escapeRegExp(value) {
 }
 
 function sanitizedUploadResponse(response) {
-  return JSON.stringify(response, (key, value) => (
-    /authorization|cookie|key|password|secret|token/i.test(key) ? "[REDACTED]" : value
+  let value = response;
+  if (typeof value === "string") {
+    try {
+      value = JSON.parse(value);
+    } catch {
+      // A non-JSON response is still safe to log as a string.
+    }
+  }
+  return JSON.stringify(value, (key, nestedValue) => (
+    /authorization|cookie|key|password|secret|token/i.test(key) ? "[REDACTED]" : nestedValue
   ));
+}
+
+function logUploadDiagnostics({ request, response, uploadResponse }) {
+  console.error(`Ghost theme upload request: ${sanitizedUploadResponse(request)}`);
+  console.error(`Ghost theme upload response: ${sanitizedUploadResponse(response)}`);
+  console.error(`Ghost theme parsed JSON: ${sanitizedUploadResponse(uploadResponse)}`);
+  console.error(`Ghost theme uploadResponse: ${sanitizedUploadResponse(uploadResponse)}`);
+  console.error(`Ghost theme uploadResponse.themes: ${sanitizedUploadResponse(uploadResponse.themes)}`);
+  console.error(`Ghost theme uploadResponse.themes[0]: ${sanitizedUploadResponse(uploadResponse.themes?.[0])}`);
+  console.error(`Ghost theme uploadResponse.themes[0].name: ${sanitizedUploadResponse(uploadResponse.themes?.[0]?.name)}`);
 }
 
 function uploadedThemeName(uploadResponse) {
@@ -42,26 +60,35 @@ function uploadedThemeName(uploadResponse) {
   return name;
 }
 
+async function activate(themeName) {
+  await ghostRequest(adminUrl, adminKey, `/themes/${encodeURIComponent(themeName)}/activate/`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ themes: [{ active: true }] }),
+  });
+}
+
 if (command === "upload") {
   requireGhostEnvironment();
   if (!value) throw new Error("Usage: deploy-ghost-theme.mjs upload <zip-path>");
   const archive = await readFile(value);
   const form = new FormData();
   form.append("file", new Blob([archive], { type: "application/zip" }), basename(value));
-  const result = await ghostRequest(adminUrl, adminKey, "/themes/upload/", {
+  const uploadRequest = { method: "POST", path: "/themes/upload/", fileName: basename(value), contentType: "application/zip" };
+  let uploadResponseText;
+  const uploadResponse = await ghostRequest(adminUrl, adminKey, "/themes/upload/", {
     method: "POST",
     body: form,
+    onResponse: ({ body }) => { uploadResponseText = body; },
   });
-  console.error(`Ghost theme upload response: ${sanitizedUploadResponse(result)}`);
-  console.log(uploadedThemeName(result));
-} else if (command === "activate") {
+  logUploadDiagnostics({ request: uploadRequest, response: uploadResponseText, uploadResponse });
+  const themeName = uploadedThemeName(uploadResponse);
+  await activate(themeName);
+  console.log(themeName);
+} else if (command === "restore") {
   requireGhostEnvironment(["adminUrl", "adminKey"]);
-  if (!value) throw new Error("Usage: deploy-ghost-theme.mjs activate <theme-name>");
-  await ghostRequest(adminUrl, adminKey, `/themes/${encodeURIComponent(value)}/activate/`, {
-    method: "PUT",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ themes: [{ active: true }] }),
-  });
+  if (!value) throw new Error("Usage: deploy-ghost-theme.mjs restore <theme-name>");
+  await activate(value);
 } else if (command === "active-theme") {
   requireGhostEnvironment(["adminUrl", "adminKey"]);
   const result = await ghostRequest(adminUrl, adminKey, "/themes/", { method: "GET" });
@@ -81,5 +108,5 @@ if (command === "upload") {
     if (!html.includes(marker)) throw new Error(`Live homepage is missing required ${name} marker: ${marker}`);
   }
 } else {
-  throw new Error("Command must be upload, activate, active-theme, or verify.");
+  throw new Error("Command must be upload, restore, active-theme, or verify.");
 }

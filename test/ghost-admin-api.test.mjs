@@ -76,11 +76,11 @@ test("rejects an invalid configured Ghost Admin API version before making a requ
 });
 
 test("uploads a ZIP to Ghost's themes upload endpoint as multipart form data", async () => {
-  let request;
+  const requests = [];
   const server = createServer(async (incoming, outgoing) => {
     const chunks = [];
     for await (const chunk of incoming) chunks.push(chunk);
-    request = { headers: incoming.headers, method: incoming.method, url: incoming.url, body: Buffer.concat(chunks).toString("latin1") };
+    requests.push({ headers: incoming.headers, method: incoming.method, url: incoming.url, body: Buffer.concat(chunks).toString("latin1") });
     outgoing.setHeader("Content-Type", "application/json");
     outgoing.end(JSON.stringify({ themes: [{ name: "bomsociety" }] }));
   });
@@ -102,17 +102,21 @@ test("uploads a ZIP to Ghost's themes upload endpoint as multipart form data", a
     const [code] = await once(child, "close");
     assert.equal(code, 0, stderr);
     assert.equal(stdout.trim(), "bomsociety");
-    assert.equal(stderr.trim(), 'Ghost theme upload response: {"themes":[{"name":"bomsociety"}]}');
+    assert.match(stderr, /Ghost theme upload request: .*"path":"\/themes\/upload\/"/);
+    assert.match(stderr, /Ghost theme upload response: \{"themes":\[{"name":"bomsociety"}\]\}/);
+    assert.match(stderr, /Ghost theme parsed JSON: \{"themes":\[{"name":"bomsociety"}\]\}/);
+    assert.match(stderr, /Ghost theme uploadResponse\.themes\[0\]\.name: "bomsociety"/);
   } finally {
     await new Promise((resolve, reject) => server.close((error) => error ? reject(error) : resolve()));
     await rm(directory, { recursive: true, force: true });
   }
-  assert.equal(request.method, "POST");
-  assert.equal(request.url, "/ghost/api/admin/themes/upload/");
-  assert.equal(request.headers["accept-version"], "v6.54");
-  assert.match(request.headers["content-type"], /^multipart\/form-data; boundary=/);
-  assert.match(request.body, /name="file"; filename="bomsociety theme\.zip"/);
-  assert.match(request.headers.authorization, /^Ghost /);
+  const uploadRequest = requests.find(({ method, url }) => method === "POST" && url === "/ghost/api/admin/themes/upload/");
+  assert.ok(uploadRequest);
+  assert.equal(uploadRequest.headers["accept-version"], "v6.54");
+  assert.match(uploadRequest.headers["content-type"], /^multipart\/form-data; boundary=/);
+  assert.match(uploadRequest.body, /name="file"; filename="bomsociety theme\.zip"/);
+  assert.match(uploadRequest.headers.authorization, /^Ghost /);
+  assert.ok(requests.some(({ method, url }) => method === "PUT" && url === "/ghost/api/admin/themes/bomsociety/activate/"));
 });
 
 test("refuses to guess an activation name when Ghost omits themes[0].name", async () => {
@@ -138,6 +142,7 @@ test("refuses to guess an activation name when Ghost omits themes[0].name", asyn
     const [code] = await once(child, "close");
     assert.notEqual(code, 0);
     assert.match(stderr, /Ghost theme upload response: .*"token":"\[REDACTED\]"/);
+    assert.match(stderr, /Ghost theme uploadResponse\.themes\[0\]\.name: undefined/);
     assert.match(stderr, /did not include themes\[0\]\.name; refusing to guess an activation name/);
   } finally {
     await new Promise((resolve, reject) => server.close((error) => error ? reject(error) : resolve()));
@@ -202,15 +207,14 @@ test("deployment activates the exact theme name returned by Ghost upload", async
     assert.equal((await run("active-theme")).stdout.trim(), "previous-theme");
     const upload = await run("upload", archive);
     assert.equal(upload.stdout.trim(), "bomsociety-theme");
-    assert.equal(upload.stderr.trim(), 'Ghost theme upload response: {"themes":[{"name":"bomsociety-theme","active":false}]}');
-    assert.equal((await run("activate", upload.stdout.trim())).code, 0);
+    assert.match(upload.stderr, /Ghost theme uploadResponse\.themes\[0\]\.name: "bomsociety-theme"/);
     assert.equal(activeTheme, "bomsociety-theme");
     assert.equal((await run("verify")).code, 0);
     homepageIsValid = false;
     const verification = await run("verify");
     assert.notEqual(verification.code, 0);
     assert.match(verification.stderr, /required hero marker/);
-    assert.equal((await run("activate", "previous-theme")).code, 0);
+    assert.equal((await run("restore", "previous-theme")).code, 0);
     assert.equal(activeTheme, "previous-theme");
   } finally {
     await new Promise((resolve, reject) => server.close((error) => error ? reject(error) : resolve()));
