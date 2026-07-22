@@ -1,38 +1,49 @@
 {{!< default}}
-<section class="hero hero-first-decision section-dark" data-track-section="hero">
-  <div class="shell hero-decision-shell">
-    <div class="hero-decision-intro">
-      <span class="eyebrow">START WITH WHAT IS IN FRONT OF YOU</span>
-      <h1 class="hero-promise">What decision needs your attention?</h1>
-      <span class="hero-decision-instruction">Choose one. Get a useful next step now.</span>
-      <div class="hero-decision-choices" role="group" aria-label="Choose a decision">
-        <button type="button" data-hero-decision="compensation" data-decision-id="rvu-compensation" data-knowledge-object-id="topic:rvu-compensation">My compensation</button>
-        <button type="button" data-hero-decision="job-offer" data-decision-id="employment-contracts" data-knowledge-object-id="topic:employment-contracts">A job offer</button>
-        <button type="button" data-hero-decision="ownership" data-decision-id="private-equity" data-knowledge-object-id="topic:private-equity">Ownership</button>
-        <button type="button" data-hero-decision="wealth" data-decision-id="physician-wealth" data-knowledge-object-id="topic:physician-wealth">Income &amp; wealth</button>
-        <button type="button" data-hero-decision="ai" data-decision-id="artificial-intelligence" data-knowledge-object-id="topic:artificial-intelligence">AI in practice</button>
-        <button type="button" data-hero-decision="leadership" data-decision-id="practice-management" data-knowledge-object-id="topic:practice-management">Practice leadership</button>
+{{!-- Sprint 9 mapping: every data-intelligence-action is mapped in docs/INTELLIGENCE-MAPPING.md. --}}
+<main class="product-shell" id="main" data-track-section="physician-product">
+  <header class="product-scorebar">
+    <button class="bom-score" type="button" data-score-toggle aria-expanded="false" aria-controls="competency-breakdown" data-intelligence-action="score_breakdown_opened">
+      <span>BOM SCORE</span><strong data-bom-score>--</strong><i aria-hidden="true">⌄</i>
+    </button>
+    <p>Build business-of-medicine judgment, one decision at a time.</p>
+  </header>
+  <div class="competency-breakdown" id="competency-breakdown" hidden aria-label="BOM Score competencies">
+    <span>Compensation</span><span>Contracts</span><span>Negotiation</span><span>Leadership</span><span>Ownership</span><span>AI</span><span>Finance</span><span>Practice</span><span>Career</span><span>Compliance</span>
+  </div>
+
+  <div class="product-grid">
+    <aside class="question-rail" aria-label="Explore physician decisions">
+      <p class="product-kicker">START WHERE IT STINGS</p>
+      <h2>One sharp question can change your next move.</h2>
+      <button class="tension-card is-active" type="button" data-module-select="paid-more" data-intelligence-action="compensation_module_selected"><small>COMPENSATION</small><strong>Is your paycheck rewarding your work—or your employer’s leverage?</strong><span>Open →</span></button>
+      <button class="tension-card" type="button" data-intelligence-action="contract_tension_selected"><small>CONTRACTS</small><strong>What would you lose if you signed the same contract tomorrow?</strong><span>Explore →</span></button>
+      <button class="tension-card" type="button" data-intelligence-action="negotiation_tension_selected"><small>NEGOTIATION</small><strong>What changes if you ask the question nobody expects?</strong><span>Explore →</span></button>
+      <button class="tension-card" type="button" data-intelligence-action="ownership_tension_selected"><small>OWNERSHIP</small><strong>Are you being offered equity—or a more expensive job?</strong><span>Explore →</span></button>
+      <button class="tension-card" type="button" data-intelligence-action="ai_tension_selected"><small>AI</small><strong>Which clinic day would you want AI to give back first?</strong><span>Explore →</span></button>
+    </aside>
+
+    <section class="learning-module" aria-labelledby="module-title" data-track-section="get-paid-more">
+      <div class="module-head"><p class="product-kicker">COMPENSATION · FIRST PRODUCT</p><h1 id="module-title">GET PAID MORE</h1><p>Make the next compensation conversation more valuable before you walk into it.</p></div>
+      <div class="depth-picker" role="tablist" aria-label="Choose module depth">
+        <button type="button" role="tab" aria-selected="true" data-depth="quick" data-intelligence-action="quick_win_selected"><b>⚡ Quick Win</b><span>~30 sec</span></button>
+        <button type="button" role="tab" aria-selected="false" data-depth="brief" data-intelligence-action="brief_overview_selected"><b>📘 Brief Overview</b><span>~2 min</span></button>
+        <button type="button" role="tab" aria-selected="false" data-depth="deep" data-intelligence-action="deep_dive_selected"><b>🔍 Deep Dive</b><span>~5 min</span></button>
       </div>
-    </div>
-    <aside class="hero-decision-result" data-hero-decision-result aria-live="polite" aria-label="Your useful next step">
-      <span class="component-label">YOUR USEFUL NEXT STEP</span>
-      <h2>Choose a decision to begin.</h2>
-      <span class="hero-result-detail">A focused brief is ready in the time you have.</span>
+      <div class="module-content" data-module-content></div>
+      <div class="module-flow">
+        <button type="button" class="flow-card" data-open-case data-intelligence-action="compensation_case_opened"><span>01</span><div><small>REAL CASE</small><strong>One sentence changed the offer.</strong><p>See how an employed physician found leverage without bluffing.</p></div><i>→</i></button>
+        <button type="button" class="flow-card" data-open-check data-intelligence-action="compensation_knowledge_check_started"><span>02</span><div><small>KNOWLEDGE CHECK</small><strong>Can you spot the expensive assumption?</strong><p>One question. No grades. Just better pattern recognition.</p></div><i>→</i></button>
+        <button type="button" class="flow-card next-module" data-intelligence-action="next_module_recommended"><span>03</span><div><small>NEXT RECOMMENDED MODULE</small><strong>Would you sign your contract again?</strong><p>Protect the leverage you just created.</p></div><i>→</i></button>
+      </div>
+    </section>
+
+    <aside class="intelligence-rail" aria-label="Live physician intelligence">
+      <p class="product-kicker">LIVE PHYSICIAN INTELLIGENCE</p>
+      <p class="intelligence-intro">Enterprise previews built from meaningful physician decision signals.</p>
+      <article class="enterprise-preview"><span class="indicator"><i></i> SIGNALING</span><h2>Physician Decision Index™</h2><p>A privacy-conscious view of where physicians are seeking decision support.</p><b>Enterprise Preview</b></article>
+      <article class="enterprise-preview"><span class="indicator"><i></i> SIGNALING</span><h2>Compensation Intelligence™</h2><p>Emerging compensation questions and negotiation readiness patterns.</p><b>Enterprise Preview</b></article>
+      <article class="enterprise-preview"><span class="indicator"><i></i> SIGNALING</span><h2>AI Adoption Intelligence™</h2><p>How clinical teams are evaluating practical AI workflow decisions.</p><b>Enterprise Preview</b></article>
+      <a class="mapping-link" href="{{@site.url}}/about/">How intelligence is built <span>→</span></a>
     </aside>
   </div>
-</section>
-
-<section class="section for-you-section" id="for-you" data-track-section="for-you">
- <div class="shell"><div class="section-head"><div><p class="eyebrow">FOR YOU</p><h2>What would help you most right now?</h2></div><p>Choose a starting point. This first-party selection simply surfaces matching published content—it is not machine-learning personalization.</p></div>
- <div class="preference-controls" role="group" aria-label="Choose a topic"><button type="button" data-for-you-topic="compensation">Understand my compensation</button><button type="button" data-for-you-topic="job-offer">Review a job offer</button><button type="button" data-for-you-topic="ownership">Evaluate an ownership opportunity</button><button type="button" data-for-you-topic="wealth">Protect my income and wealth</button><button type="button" data-for-you-topic="ai">Use AI effectively</button><button type="button" data-for-you-topic="leadership">Lead or grow a practice</button></div>
- <div class="career-stage"><label for="career-stage">Career stage <span>(optional)</span></label><select id="career-stage" data-career-stage><option value="">Choose when it is useful</option><option value="training">In training</option><option value="early-career">Early career</option><option value="established">Established practice</option><option value="transition">Considering a transition</option></select></div>
- <div class="for-you-results" data-for-you-results aria-live="polite"><p class="component-label">A USEFUL START</p><h3>Choose a topic, or start with the latest useful brief.</h3><p>Your choices remain in this browser only. A profile can support saved progress when that member feature is available.</p><a class="text-link" href="#latest">See latest useful briefs <span aria-hidden="true">→</span></a></div></div>
-</section>
-
-<section class="section section-soft" id="level-up" data-track-section="level-up"><div class="shell"><div class="section-head"><div><p class="eyebrow">THE LEVEL-UP FRAMEWORK</p><h2>Move from information to better decisions.</h2></div><p>A clear path for building business-of-medicine mastery at the pace a real clinical career allows.</p></div><ol class="level-path"><li><span>01</span><h3>Discover</h3><p>Find the concept or decision that matters now.</p></li><li><span>02</span><h3>Apply</h3><p>Use practical formats to see what it means for you.</p></li><li><span>03</span><h3>Decide</h3><p>Bring better questions to your next conversation.</p></li><li><span>04</span><h3>Master</h3><p>Return when the next connected decision arrives.</p></li></ol>{{> lesson-depths}}</div></section>
-
-<section class="section decisions-section" id="decisions" data-track-section="decisions"><div class="shell"><div class="section-head"><div><p class="eyebrow">DECISIONS</p><h2>Start with the decision in front of you.</h2></div><p>Six focused paths connect you to existing published guidance.</p></div><div class="decision-grid"><a class="decision-card" data-decision-card data-decision-id="rvu-compensation" data-knowledge-object-id="topic:rvu-compensation" data-keywords="compensation rvu" href="{{@site.url}}/topic/rvu-compensation/"><span class="decision-number">01</span><div><small>COMPENSATION</small><h3>Understand my compensation</h3><p>See how incentives work before they shape your choices.</p></div><b>Explore <span aria-hidden="true">→</span></b></a><a class="decision-card" data-decision-card data-decision-id="employment-contracts" data-knowledge-object-id="topic:employment-contracts" data-keywords="job offer contract employment" href="{{@site.url}}/topic/employment-contracts/"><span class="decision-number">02</span><div><small>CAREER</small><h3>Review a job offer</h3><p>Understand terms that define your work, leverage, and options.</p></div><b>Explore <span aria-hidden="true">→</span></b></a><a class="decision-card" data-decision-card data-decision-id="private-equity" data-knowledge-object-id="topic:private-equity" data-keywords="ownership private equity asc" href="{{@site.url}}/topic/private-equity/"><span class="decision-number">03</span><div><small>OWNERSHIP</small><h3>Evaluate an ownership opportunity</h3><p>Assess value, control, risk, and the terms after closing.</p></div><b>Explore <span aria-hidden="true">→</span></b></a><a class="decision-card" data-decision-card data-decision-id="physician-wealth" data-knowledge-object-id="topic:physician-wealth" data-keywords="income wealth finance" href="{{@site.url}}/topic/physician-wealth/"><span class="decision-number">04</span><div><small>WEALTH</small><h3>Protect my income and wealth</h3><p>Build a framework for security, flexibility, and long-term options.</p></div><b>Explore <span aria-hidden="true">→</span></b></a><a class="decision-card" data-decision-card data-decision-id="artificial-intelligence" data-knowledge-object-id="topic:artificial-intelligence" data-keywords="ai artificial intelligence" href="{{@site.url}}/topic/artificial-intelligence/"><span class="decision-number">05</span><div><small>TECHNOLOGY</small><h3>Use AI effectively</h3><p>Separate useful change from noise, hype, and avoidable risk.</p></div><b>Explore <span aria-hidden="true">→</span></b></a><a class="decision-card" data-decision-card data-decision-id="practice-management" data-knowledge-object-id="topic:practice-management" data-keywords="leadership practice management" href="{{@site.url}}/topic/practice-management/"><span class="decision-number">06</span><div><small>LEADERSHIP</small><h3>Lead or grow a practice</h3><p>Build the perspective to lead with clarity and intention.</p></div><b>Explore <span aria-hidden="true">→</span></b></a></div></div></section>
-
-<section class="section latest-section section-soft" id="latest" data-track-section="latest"><div class="shell"><div class="section-head"><div><p class="eyebrow">LATEST USEFUL BRIEFS</p><h2>Useful now.</h2></div><a class="text-link" href="{{@site.url}}/briefs/">View all briefs <span aria-hidden="true">→</span></a></div><div class="article-grid">{{#get "posts" limit="6" include="tags,authors"}}{{#foreach posts}}{{> article-card}}{{/foreach}}{{/get}}</div></div></section>
-
-<section class="membership-section" id="join" data-track-section="membership"><div class="shell membership-grid"><div><p class="eyebrow">FREE MEMBERSHIP</p><h2>Keep the useful work connected.</h2><p>Save your progress, personalize your learning path, and receive only the decisions and updates that matter to you.</p><p class="membership-honesty">You can explore first. A profile is for returning to what matters.</p></div><div class="membership-card"><span>YOUR FREE PROFILE</span><h3>Make the next step easier to find.</h3><p>Use membership to save progress and make future recommendations more relevant when member features are available.</p><a class="button button-full" href="#/portal/signup" data-homepage-event="membership_cta_selected" data-cta-location="membership">Create My Free Profile</a><small>Free. No fabricated progress or forced gate before value.</small></div></div></section>
+</main>
