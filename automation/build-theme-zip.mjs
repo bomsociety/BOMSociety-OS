@@ -1,4 +1,4 @@
-import { mkdir, readFile } from "node:fs/promises";
+import { mkdir, readFile, rm } from "node:fs/promises";
 import { execFileSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
@@ -10,5 +10,6 @@ const themePackage = JSON.parse(await readFile(join(theme, "package.json"), "utf
 const output = join(releases, `UPLOAD-TO-GHOST-bomsociety-theme-v${themePackage.version}.zip`);
 
 await mkdir(releases, { recursive: true });
+await rm(output, { force: true });
 execFileSync("zip", ["-r", output, "."], { cwd: theme, stdio: "inherit" });
 console.log(output);

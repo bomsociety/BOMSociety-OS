@@ -10,6 +10,8 @@ const header = await readFile(new URL("../ghost-theme/partials/site-header.hbs",
 const depths = await readFile(new URL("../ghost-theme/partials/lesson-depths.hbs", import.meta.url), "utf8");
 const post = await readFile(new URL("../ghost-theme/post.hbs", import.meta.url), "utf8");
 const zipBuilder = await readFile(new URL("../automation/build-theme-zip.mjs", import.meta.url), "utf8");
+const deploymentWorkflow = await readFile(new URL("../.github/workflows/deploy-ghost-theme.yml", import.meta.url), "utf8");
+const deploymentScript = await readFile(new URL("../automation/deploy-ghost-theme.mjs", import.meta.url), "utf8");
 
 test("homepage has the Sprint 8 positioning and user-centered navigation", () => {
   assert.match(home, /Level up the business side of medicine\./);
@@ -38,5 +40,18 @@ test("version is synchronized and the theme ZIP builder packages from the theme 
   const root = JSON.parse(await readFile(new URL("../package.json", import.meta.url))); const theme = JSON.parse(await readFile(new URL("../ghost-theme/package.json", import.meta.url)));
   const version = (await readFile(new URL("../VERSION", import.meta.url), "utf8")).trim();
   assert.equal(root.version, "1.3.0"); assert.equal(theme.version, root.version); assert.equal(version, root.version);
-  assert.match(zipBuilder, /cwd: theme/); assert.match(zipBuilder, /UPLOAD-TO-GHOST-bomsociety-theme-v/);
+  assert.match(zipBuilder, /cwd: theme/); assert.match(zipBuilder, /UPLOAD-TO-GHOST-bomsociety-theme-v/); assert.match(zipBuilder, /rm\(output, \{ force: true \}\)/);
+});
+test("production deployment builds main in-run, protects secrets, and verifies the live homepage", () => {
+  assert.match(deploymentWorkflow, /workflow_dispatch:/);
+  assert.match(deploymentWorkflow, /ref: main/);
+  assert.match(deploymentWorkflow, /npm test/);
+  assert.match(deploymentWorkflow, /npm run theme:zip/);
+  assert.match(deploymentWorkflow, /unzip -Z1.*package\.json/);
+  assert.match(deploymentWorkflow, /sha256sum/);
+  assert.doesNotMatch(deploymentWorkflow, /download-artifact/);
+  for (const secret of ["GHOST_ADMIN_URL", "GHOST_ADMIN_KEY", "GHOST_SITE_URL"]) assert.match(deploymentWorkflow, new RegExp(`secrets\\.${secret}`));
+  assert.match(deploymentScript, /Level up the business side of medicine\./);
+  assert.match(deploymentScript, /Start Leveling Up/);
+  assert.match(deploymentScript, /Explore For You/);
 });
