@@ -1,10 +1,14 @@
-import { readdir, readFile, mkdir, writeFile } from "node:fs/promises";
-import { join, relative } from "node:path";
+import { mkdir, readFile } from "node:fs/promises";
 import { execFileSync } from "node:child_process";
+import { fileURLToPath } from "node:url";
+import { dirname, join } from "node:path";
 
-const root = new URL("../ghost-theme/", import.meta.url).pathname;
-const releases = new URL("../releases/", import.meta.url).pathname;
+const root = dirname(fileURLToPath(import.meta.url));
+const theme = join(root, "..", "ghost-theme");
+const releases = join(root, "..", "releases");
+const themePackage = JSON.parse(await readFile(join(theme, "package.json"), "utf8"));
+const output = join(releases, `UPLOAD-TO-GHOST-bomsociety-theme-v${themePackage.version}.zip`);
+
 await mkdir(releases, { recursive: true });
-const output = join(releases, "bomsociety-theme-v0.1.0.zip");
-execFileSync("zip", ["-r", output, "."], { cwd: root, stdio: "inherit" });
+execFileSync("zip", ["-r", output, "."], { cwd: theme, stdio: "inherit" });
 console.log(output);

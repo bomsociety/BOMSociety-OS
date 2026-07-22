@@ -1,62 +1,40 @@
-name: Build Ghost theme
+name: Validate and package Ghost theme
 
 on:
+  pull_request:
   workflow_dispatch:
-  push:
-    branches:
-      - main
-    paths:
-      - "ghost-theme/**"
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
-  build:
+  validate-and-package:
     runs-on: ubuntu-latest
 
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
-        with:
-          ref: main
-          fetch-depth: 0
 
       - name: Set up Node.js 20
         uses: actions/setup-node@v4
         with:
           node-version: 20
 
+      - name: Run repository validation
+        run: npm test
+
       - name: Build Ghost theme ZIP
+        id: package
         shell: bash
         run: |
           set -euo pipefail
-
+          npm run theme:zip
           VERSION="$(node -p "require('./ghost-theme/package.json').version")"
-          ZIP_PATH="releases/UPLOAD-TO-GHOST-bomsociety-theme-v${VERSION}.zip"
+          echo "zip_path=releases/UPLOAD-TO-GHOST-bomsociety-theme-v${VERSION}.zip" >> "$GITHUB_OUTPUT"
 
-          mkdir -p releases
-          (
-            cd ghost-theme
-            zip -r "../${ZIP_PATH}" .
-          )
-
-          echo "ZIP_PATH=${ZIP_PATH}" >> "$GITHUB_ENV"
-
-      - name: Commit ZIP when changed
-        shell: bash
-        run: |
-          set -euo pipefail
-
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-
-          git add "$ZIP_PATH"
-
-          if git diff --cached --quiet; then
-            echo "Ghost theme ZIP is unchanged; skipping commit."
-            exit 0
-          fi
-
-          git commit -m "Build Ghost theme ZIP for ${ZIP_PATH##*/}"
-          git push origin HEAD:main
+      - name: Upload Ghost theme artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: bomsociety-ghost-theme
+          path: ${{ steps.package.outputs.zip_path }}
+          if-no-files-found: error
