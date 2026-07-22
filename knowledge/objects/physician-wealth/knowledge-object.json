@@ -1,0 +1,419 @@
+{
+  "id": "topic:physician-wealth",
+  "slug": "physician-wealth",
+  "title": "Physician Wealth",
+  "type": "topic",
+  "summary30": "Physician Wealth decisions require a structured review of economics, risk, operations, and future options.",
+  "summary120": "Use this canonical knowledge object to organize physician wealth decisions, claims awaiting evidence, corroboration work, relationships, and a progressive learning path.",
+  "summary300": "Physician Wealth is a physician decision topic that should be evaluated through explicit terms, assumptions, incentives, risks, operating context, and professional advice where appropriate. This object intentionally keeps evidence records empty until verifiable sources can be attached. Its lessons establish a repeatable review sequence from initial framing through diligence, documentation, and ongoing reassessment.",
+  "references": [],
+  "corroboration": {
+    "status": "pending_evidence",
+    "record_ids": [
+      "corroboration:physician-wealth:1",
+      "corroboration:physician-wealth:2",
+      "corroboration:physician-wealth:3",
+      "corroboration:physician-wealth:4",
+      "corroboration:physician-wealth:5"
+    ]
+  },
+  "relationships": [
+    {
+      "id": "relationship:physician-wealth:decision-1",
+      "from_id": "topic:physician-wealth",
+      "predicate": "has_decision",
+      "to_id": "decision:physician-wealth:1"
+    },
+    {
+      "id": "relationship:physician-wealth:decision-2",
+      "from_id": "topic:physician-wealth",
+      "predicate": "has_decision",
+      "to_id": "decision:physician-wealth:2"
+    },
+    {
+      "id": "relationship:physician-wealth:decision-3",
+      "from_id": "topic:physician-wealth",
+      "predicate": "has_decision",
+      "to_id": "decision:physician-wealth:3"
+    },
+    {
+      "id": "relationship:physician-wealth:decision-4",
+      "from_id": "topic:physician-wealth",
+      "predicate": "has_decision",
+      "to_id": "decision:physician-wealth:4"
+    },
+    {
+      "id": "relationship:physician-wealth:decision-5",
+      "from_id": "topic:physician-wealth",
+      "predicate": "has_decision",
+      "to_id": "decision:physician-wealth:5"
+    }
+  ],
+  "seo": {
+    "title": "Physician Wealth | BOMSociety",
+    "description": ""
+  },
+  "analytics": {
+    "events": [
+      "knowledge_object_view",
+      "learning_path_started",
+      "lesson_depth_selected",
+      "learning_path_completed"
+    ]
+  },
+  "canonical_kind": "knowledge_object",
+  "status": "production_ready_structure",
+  "taxonomy": [
+    "Finance",
+    "Investing",
+    "Taxes",
+    "Retirement",
+    "Insurance"
+  ],
+  "decision_objects": [
+    {
+      "id": "decision:physician-wealth:1",
+      "title": "Goals and measures",
+      "order": 1,
+      "status": "ready_for_evidence",
+      "evidence_ids": [
+        "evidence:physician-wealth:1"
+      ],
+      "claim_ids": [
+        "claim:physician-wealth:1"
+      ]
+    },
+    {
+      "id": "decision:physician-wealth:2",
+      "title": "Cash flow",
+      "order": 2,
+      "status": "ready_for_evidence",
+      "evidence_ids": [
+        "evidence:physician-wealth:2"
+      ],
+      "claim_ids": [
+        "claim:physician-wealth:2"
+      ]
+    },
+    {
+      "id": "decision:physician-wealth:3",
+      "title": "Liquidity",
+      "order": 3,
+      "status": "ready_for_evidence",
+      "evidence_ids": [
+        "evidence:physician-wealth:3"
+      ],
+      "claim_ids": [
+        "claim:physician-wealth:3"
+      ]
+    },
+    {
+      "id": "decision:physician-wealth:4",
+      "title": "Debt",
+      "order": 4,
+      "status": "ready_for_evidence",
+      "evidence_ids": [
+        "evidence:physician-wealth:4"
+      ],
+      "claim_ids": [
+        "claim:physician-wealth:4"
+      ]
+    },
+    {
+      "id": "decision:physician-wealth:5",
+      "title": "Risk protection",
+      "order": 5,
+      "status": "ready_for_evidence",
+      "evidence_ids": [
+        "evidence:physician-wealth:5"
+      ],
+      "claim_ids": [
+        "claim:physician-wealth:5"
+      ]
+    }
+  ],
+  "claims": [
+    {
+      "id": "claim:physician-wealth:1",
+      "decision_id": "decision:physician-wealth:1",
+      "statement": "Decision review should address goals and measures.",
+      "status": "requires_evidence",
+      "evidence_ids": [
+        "evidence:physician-wealth:1"
+      ],
+      "corroboration_id": "corroboration:physician-wealth:1"
+    },
+    {
+      "id": "claim:physician-wealth:2",
+      "decision_id": "decision:physician-wealth:2",
+      "statement": "Decision review should address cash flow.",
+      "status": "requires_evidence",
+      "evidence_ids": [
+        "evidence:physician-wealth:2"
+      ],
+      "corroboration_id": "corroboration:physician-wealth:2"
+    },
+    {
+      "id": "claim:physician-wealth:3",
+      "decision_id": "decision:physician-wealth:3",
+      "statement": "Decision review should address liquidity.",
+      "status": "requires_evidence",
+      "evidence_ids": [
+        "evidence:physician-wealth:3"
+      ],
+      "corroboration_id": "corroboration:physician-wealth:3"
+    },
+    {
+      "id": "claim:physician-wealth:4",
+      "decision_id": "decision:physician-wealth:4",
+      "statement": "Decision review should address debt.",
+      "status": "requires_evidence",
+      "evidence_ids": [
+        "evidence:physician-wealth:4"
+      ],
+      "corroboration_id": "corroboration:physician-wealth:4"
+    },
+    {
+      "id": "claim:physician-wealth:5",
+      "decision_id": "decision:physician-wealth:5",
+      "statement": "Decision review should address risk protection.",
+      "status": "requires_evidence",
+      "evidence_ids": [
+        "evidence:physician-wealth:5"
+      ],
+      "corroboration_id": "corroboration:physician-wealth:5"
+    }
+  ],
+  "evidence_placeholders": [
+    {
+      "id": "evidence:physician-wealth:1",
+      "claim_id": "claim:physician-wealth:1",
+      "status": "empty_placeholder",
+      "citation": {
+        "title": "",
+        "authors": [],
+        "publisher": "",
+        "publication_date": "",
+        "url": "",
+        "locator": ""
+      },
+      "notes": ""
+    },
+    {
+      "id": "evidence:physician-wealth:2",
+      "claim_id": "claim:physician-wealth:2",
+      "status": "empty_placeholder",
+      "citation": {
+        "title": "",
+        "authors": [],
+        "publisher": "",
+        "publication_date": "",
+        "url": "",
+        "locator": ""
+      },
+      "notes": ""
+    },
+    {
+      "id": "evidence:physician-wealth:3",
+      "claim_id": "claim:physician-wealth:3",
+      "status": "empty_placeholder",
+      "citation": {
+        "title": "",
+        "authors": [],
+        "publisher": "",
+        "publication_date": "",
+        "url": "",
+        "locator": ""
+      },
+      "notes": ""
+    },
+    {
+      "id": "evidence:physician-wealth:4",
+      "claim_id": "claim:physician-wealth:4",
+      "status": "empty_placeholder",
+      "citation": {
+        "title": "",
+        "authors": [],
+        "publisher": "",
+        "publication_date": "",
+        "url": "",
+        "locator": ""
+      },
+      "notes": ""
+    },
+    {
+      "id": "evidence:physician-wealth:5",
+      "claim_id": "claim:physician-wealth:5",
+      "status": "empty_placeholder",
+      "citation": {
+        "title": "",
+        "authors": [],
+        "publisher": "",
+        "publication_date": "",
+        "url": "",
+        "locator": ""
+      },
+      "notes": ""
+    }
+  ],
+  "corroboration_records": [
+    {
+      "id": "corroboration:physician-wealth:1",
+      "claim_id": "claim:physician-wealth:1",
+      "status": "pending_evidence",
+      "supporting_evidence_ids": [],
+      "contradicting_evidence_ids": [],
+      "assessment": ""
+    },
+    {
+      "id": "corroboration:physician-wealth:2",
+      "claim_id": "claim:physician-wealth:2",
+      "status": "pending_evidence",
+      "supporting_evidence_ids": [],
+      "contradicting_evidence_ids": [],
+      "assessment": ""
+    },
+    {
+      "id": "corroboration:physician-wealth:3",
+      "claim_id": "claim:physician-wealth:3",
+      "status": "pending_evidence",
+      "supporting_evidence_ids": [],
+      "contradicting_evidence_ids": [],
+      "assessment": ""
+    },
+    {
+      "id": "corroboration:physician-wealth:4",
+      "claim_id": "claim:physician-wealth:4",
+      "status": "pending_evidence",
+      "supporting_evidence_ids": [],
+      "contradicting_evidence_ids": [],
+      "assessment": ""
+    },
+    {
+      "id": "corroboration:physician-wealth:5",
+      "claim_id": "claim:physician-wealth:5",
+      "status": "pending_evidence",
+      "supporting_evidence_ids": [],
+      "contradicting_evidence_ids": [],
+      "assessment": ""
+    }
+  ],
+  "learning_path": {
+    "id": "learning-path:physician-wealth",
+    "title": "Physician Wealth Learning Path",
+    "ordered_lesson_ids": [
+      "lesson:physician-wealth:1",
+      "lesson:physician-wealth:2",
+      "lesson:physician-wealth:3",
+      "lesson:physician-wealth:4",
+      "lesson:physician-wealth:5",
+      "lesson:physician-wealth:6",
+      "lesson:physician-wealth:7",
+      "lesson:physician-wealth:8",
+      "lesson:physician-wealth:9",
+      "lesson:physician-wealth:10"
+    ]
+  },
+  "lessons": [
+    {
+      "id": "lesson:physician-wealth:1",
+      "order": 1,
+      "title": "Goals and measures",
+      "versions": {
+        "seconds_30": "Assess goals and measures before making this physician wealth decision.",
+        "minutes_2": "Assess goals and measures before making this physician wealth decision. Identify the written terms, assumptions, responsible parties, and unresolved questions that require review.",
+        "minutes_5": "Assess goals and measures before making this physician wealth decision. Document what is known, what must be confirmed, and which specialist review may be needed. Compare the proposed arrangement against your objectives, risk tolerance, and operational context. Do not treat projections or informal representations as settled terms; preserve questions and decisions in the canonical record."
+      }
+    },
+    {
+      "id": "lesson:physician-wealth:2",
+      "order": 2,
+      "title": "Cash flow",
+      "versions": {
+        "seconds_30": "Assess cash flow before making this physician wealth decision.",
+        "minutes_2": "Assess cash flow before making this physician wealth decision. Identify the written terms, assumptions, responsible parties, and unresolved questions that require review.",
+        "minutes_5": "Assess cash flow before making this physician wealth decision. Document what is known, what must be confirmed, and which specialist review may be needed. Compare the proposed arrangement against your objectives, risk tolerance, and operational context. Do not treat projections or informal representations as settled terms; preserve questions and decisions in the canonical record."
+      }
+    },
+    {
+      "id": "lesson:physician-wealth:3",
+      "order": 3,
+      "title": "Liquidity",
+      "versions": {
+        "seconds_30": "Assess liquidity before making this physician wealth decision.",
+        "minutes_2": "Assess liquidity before making this physician wealth decision. Identify the written terms, assumptions, responsible parties, and unresolved questions that require review.",
+        "minutes_5": "Assess liquidity before making this physician wealth decision. Document what is known, what must be confirmed, and which specialist review may be needed. Compare the proposed arrangement against your objectives, risk tolerance, and operational context. Do not treat projections or informal representations as settled terms; preserve questions and decisions in the canonical record."
+      }
+    },
+    {
+      "id": "lesson:physician-wealth:4",
+      "order": 4,
+      "title": "Debt",
+      "versions": {
+        "seconds_30": "Assess debt before making this physician wealth decision.",
+        "minutes_2": "Assess debt before making this physician wealth decision. Identify the written terms, assumptions, responsible parties, and unresolved questions that require review.",
+        "minutes_5": "Assess debt before making this physician wealth decision. Document what is known, what must be confirmed, and which specialist review may be needed. Compare the proposed arrangement against your objectives, risk tolerance, and operational context. Do not treat projections or informal representations as settled terms; preserve questions and decisions in the canonical record."
+      }
+    },
+    {
+      "id": "lesson:physician-wealth:5",
+      "order": 5,
+      "title": "Risk protection",
+      "versions": {
+        "seconds_30": "Assess risk protection before making this physician wealth decision.",
+        "minutes_2": "Assess risk protection before making this physician wealth decision. Identify the written terms, assumptions, responsible parties, and unresolved questions that require review.",
+        "minutes_5": "Assess risk protection before making this physician wealth decision. Document what is known, what must be confirmed, and which specialist review may be needed. Compare the proposed arrangement against your objectives, risk tolerance, and operational context. Do not treat projections or informal representations as settled terms; preserve questions and decisions in the canonical record."
+      }
+    },
+    {
+      "id": "lesson:physician-wealth:6",
+      "order": 6,
+      "title": "Tax-aware accounts",
+      "versions": {
+        "seconds_30": "Assess tax-aware accounts before making this physician wealth decision.",
+        "minutes_2": "Assess tax-aware accounts before making this physician wealth decision. Identify the written terms, assumptions, responsible parties, and unresolved questions that require review.",
+        "minutes_5": "Assess tax-aware accounts before making this physician wealth decision. Document what is known, what must be confirmed, and which specialist review may be needed. Compare the proposed arrangement against your objectives, risk tolerance, and operational context. Do not treat projections or informal representations as settled terms; preserve questions and decisions in the canonical record."
+      }
+    },
+    {
+      "id": "lesson:physician-wealth:7",
+      "order": 7,
+      "title": "Investment policy",
+      "versions": {
+        "seconds_30": "Assess investment policy before making this physician wealth decision.",
+        "minutes_2": "Assess investment policy before making this physician wealth decision. Identify the written terms, assumptions, responsible parties, and unresolved questions that require review.",
+        "minutes_5": "Assess investment policy before making this physician wealth decision. Document what is known, what must be confirmed, and which specialist review may be needed. Compare the proposed arrangement against your objectives, risk tolerance, and operational context. Do not treat projections or informal representations as settled terms; preserve questions and decisions in the canonical record."
+      }
+    },
+    {
+      "id": "lesson:physician-wealth:8",
+      "order": 8,
+      "title": "Concentration",
+      "versions": {
+        "seconds_30": "Assess concentration before making this physician wealth decision.",
+        "minutes_2": "Assess concentration before making this physician wealth decision. Identify the written terms, assumptions, responsible parties, and unresolved questions that require review.",
+        "minutes_5": "Assess concentration before making this physician wealth decision. Document what is known, what must be confirmed, and which specialist review may be needed. Compare the proposed arrangement against your objectives, risk tolerance, and operational context. Do not treat projections or informal representations as settled terms; preserve questions and decisions in the canonical record."
+      }
+    },
+    {
+      "id": "lesson:physician-wealth:9",
+      "order": 9,
+      "title": "Estate planning",
+      "versions": {
+        "seconds_30": "Assess estate planning before making this physician wealth decision.",
+        "minutes_2": "Assess estate planning before making this physician wealth decision. Identify the written terms, assumptions, responsible parties, and unresolved questions that require review.",
+        "minutes_5": "Assess estate planning before making this physician wealth decision. Document what is known, what must be confirmed, and which specialist review may be needed. Compare the proposed arrangement against your objectives, risk tolerance, and operational context. Do not treat projections or informal representations as settled terms; preserve questions and decisions in the canonical record."
+      }
+    },
+    {
+      "id": "lesson:physician-wealth:10",
+      "order": 10,
+      "title": "Periodic review",
+      "versions": {
+        "seconds_30": "Assess periodic review before making this physician wealth decision.",
+        "minutes_2": "Assess periodic review before making this physician wealth decision. Identify the written terms, assumptions, responsible parties, and unresolved questions that require review.",
+        "minutes_5": "Assess periodic review before making this physician wealth decision. Document what is known, what must be confirmed, and which specialist review may be needed. Compare the proposed arrangement against your objectives, risk tolerance, and operational context. Do not treat projections or informal representations as settled terms; preserve questions and decisions in the canonical record."
+      }
+    }
+  ]
+}

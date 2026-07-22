@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "test": "node --test",
-    "theme:zip": "node automation/build-theme-zip.mjs"
+    "theme:zip": "node automation/build-theme-zip.mjs",
+    "knowledge:validate": "node knowledge/scripts/validate-sprint-3.mjs"
   },
   "engines": {
     "node": ">=20"

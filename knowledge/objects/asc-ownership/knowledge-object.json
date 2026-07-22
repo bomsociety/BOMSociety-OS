@@ -1,0 +1,418 @@
+{
+  "id": "topic:asc-ownership",
+  "slug": "asc-ownership",
+  "title": "ASC Ownership",
+  "type": "topic",
+  "summary30": "ASC Ownership decisions require a structured review of economics, risk, operations, and future options.",
+  "summary120": "Use this canonical knowledge object to organize asc ownership decisions, claims awaiting evidence, corroboration work, relationships, and a progressive learning path.",
+  "summary300": "ASC Ownership is a physician decision topic that should be evaluated through explicit terms, assumptions, incentives, risks, operating context, and professional advice where appropriate. This object intentionally keeps evidence records empty until verifiable sources can be attached. Its lessons establish a repeatable review sequence from initial framing through diligence, documentation, and ongoing reassessment.",
+  "references": [],
+  "corroboration": {
+    "status": "pending_evidence",
+    "record_ids": [
+      "corroboration:asc-ownership:1",
+      "corroboration:asc-ownership:2",
+      "corroboration:asc-ownership:3",
+      "corroboration:asc-ownership:4",
+      "corroboration:asc-ownership:5"
+    ]
+  },
+  "relationships": [
+    {
+      "id": "relationship:asc-ownership:decision-1",
+      "from_id": "topic:asc-ownership",
+      "predicate": "has_decision",
+      "to_id": "decision:asc-ownership:1"
+    },
+    {
+      "id": "relationship:asc-ownership:decision-2",
+      "from_id": "topic:asc-ownership",
+      "predicate": "has_decision",
+      "to_id": "decision:asc-ownership:2"
+    },
+    {
+      "id": "relationship:asc-ownership:decision-3",
+      "from_id": "topic:asc-ownership",
+      "predicate": "has_decision",
+      "to_id": "decision:asc-ownership:3"
+    },
+    {
+      "id": "relationship:asc-ownership:decision-4",
+      "from_id": "topic:asc-ownership",
+      "predicate": "has_decision",
+      "to_id": "decision:asc-ownership:4"
+    },
+    {
+      "id": "relationship:asc-ownership:decision-5",
+      "from_id": "topic:asc-ownership",
+      "predicate": "has_decision",
+      "to_id": "decision:asc-ownership:5"
+    }
+  ],
+  "seo": {
+    "title": "ASC Ownership | BOMSociety",
+    "description": ""
+  },
+  "analytics": {
+    "events": [
+      "knowledge_object_view",
+      "learning_path_started",
+      "lesson_depth_selected",
+      "learning_path_completed"
+    ]
+  },
+  "canonical_kind": "knowledge_object",
+  "status": "production_ready_structure",
+  "taxonomy": [
+    "Ownership",
+    "Partnership",
+    "Finance",
+    "Practice"
+  ],
+  "decision_objects": [
+    {
+      "id": "decision:asc-ownership:1",
+      "title": "Ownership opportunity",
+      "order": 1,
+      "status": "ready_for_evidence",
+      "evidence_ids": [
+        "evidence:asc-ownership:1"
+      ],
+      "claim_ids": [
+        "claim:asc-ownership:1"
+      ]
+    },
+    {
+      "id": "decision:asc-ownership:2",
+      "title": "Eligibility",
+      "order": 2,
+      "status": "ready_for_evidence",
+      "evidence_ids": [
+        "evidence:asc-ownership:2"
+      ],
+      "claim_ids": [
+        "claim:asc-ownership:2"
+      ]
+    },
+    {
+      "id": "decision:asc-ownership:3",
+      "title": "Capital terms",
+      "order": 3,
+      "status": "ready_for_evidence",
+      "evidence_ids": [
+        "evidence:asc-ownership:3"
+      ],
+      "claim_ids": [
+        "claim:asc-ownership:3"
+      ]
+    },
+    {
+      "id": "decision:asc-ownership:4",
+      "title": "Distributions",
+      "order": 4,
+      "status": "ready_for_evidence",
+      "evidence_ids": [
+        "evidence:asc-ownership:4"
+      ],
+      "claim_ids": [
+        "claim:asc-ownership:4"
+      ]
+    },
+    {
+      "id": "decision:asc-ownership:5",
+      "title": "Governance",
+      "order": 5,
+      "status": "ready_for_evidence",
+      "evidence_ids": [
+        "evidence:asc-ownership:5"
+      ],
+      "claim_ids": [
+        "claim:asc-ownership:5"
+      ]
+    }
+  ],
+  "claims": [
+    {
+      "id": "claim:asc-ownership:1",
+      "decision_id": "decision:asc-ownership:1",
+      "statement": "Decision review should address ownership opportunity.",
+      "status": "requires_evidence",
+      "evidence_ids": [
+        "evidence:asc-ownership:1"
+      ],
+      "corroboration_id": "corroboration:asc-ownership:1"
+    },
+    {
+      "id": "claim:asc-ownership:2",
+      "decision_id": "decision:asc-ownership:2",
+      "statement": "Decision review should address eligibility.",
+      "status": "requires_evidence",
+      "evidence_ids": [
+        "evidence:asc-ownership:2"
+      ],
+      "corroboration_id": "corroboration:asc-ownership:2"
+    },
+    {
+      "id": "claim:asc-ownership:3",
+      "decision_id": "decision:asc-ownership:3",
+      "statement": "Decision review should address capital terms.",
+      "status": "requires_evidence",
+      "evidence_ids": [
+        "evidence:asc-ownership:3"
+      ],
+      "corroboration_id": "corroboration:asc-ownership:3"
+    },
+    {
+      "id": "claim:asc-ownership:4",
+      "decision_id": "decision:asc-ownership:4",
+      "statement": "Decision review should address distributions.",
+      "status": "requires_evidence",
+      "evidence_ids": [
+        "evidence:asc-ownership:4"
+      ],
+      "corroboration_id": "corroboration:asc-ownership:4"
+    },
+    {
+      "id": "claim:asc-ownership:5",
+      "decision_id": "decision:asc-ownership:5",
+      "statement": "Decision review should address governance.",
+      "status": "requires_evidence",
+      "evidence_ids": [
+        "evidence:asc-ownership:5"
+      ],
+      "corroboration_id": "corroboration:asc-ownership:5"
+    }
+  ],
+  "evidence_placeholders": [
+    {
+      "id": "evidence:asc-ownership:1",
+      "claim_id": "claim:asc-ownership:1",
+      "status": "empty_placeholder",
+      "citation": {
+        "title": "",
+        "authors": [],
+        "publisher": "",
+        "publication_date": "",
+        "url": "",
+        "locator": ""
+      },
+      "notes": ""
+    },
+    {
+      "id": "evidence:asc-ownership:2",
+      "claim_id": "claim:asc-ownership:2",
+      "status": "empty_placeholder",
+      "citation": {
+        "title": "",
+        "authors": [],
+        "publisher": "",
+        "publication_date": "",
+        "url": "",
+        "locator": ""
+      },
+      "notes": ""
+    },
+    {
+      "id": "evidence:asc-ownership:3",
+      "claim_id": "claim:asc-ownership:3",
+      "status": "empty_placeholder",
+      "citation": {
+        "title": "",
+        "authors": [],
+        "publisher": "",
+        "publication_date": "",
+        "url": "",
+        "locator": ""
+      },
+      "notes": ""
+    },
+    {
+      "id": "evidence:asc-ownership:4",
+      "claim_id": "claim:asc-ownership:4",
+      "status": "empty_placeholder",
+      "citation": {
+        "title": "",
+        "authors": [],
+        "publisher": "",
+        "publication_date": "",
+        "url": "",
+        "locator": ""
+      },
+      "notes": ""
+    },
+    {
+      "id": "evidence:asc-ownership:5",
+      "claim_id": "claim:asc-ownership:5",
+      "status": "empty_placeholder",
+      "citation": {
+        "title": "",
+        "authors": [],
+        "publisher": "",
+        "publication_date": "",
+        "url": "",
+        "locator": ""
+      },
+      "notes": ""
+    }
+  ],
+  "corroboration_records": [
+    {
+      "id": "corroboration:asc-ownership:1",
+      "claim_id": "claim:asc-ownership:1",
+      "status": "pending_evidence",
+      "supporting_evidence_ids": [],
+      "contradicting_evidence_ids": [],
+      "assessment": ""
+    },
+    {
+      "id": "corroboration:asc-ownership:2",
+      "claim_id": "claim:asc-ownership:2",
+      "status": "pending_evidence",
+      "supporting_evidence_ids": [],
+      "contradicting_evidence_ids": [],
+      "assessment": ""
+    },
+    {
+      "id": "corroboration:asc-ownership:3",
+      "claim_id": "claim:asc-ownership:3",
+      "status": "pending_evidence",
+      "supporting_evidence_ids": [],
+      "contradicting_evidence_ids": [],
+      "assessment": ""
+    },
+    {
+      "id": "corroboration:asc-ownership:4",
+      "claim_id": "claim:asc-ownership:4",
+      "status": "pending_evidence",
+      "supporting_evidence_ids": [],
+      "contradicting_evidence_ids": [],
+      "assessment": ""
+    },
+    {
+      "id": "corroboration:asc-ownership:5",
+      "claim_id": "claim:asc-ownership:5",
+      "status": "pending_evidence",
+      "supporting_evidence_ids": [],
+      "contradicting_evidence_ids": [],
+      "assessment": ""
+    }
+  ],
+  "learning_path": {
+    "id": "learning-path:asc-ownership",
+    "title": "ASC Ownership Learning Path",
+    "ordered_lesson_ids": [
+      "lesson:asc-ownership:1",
+      "lesson:asc-ownership:2",
+      "lesson:asc-ownership:3",
+      "lesson:asc-ownership:4",
+      "lesson:asc-ownership:5",
+      "lesson:asc-ownership:6",
+      "lesson:asc-ownership:7",
+      "lesson:asc-ownership:8",
+      "lesson:asc-ownership:9",
+      "lesson:asc-ownership:10"
+    ]
+  },
+  "lessons": [
+    {
+      "id": "lesson:asc-ownership:1",
+      "order": 1,
+      "title": "Ownership opportunity",
+      "versions": {
+        "seconds_30": "Assess ownership opportunity before making this asc ownership decision.",
+        "minutes_2": "Assess ownership opportunity before making this asc ownership decision. Identify the written terms, assumptions, responsible parties, and unresolved questions that require review.",
+        "minutes_5": "Assess ownership opportunity before making this asc ownership decision. Document what is known, what must be confirmed, and which specialist review may be needed. Compare the proposed arrangement against your objectives, risk tolerance, and operational context. Do not treat projections or informal representations as settled terms; preserve questions and decisions in the canonical record."
+      }
+    },
+    {
+      "id": "lesson:asc-ownership:2",
+      "order": 2,
+      "title": "Eligibility",
+      "versions": {
+        "seconds_30": "Assess eligibility before making this asc ownership decision.",
+        "minutes_2": "Assess eligibility before making this asc ownership decision. Identify the written terms, assumptions, responsible parties, and unresolved questions that require review.",
+        "minutes_5": "Assess eligibility before making this asc ownership decision. Document what is known, what must be confirmed, and which specialist review may be needed. Compare the proposed arrangement against your objectives, risk tolerance, and operational context. Do not treat projections or informal representations as settled terms; preserve questions and decisions in the canonical record."
+      }
+    },
+    {
+      "id": "lesson:asc-ownership:3",
+      "order": 3,
+      "title": "Capital terms",
+      "versions": {
+        "seconds_30": "Assess capital terms before making this asc ownership decision.",
+        "minutes_2": "Assess capital terms before making this asc ownership decision. Identify the written terms, assumptions, responsible parties, and unresolved questions that require review.",
+        "minutes_5": "Assess capital terms before making this asc ownership decision. Document what is known, what must be confirmed, and which specialist review may be needed. Compare the proposed arrangement against your objectives, risk tolerance, and operational context. Do not treat projections or informal representations as settled terms; preserve questions and decisions in the canonical record."
+      }
+    },
+    {
+      "id": "lesson:asc-ownership:4",
+      "order": 4,
+      "title": "Distributions",
+      "versions": {
+        "seconds_30": "Assess distributions before making this asc ownership decision.",
+        "minutes_2": "Assess distributions before making this asc ownership decision. Identify the written terms, assumptions, responsible parties, and unresolved questions that require review.",
+        "minutes_5": "Assess distributions before making this asc ownership decision. Document what is known, what must be confirmed, and which specialist review may be needed. Compare the proposed arrangement against your objectives, risk tolerance, and operational context. Do not treat projections or informal representations as settled terms; preserve questions and decisions in the canonical record."
+      }
+    },
+    {
+      "id": "lesson:asc-ownership:5",
+      "order": 5,
+      "title": "Governance",
+      "versions": {
+        "seconds_30": "Assess governance before making this asc ownership decision.",
+        "minutes_2": "Assess governance before making this asc ownership decision. Identify the written terms, assumptions, responsible parties, and unresolved questions that require review.",
+        "minutes_5": "Assess governance before making this asc ownership decision. Document what is known, what must be confirmed, and which specialist review may be needed. Compare the proposed arrangement against your objectives, risk tolerance, and operational context. Do not treat projections or informal representations as settled terms; preserve questions and decisions in the canonical record."
+      }
+    },
+    {
+      "id": "lesson:asc-ownership:6",
+      "order": 6,
+      "title": "Operations",
+      "versions": {
+        "seconds_30": "Assess operations before making this asc ownership decision.",
+        "minutes_2": "Assess operations before making this asc ownership decision. Identify the written terms, assumptions, responsible parties, and unresolved questions that require review.",
+        "minutes_5": "Assess operations before making this asc ownership decision. Document what is known, what must be confirmed, and which specialist review may be needed. Compare the proposed arrangement against your objectives, risk tolerance, and operational context. Do not treat projections or informal representations as settled terms; preserve questions and decisions in the canonical record."
+      }
+    },
+    {
+      "id": "lesson:asc-ownership:7",
+      "order": 7,
+      "title": "Conflicts",
+      "versions": {
+        "seconds_30": "Assess conflicts before making this asc ownership decision.",
+        "minutes_2": "Assess conflicts before making this asc ownership decision. Identify the written terms, assumptions, responsible parties, and unresolved questions that require review.",
+        "minutes_5": "Assess conflicts before making this asc ownership decision. Document what is known, what must be confirmed, and which specialist review may be needed. Compare the proposed arrangement against your objectives, risk tolerance, and operational context. Do not treat projections or informal representations as settled terms; preserve questions and decisions in the canonical record."
+      }
+    },
+    {
+      "id": "lesson:asc-ownership:8",
+      "order": 8,
+      "title": "Transfer rules",
+      "versions": {
+        "seconds_30": "Assess transfer rules before making this asc ownership decision.",
+        "minutes_2": "Assess transfer rules before making this asc ownership decision. Identify the written terms, assumptions, responsible parties, and unresolved questions that require review.",
+        "minutes_5": "Assess transfer rules before making this asc ownership decision. Document what is known, what must be confirmed, and which specialist review may be needed. Compare the proposed arrangement against your objectives, risk tolerance, and operational context. Do not treat projections or informal representations as settled terms; preserve questions and decisions in the canonical record."
+      }
+    },
+    {
+      "id": "lesson:asc-ownership:9",
+      "order": 9,
+      "title": "Return scenarios",
+      "versions": {
+        "seconds_30": "Assess return scenarios before making this asc ownership decision.",
+        "minutes_2": "Assess return scenarios before making this asc ownership decision. Identify the written terms, assumptions, responsible parties, and unresolved questions that require review.",
+        "minutes_5": "Assess return scenarios before making this asc ownership decision. Document what is known, what must be confirmed, and which specialist review may be needed. Compare the proposed arrangement against your objectives, risk tolerance, and operational context. Do not treat projections or informal representations as settled terms; preserve questions and decisions in the canonical record."
+      }
+    },
+    {
+      "id": "lesson:asc-ownership:10",
+      "order": 10,
+      "title": "Review team",
+      "versions": {
+        "seconds_30": "Assess review team before making this asc ownership decision.",
+        "minutes_2": "Assess review team before making this asc ownership decision. Identify the written terms, assumptions, responsible parties, and unresolved questions that require review.",
+        "minutes_5": "Assess review team before making this asc ownership decision. Document what is known, what must be confirmed, and which specialist review may be needed. Compare the proposed arrangement against your objectives, risk tolerance, and operational context. Do not treat projections or informal representations as settled terms; preserve questions and decisions in the canonical record."
+      }
+    }
+  ]
+}
