@@ -2,13 +2,6 @@ name: Validate and package Ghost theme
 
 on:
   pull_request:
-  push:
-    paths:
-      - "ghost-theme/**"
-      - "automation/**"
-      - "test.mjs"
-      - "package.json"
-      - ".github/workflows/build-ghost-theme.yml"
   workflow_dispatch:
 
 permissions:
@@ -36,7 +29,7 @@ jobs:
         run: |
           set -euo pipefail
           npm run theme:zip
-          VERSION="$(node -p \"require('./ghost-theme/package.json').version\")"
+          VERSION="$(node -p "require('./ghost-theme/package.json').version")"
           echo "zip_path=releases/UPLOAD-TO-GHOST-bomsociety-theme-v${VERSION}.zip" >> "$GITHUB_OUTPUT"
 
       - name: Upload Ghost theme artifact
