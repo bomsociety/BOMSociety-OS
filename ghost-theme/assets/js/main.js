@@ -47,3 +47,25 @@ document.querySelectorAll('[data-hero-decision]').forEach(button=>button.addEven
  root.querySelectorAll('[data-feedback]').forEach(panel=>{const depth=panel.dataset.feedback,saved=read(feedbackKey);if(saved[depth]){panel.innerHTML='<p class="feedback-thanks">Feedback saved. Thank you.</p>';return;}panel.innerHTML=`<button type="button" class="feedback-close" aria-label="Close feedback" data-close-feedback>Close</button><fieldset><legend>Was this worth your time? (0–10)</legend><div class="feedback-scale">${Array.from({length:11},(_,n)=>`<button type="button" data-score="${n}" aria-label="${n} out of 10">${n}</button>`).join('')}</div><div class="feedback-options"><label><input type="checkbox" value="learned"> I learned something new</label><label><input type="checkbox" value="ask"> I know what to ask next</label><label><input type="checkbox" value="action"> I plan to take action</label><label><input type="checkbox" value="clearer"> I need a clearer explanation</label><label><input type="checkbox" value="relevant"> This was not relevant</label></div><textarea aria-label="What was missing?" placeholder="What was missing? (optional)"></textarea></fieldset>`;panel.querySelector('[data-close-feedback]').addEventListener('click',()=>panel.hidden=true);panel.querySelectorAll('[data-score]').forEach(score=>score.addEventListener('click',()=>{const all=read(feedbackKey);all[depth]={score:Number(score.dataset.score),outcomes:[...panel.querySelectorAll('input:checked')].map(x=>x.value),missing:panel.querySelector('textarea').value};write(feedbackKey,all);panel.innerHTML='<p class="feedback-thanks">Feedback saved. Thank you.</p>';toast('Feedback saved.');}));});
  render();
 })();
+
+/* Share controls and future-stream previews are explicit, local interactions only. */
+(()=>{
+ const track=(name,detail={})=>window.BOMAnalytics?.track(name,detail);
+ document.querySelectorAll('[data-share-controls]').forEach(group=>group.querySelectorAll('[data-share]').forEach(control=>control.addEventListener('click',async event=>{
+   const mode=control.dataset.share, url=window.location.href, text='Compensation is a formula—not a headline. Review this before your next compensation discussion.';
+   track('share_attempted',{mode});
+   if(mode==='copy'){try{await navigator.clipboard.writeText(url);control.textContent='Link copied';}catch{control.textContent='Copy unavailable';}}
+   if(mode==='native'&&navigator.share){try{await navigator.share({title:'BOMSociety compensation decision',text,url});}catch{ /* A cancelled share is not an error to surface. */ }}
+ }));
+ const modal=document.querySelector('[data-preview-modal]'); let focus=null;
+ const close=()=>{if(!modal?.hidden){modal.hidden=true;modal.setAttribute('aria-hidden','true');focus?.focus();}};
+ document.querySelectorAll('[data-stream-preview]').forEach(button=>button.addEventListener('click',()=>{focus=button;modal.hidden=false;modal.setAttribute('aria-hidden','false');modal.querySelector('[data-preview-copy]').textContent=`This stream will answer “${button.closest('article').querySelector('h3').textContent}” through a planned Big Picture, Brief Overview, and Deep Dive.`;modal.querySelector('[data-preview-close]').focus();}));
+ modal?.querySelector('[data-preview-close]').addEventListener('click',close); modal?.addEventListener('click',event=>{if(event.target===modal)close();}); document.addEventListener('keydown',event=>{if(event.key==='Escape')close();});
+ const carousel=document.querySelector('[data-stream-carousel]'); if(!carousel)return;
+ const trackEl=carousel.querySelector('[data-carousel-track]'), cards=[...trackEl.children], position=carousel.parentElement.querySelector('[data-carousel-position]'); let index=0,startX=0;
+ const render=()=>{trackEl.style.transform=`translateX(-${index*100}%)`;position.textContent=`${index+1} of ${cards.length}`;carousel.querySelector('[data-carousel-prev]').disabled=index===0;carousel.querySelector('[data-carousel-next]').disabled=index===cards.length-1;};
+ const move=delta=>{index=Math.max(0,Math.min(cards.length-1,index+delta));render();};
+ carousel.querySelector('[data-carousel-prev]').addEventListener('click',()=>move(-1));carousel.querySelector('[data-carousel-next]').addEventListener('click',()=>move(1));
+ carousel.addEventListener('keydown',event=>{if(event.key==='ArrowLeft'){event.preventDefault();move(-1)}if(event.key==='ArrowRight'){event.preventDefault();move(1)}});
+ trackEl.addEventListener('touchstart',event=>startX=event.changedTouches[0].clientX,{passive:true});trackEl.addEventListener('touchend',event=>{const dx=event.changedTouches[0].clientX-startX;if(Math.abs(dx)>40)move(dx<0?1:-1)},{passive:true});render();
+})();
