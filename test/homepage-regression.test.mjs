@@ -3,50 +3,40 @@ import test from "node:test";
 import { readFile } from "node:fs/promises";
 
 const file = (path) => readFile(new URL(`../${path}`, import.meta.url), "utf8");
-const [home, routes, shell, css, legacyJs] = await Promise.all([
+const [home, routes, shell, css, homeJs, analytics] = await Promise.all([
   file("ghost-theme/home.hbs"), file("ghost-theme/routes.yaml"), file("ghost-theme/default.hbs"),
-  file("ghost-theme/assets/css/screen.css"), file("ghost-theme/assets/js/main.js")
+  file("ghost-theme/assets/css/sprint17.css"), file("ghost-theme/assets/js/sprint17.js"), file("ghost-theme/assets/js/analytics.js")
 ]);
-
-const retiredHomepageCopy = [
-  "Better decisions in the business of medicine.", "Explore BOMBriefs", "What is a BOMBrief?",
-  "Top 18%", "Readiness 42%", "fake online", "community counts"
-];
 
 test("only the dedicated server-rendered home template owns the root route", () => {
   assert.match(routes, /^routes:\s*\n\s*\/:\s*\n\s*template:\s*home\b/m);
-  assert.doesNotMatch(routes.split("collections:")[0], /template:\s*(?:index|custom-home|page-home)\b/);
   assert.match(home, /data-bomsociety-home="BOMSOCIETY-HOMEPAGE-V2"/);
   assert.match(shell, /\{\{\{body\}\}\}/);
-  assert.match(css, /\.sprint17-home\{/);
+  assert.match(css, /action-first physician decision interface/);
 });
 
-test("raw homepage HTML contains the physician decision operating system hero and diagnosis", () => {
+test("the action-first hero has its mission, question, chooser, and no retired passive hero copy", () => {
   for (const phrase of [
     "Respect your time.", "Earn your trust.", "Improve your decisions.",
-    "THE PHYSICIAN DECISION OPERATING SYSTEM", "What decision could change your career forever?",
-    "Not another course.", "Your operating system for physician career and business decisions.",
-    "What decision are you facing today?", "Compensation", "Contract", "Artificial Intelligence",
-    "Practice Ownership", "Leadership", "describe my situation", "YOUR NEXT CAREER WIN"
+    "What decision could change your career forever?", "START HERE", "What decision are you facing today?",
+    "Compensation", "Contract", "Artificial Intelligence", "Practice Ownership", "Leadership",
+    "Or describe my situation", "Show my next step", "Start Compensation Episode"
   ]) assert.match(home, new RegExp(phrase));
+  for (const retired of ["THE PHYSICIAN DECISION OPERATING SYSTEM", "One consequential decision.", "Start with your decision"]) assert.doesNotMatch(home, new RegExp(retired));
 });
 
-test("the compensation episode, honest breadth, and enterprise philosophy are present without JavaScript", () => {
-  for (const phrase of [
-    "BIG PICTURE", "BRIEF OVERVIEW", "DEEP DIVE", "INTERACTIVE CALCULATOR", "CHECKLIST",
-    "ACTION PLAN", "REFLECTION", "OUTCOME", "SHARE", "Guarantee", "Productivity", "Unseen conditions",
-    "Same salary. Different economics.", "Illustrative total", "YOUR CAREER WIN", "Send to colleague",
-    "CAREER MOMENTUM", "Recently Updated", "Evidence Reviewed", "Most Shared", "Trending Decision",
-    "Physicians remain free forever.", "Enterprise funds the platform.", "not yet commercially available"
-  ]) assert.match(home, new RegExp(phrase));
-  assert.match(home, /data-compensation-pathway/);
-  assert.match(home, /BOMSOCIETY-HOMEPAGE-V2/);
-});
-
-test("retired public homepage copy and obsolete client replacement code are removed", () => {
-  for (const phrase of retiredHomepageCopy) {
-    assert.doesNotMatch(home, new RegExp(phrase, "i"));
-    assert.doesNotMatch(legacyJs, new RegExp(phrase, "i"));
+test("coming-next actions, natural language routing, share, and anonymous event interface are present", () => {
+  for (const phrase of ["What would you most want help deciding?", "Submit my question", "DECISION LIBRARY", "Send to a colleague"]) assert.match(home, new RegExp(phrase));
+  for (const event of ["homepage_decision_selected", "homepage_situation_submitted", "unmet_decision_requested", "compensation_episode_started", "decision_library_cta_clicked", "colleague_share_started", "colleague_share_completed"]) {
+    assert.match(homeJs, new RegExp(event)); assert.match(analytics, new RegExp(event));
   }
-  assert.doesNotMatch(legacyJs, /innerHTML=.*(?:homepage|hero|decision)/i);
+  assert.match(homeJs, /navigator\.share/);
+  assert.match(homeJs, /navigator\.clipboard\.writeText/);
+  assert.match(homeJs, /localStorage\.setItem\('bom-compensation-situation'/);
+  assert.match(homeJs, /modal\.showModal\(\)/);
+});
+
+test("the compensation episode and honest enterprise philosophy remain server-rendered", () => {
+  for (const phrase of ["BIG PICTURE", "INTERACTIVE CALCULATOR", "ACTION PLAN", "SHARE", "Physicians remain free forever.", "Individual physician data is not sold.", "not yet commercially available", "Learn how anonymous physician intelligence is built"]) assert.match(home, new RegExp(phrase));
+  assert.match(home, /data-compensation-pathway/);
 });

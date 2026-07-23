@@ -7,7 +7,10 @@
     'topic_preference_selected', 'career_stage_selected', 'depth_selected',
     'lesson_started', 'lesson_completed', 'case_opened', 'quiz_started',
     'quiz_completed', 'decision_started', 'related_decision_selected',
-    'membership_cta_selected', 'for_you_recommendation_selected', 'intelligence_action'
+    'membership_cta_selected', 'for_you_recommendation_selected', 'intelligence_action',
+    'homepage_decision_selected', 'homepage_situation_submitted', 'unmet_decision_requested',
+    'compensation_episode_started', 'decision_library_cta_clicked', 'colleague_share_started',
+    'colleague_share_completed'
   ]);
   const queue = [];
   const session = crypto.randomUUID ? crypto.randomUUID() : `${Date.now()}-${Math.random()}`;
