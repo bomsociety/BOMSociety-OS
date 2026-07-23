@@ -8,32 +8,33 @@ import { execFileSync } from "node:child_process";
 const root = new URL("../", import.meta.url);
 const read = (path) => readFile(new URL(path, root), "utf8");
 const [themePackage, home, index, footer, deploy, workflow, build] = await Promise.all([read("ghost-theme/package.json"), read("ghost-theme/home.hbs"), read("ghost-theme/index.hbs"), read("ghost-theme/partials/site-footer.hbs"), read("automation/deploy-ghost-theme.mjs"), read(".github/workflows/deploy-ghost-theme.yml"), read("automation/build-theme-zip.mjs")]);
-const deploymentMarker = "BOMSOCIETY-BUILD-TEST-17";
-const zipName = "UPLOAD-TO-GHOST-bomsociety-theme-v1.3.1.zip";
+const deploymentMarker = "BOMSOCIETY-SPRINT-17B-CANONICAL";
+const zipName = "UPLOAD-TO-GHOST-bomsociety-theme-v1.3.2.zip";
 
 async function createInspectableTheme({ homeMarker = true } = {}) {
   const dir = await mkdtemp(join(tmpdir(), "ghost-marker-"));
   const theme = join(dir, "theme"); const zip = join(dir, zipName);
   execFileSync("mkdir", ["-p", join(theme, "assets/css"), join(theme, "assets/js")]);
-  await writeFile(join(theme, "package.json"), '{"version":"1.3.1"}');
+  await writeFile(join(theme, "package.json"), '{"version":"1.3.2"}');
   await writeFile(join(theme, "routes.yaml"), "routes:\n  /:\n    template: home\n");
-  await writeFile(join(theme, "index.hbs"), `<!-- ${deploymentMarker} -->`);
+  await writeFile(join(theme, "index.hbs"), "index");
   await writeFile(join(theme, "home.hbs"), homeMarker ? `<!-- ${deploymentMarker} -->` : "homepage");
-  await writeFile(join(theme, "default.hbs"), "bomsociety-theme-version bomsociety-commit BOMSOCIETY-BUILD-TEST-17");
+  await writeFile(join(theme, "default.hbs"), "bomsociety-theme-version bomsociety-commit BOMSOCIETY-SPRINT-17B-CANONICAL");
   await writeFile(join(theme, "assets/css/a.css"), ""); await writeFile(join(theme, "assets/js/a.js"), "");
   execFileSync("zip", ["-qr", zip, "."], { cwd: theme });
   return { dir, zip };
 }
 
-test("version 1.3.1 controls the exact upload ZIP filename", () => {
-  assert.equal(JSON.parse(themePackage).version, "1.3.1");
+test("version 1.3.2 controls the exact upload ZIP filename", () => {
+  assert.equal(JSON.parse(themePackage).version, "1.3.2");
   assert.match(build, /UPLOAD-TO-GHOST-bomsociety-theme-v\$\{themePackage\.version\}\.zip/);
-  assert.match(workflow, /UPLOAD-TO-GHOST-bomsociety-theme-v1\.3\.1\.zip/);
+  assert.match(workflow, /UPLOAD-TO-GHOST-bomsociety-theme-v1\.3\.2\.zip/);
 });
 test("existing homepage-capable templates contain the stable nonvisual marker", () => {
-  assert.match(footer, /Theme 1\.3\.1 · Commit/);
+  assert.match(footer, /Theme 1\.3\.2 · Commit/);
   assert.doesNotMatch(footer, /Build Test 17/);
-  for (const template of [home, index]) assert.match(template, new RegExp(`<!-- ${deploymentMarker} -->`));
+  assert.match(home, new RegExp(deploymentMarker));
+  assert.doesNotMatch(index, new RegExp(deploymentMarker));
 });
 test("ZIP inspection passes when every existing homepage template has the marker", async () => {
   const { dir, zip } = await createInspectableTheme();
@@ -56,17 +57,18 @@ test("nonexistent optional homepage templates do not fail ZIP inspection", async
 });
 test("the built ZIP contains markers in every required homepage template", () => {
   execFileSync(process.execPath, ["automation/build-theme-zip.mjs"], { stdio: "pipe" });
-  const zip = "releases/UPLOAD-TO-GHOST-bomsociety-theme-v1.3.1.zip";
+  const zip = "releases/UPLOAD-TO-GHOST-bomsociety-theme-v1.3.2.zip";
   const inspection = execFileSync(process.execPath, ["automation/deploy-ghost-theme.mjs", "inspect", zip], { encoding: "utf8", stdio: ["ignore", "pipe", "pipe"] });
   assert.equal(inspection, "");
-  for (const template of ["home.hbs", "index.hbs"]) assert.ok(execFileSync("unzip", ["-p", zip, template], { encoding: "utf8" }).includes(deploymentMarker));
+  assert.ok(execFileSync("unzip", ["-p", zip, "home.hbs"], { encoding: "utf8" }).includes(deploymentMarker));
+  assert.ok(!execFileSync("unzip", ["-p", zip, "index.hbs"], { encoding: "utf8" }).includes(deploymentMarker));
 });
-test("upload and activation use the inspected v1.3.1 ZIP and returned Ghost name", () => {
+test("upload and activation use the inspected v1.3.2 ZIP and returned Ghost name", () => {
   assert.match(workflow, /upload '\$\{\{ steps\.build\.outputs\.zip_path \}\}'/);
   assert.match(deploy, /response\.themes\?\.\[0\]\?\.name/);
   assert.match(deploy, /themes\/\$\{encodeURIComponent\(name\)\}\/activate/);
 });
 test("both public URLs are cache-busted and reject an absent marker", () => {
   for (const url of ["https://bomsociety.ghost.io/", "https://www.bomsociety.com/"]) assert.ok(deploy.includes(url));
-  for (const value of ["build_test", "ts", "Cache-Control", "Pragma", "GHOST_ORIGIN_NOT_UPDATED", "CUSTOM_DOMAIN_NOT_UPDATED"]) assert.ok(deploy.includes(value));
+  for (const value of ["cache_test", "build_test", "Cache-Control", "Pragma", "CLIENT_MATRIX", "verifyMatrix", "RETIRED_HOMEPAGE_DELIVERED"]) assert.ok(deploy.includes(value));
 });
