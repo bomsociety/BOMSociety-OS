@@ -1,5 +1,6 @@
 routes:
-  /: home
+  /:
+    template: home
   /methodology/: custom-methodology
   /privacy/: custom-privacy
   /terms/: custom-terms

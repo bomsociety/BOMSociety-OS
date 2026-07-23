@@ -21,3 +21,10 @@ test("every visible internal theme destination resolves through a template or co
   for(const destination of ["/methodology/", "/privacy/", "/terms/"]) assert.match(routes,new RegExp(destination.replaceAll("/","\\/").replace(/\\\/$/,"\\/:")));
   for(const template of ["custom-about.hbs","custom-contact.hbs","custom-membership.hbs"]) assert.ok(true, `${template} is supplied by Ghost's page routing.`);
 });
+test("the root route explicitly renders the Sprint 16 homepage template",()=>{
+  assert.match(routes,/routes:\s*\n\s*\/:\s*\n\s*template:\s*home\b/);
+  assert.match(home,/class="trust-home decision-experience"/);
+  assert.match(shell,/\{\{\{body\}\}\}/);
+  assert.match(shell,/\{\{> site-header\}\}/);
+  assert.match(shell,/\{\{> site-footer\}\}/);
+});
