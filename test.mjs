@@ -5,7 +5,7 @@ import { readFile } from "node:fs/promises";
 test("homepage begins with a physician product instead of brand positioning", async () => {
   const home = await readFile(new URL("./ghost-theme/home.hbs", import.meta.url), "utf8");
   assert.match(home, /TOP <span data-ranking>18<\/span>%/);
-  assert.match(home, /Level up the business side of medicine\./);
+  assert.match(home, /One business decision could change your career\./);
   assert.match(home, /GET PAID MORE/);
 });
 
