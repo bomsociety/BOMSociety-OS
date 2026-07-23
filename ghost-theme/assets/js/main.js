@@ -1,71 +1,20 @@
-const toggle=document.querySelector('[data-menu-toggle]');const menu=document.querySelector('[data-menu]');
-if(toggle&&menu){toggle.addEventListener('click',()=>{const open=toggle.getAttribute('aria-expanded')==='true';toggle.setAttribute('aria-expanded',String(!open));toggle.setAttribute('aria-label',open?'Open navigation':'Close navigation');menu.classList.toggle('is-open',!open);document.body.classList.toggle('menu-open',!open)});menu.addEventListener('click',e=>{if(e.target.matches('a')){toggle.setAttribute('aria-expanded','false');toggle.setAttribute('aria-label','Open navigation');menu.classList.remove('is-open');document.body.classList.remove('menu-open')}})}
-const decisionCards=[...document.querySelectorAll('[data-decision-card]')];
-decisionCards.forEach(card=>card.addEventListener('click',()=>window.BOMAnalytics?.track('decision_started',{source:'decision_card',decisionId:card.dataset.decisionId,knowledgeObjectId:card.dataset.knowledgeObjectId})));
-document.querySelectorAll('[data-homepage-event]').forEach(control=>control.addEventListener('click',()=>window.BOMAnalytics?.track(control.dataset.homepageEvent,{location:control.dataset.ctaLocation||'unknown'})));
-document.querySelectorAll('[data-depth-select]').forEach(control=>control.addEventListener('click',()=>window.BOMAnalytics?.track('depth_selected',{depth:control.dataset.depthSelect,source:location.pathname==='/'?'homepage':'lesson'})));
-const topicRoutes={compensation:'/topic/rvu-compensation/', 'job-offer':'/topic/employment-contracts/',ownership:'/topic/private-equity/',wealth:'/topic/physician-wealth/',ai:'/topic/artificial-intelligence/',leadership:'/topic/practice-management/'};
-const topicLabels={compensation:'compensation','job-offer':'a job offer',ownership:'an ownership opportunity',wealth:'income and wealth',ai:'AI in practice',leadership:'practice leadership'};
-const result=document.querySelector('[data-for-you-results]');const stage=document.querySelector('[data-career-stage]');
-function renderForYou(topic){if(!result||!topic)return;const label=topicLabels[topic];result.innerHTML=`<p class="component-label">YOUR STARTING POINT</p><h3>Explore ${label} at your pace.</h3><p>We selected this route from your explicit choice. It connects to published content and related decisions; no profile or claimed progress is required.</p><a class="button button-small" href="${topicRoutes[topic]}" data-for-you-recommendation="${topic}">Open this topic</a>`;result.querySelector('[data-for-you-recommendation]')?.addEventListener('click',()=>window.BOMAnalytics?.track('for_you_recommendation_selected',{topic}));}
-document.querySelectorAll('[data-for-you-topic]').forEach(button=>button.addEventListener('click',()=>{const topic=button.dataset.forYouTopic;document.querySelectorAll('[data-for-you-topic]').forEach(item=>item.setAttribute('aria-pressed',String(item===button)));renderForYou(topic);window.BOMAnalytics?.track('topic_preference_selected',{topic});}));
-stage?.addEventListener('change',()=>{if(stage.value)window.BOMAnalytics?.track('career_stage_selected',{stage:stage.value});});
-
-const heroDecisionRoutes={compensation:'/topic/rvu-compensation/','job-offer':'/topic/employment-contracts/',ownership:'/topic/private-equity/',wealth:'/topic/physician-wealth/',ai:'/topic/artificial-intelligence/',leadership:'/topic/practice-management/'};
-const heroDecisionValue={compensation:{title:'See how your compensation is built.',detail:'Identify the variables worth clarifying before your next conversation.'},'job-offer':{title:'Review the terms before you respond.',detail:'Focus first on the clauses that shape your leverage and options.'},ownership:{title:'Assess value, control, and risk.',detail:'Start with the questions that matter after the transaction closes.'},wealth:{title:'Protect flexibility before chasing returns.',detail:'Start with the decisions that protect income and long-term options.'},ai:{title:'Choose an AI use case worth testing.',detail:'Start with a practical use case, its limits, and the safeguards it needs.'},leadership:{title:'Find the next operational lever.',detail:'Start with the decision that improves clarity for your team and practice.'}};
-const heroResult=document.querySelector('[data-hero-decision-result]');
-function renderHeroDecision(key){const value=heroDecisionValue[key];if(!heroResult||!value)return;const route=heroDecisionRoutes[key];heroResult.innerHTML=`<span class="component-label">YOUR USEFUL NEXT STEP</span><h2>${value.title}</h2><span class="hero-result-detail">${value.detail}</span><div class="hero-depth-actions" aria-label="Choose reading time"><a href="${route}" data-hero-depth="30_seconds"><strong>30 sec</strong><span>Get the essential frame</span></a><a href="${route}" data-hero-depth="2_minutes"><strong>2 min</strong><span>See what to ask next</span></a><a href="${route}" data-hero-depth="5_minutes"><strong>5 min</strong><span>Build your decision analysis</span></a></div>`;heroResult.classList.remove('is-selected');void heroResult.offsetWidth;heroResult.classList.add('is-selected');heroResult.querySelectorAll('[data-hero-depth]').forEach(link=>link.addEventListener('click',()=>window.BOMAnalytics?.track('depth_selected',{depth:link.dataset.heroDepth,source:'hero',decisionId:key})));}
-document.querySelectorAll('[data-hero-decision]').forEach(button=>button.addEventListener('click',()=>{const key=button.dataset.heroDecision;document.querySelectorAll('[data-hero-decision]').forEach(item=>item.setAttribute('aria-pressed',String(item===button)));renderHeroDecision(key);window.BOMAnalytics?.track('decision_started',{source:'hero',decisionId:button.dataset.decisionId,knowledgeObjectId:button.dataset.knowledgeObjectId});}));
-
-
-/* Compensation decision experience: personal browser-only progress. */
+/* Navigation is progressive enhancement; the canonical homepage is complete without JavaScript. */
 (()=>{
- const root=document.querySelector('.decision-experience'); if(!root)return;
- const key='bom-compensation-progress-v2', feedbackKey='bom-compensation-feedback-v2';
- const read=(name)=>{try{return JSON.parse(localStorage.getItem(name)||'{}')}catch{return {}}}; const write=(name,value)=>localStorage.setItem(name,JSON.stringify(value));
- const state=()=>read(key); let returnFocus=null, selectedConfidence=null;
- const modal=document.querySelector('[data-decision-modal]'), save=modal?.querySelector('[data-confidence-save]');
- const totalDepths=['big','brief','deep'];
- const calculate=()=>{const s=state(), complete=totalDepths.filter(depth=>s.depths?.[depth]).length; return {complete,percent:Math.round(complete/3*100),knowledge:s.knowledge?.correct||0,actions:Object.values(s.actions||{}).filter(Boolean).length};};
- const render=()=>{const s=state(), m=calculate(), board=root.querySelector('[data-metric-board]'); if(!board)return; if(!m.complete){board.innerHTML='<p class="metric-empty">Start a pathway to see your personal metrics.</p>';return;} const confidence=s.confidence||{}; board.innerHTML=`<div class="metric"><b>${m.percent}%</b><span>Pathway completion</span></div><div class="metric"><b>${m.knowledge}/1</b><span>Knowledge questions correct</span></div><div class="metric"><b>${confidence.before??'—'} → ${confidence.after??'—'}</b><span>Confidence before → after</span></div><div class="metric"><b>${m.actions}/4</b><span>Action checklist status</span></div><div class="metric metric-wide"><b>${totalDepths.filter(d=>s.depths?.[d]).map(d=>({big:'30 seconds',brief:'2 minutes',deep:'5 minutes'})[d]).join(' · ')}</b><span>Completed content depths. Readiness = 50% completed depths + 25% knowledge check + 25% checklist completion. Your current readiness: ${Math.round(m.percent*.5 + m.knowledge*25 + m.actions/4*25)}%.</span></div>`;};
- const toast=(message)=>{const prior=document.querySelector('.success-toast');prior?.remove(); const el=document.createElement('div');el.className='success-toast';el.setAttribute('role','status');el.innerHTML=`${message}<button type="button" aria-label="Close notification">×</button>`;document.body.append(el);const close=()=>el.remove();el.querySelector('button').addEventListener('click',close);setTimeout(close,5000);};
- const resetModal=()=>{if(!modal)return;modal.hidden=true;modal.setAttribute('aria-hidden','true');document.querySelectorAll('[data-confidence-backdrop],.decision-modal-backdrop').forEach(backdrop=>backdrop.remove());document.body.classList.remove('modal-open','confidence-modal-open','no-scroll');document.body.style.removeProperty('overflow');document.body.style.removeProperty('pointer-events');sessionStorage.removeItem('bom-confidence-modal-open');};
- const openModal=trigger=>{if(!modal)return;returnFocus=trigger;selectedConfidence=null;modal.hidden=false;modal.setAttribute('aria-hidden','false');modal.querySelector('[data-confidence-scale]').innerHTML=Array.from({length:11},(_,n)=>`<button type="button" data-confidence="${n}" aria-label="${n} out of 10">${n}</button>`).join('');save.disabled=true;modal.querySelector('[data-confidence="0"]')?.focus();};
- const closeModal=()=>{if(!modal?.hidden){resetModal();returnFocus?.focus();}};
- resetModal();
- root.querySelectorAll('[data-confidence-trigger]').forEach(trigger=>trigger.addEventListener('click',()=>openModal(trigger)));
- modal?.querySelector('[data-modal-close]').addEventListener('click',closeModal); document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!modal?.hidden)closeModal();});
- modal?.addEventListener('click',e=>{if(e.target===modal)closeModal();});
- modal?.querySelector('[data-confidence-scale]').addEventListener('click',e=>{const b=e.target.closest('[data-confidence]');if(!b)return;selectedConfidence=Number(b.dataset.confidence);modal.querySelectorAll('[data-confidence]').forEach(x=>x.classList.toggle('is-selected',x===b));save.disabled=false;});
- save?.addEventListener('click',()=>{if(selectedConfidence===null)return;const s=state();s.confidence??={};s.confidence.before=selectedConfidence;write(key,s);closeModal();render();toast('Saved to your private decision benchmark.');});
- const markDepth=(depth)=>{const s=state();s.depths??={};if(s.depths[depth])return render();s.depths[depth]=true;write(key,s);render();toast(`${({big:'30-second answer',brief:'Brief Overview',deep:'Deep Dive'})[depth]} completed once.`);};
- root.querySelectorAll('[data-depth-link]').forEach(link=>link.addEventListener('click',()=>markDepth(link.dataset.depthLink)));
- root.querySelectorAll('[data-calc]').forEach(input=>input.addEventListener('input',()=>{const v=n=>Number(root.querySelector(`[data-calc="${n}"]`).value)||0;root.querySelector('[data-calculator-result]').textContent=`Illustrative total: ${new Intl.NumberFormat('en-US',{style:'currency',currency:'USD',maximumFractionDigits:0}).format(v('base')+Math.max(0,v('units')-v('threshold'))*v('factor'))}`;}));
- root.querySelectorAll('[data-action-check]').forEach((box,i)=>box.addEventListener('change',()=>{const s=state();s.actions??={};s.actions[i]=box.checked;write(key,s);render();}));
- root.querySelectorAll('[data-check]').forEach(button=>button.addEventListener('click',()=>{const s=state();s.knowledge={correct:button.dataset.check==='yes'?1:0};write(key,s);root.querySelector('[data-check-result]').textContent=button.dataset.check==='yes'?'Correct. Each defined component makes the payment easier to evaluate.':'Not quite. Look for the measure, attribution, threshold, factor, timing, and reconciliation.';render();}));
- root.querySelector('[data-download-checklist]')?.addEventListener('click',()=>{const blob=new Blob(['BOMSociety compensation checklist\n□ Request written formula\n□ Identify threshold and factor\n□ Ask about attribution and reconciliation\n□ Seek qualified advice before signing\n'],{type:'text/plain'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='bomsociety-compensation-checklist.txt';a.click();URL.revokeObjectURL(a.href);});
- root.querySelectorAll('[data-feedback]').forEach(panel=>{const depth=panel.dataset.feedback,saved=read(feedbackKey);if(saved[depth]){panel.innerHTML='<p class="feedback-thanks">Feedback saved. Thank you.</p>';return;}panel.innerHTML=`<button type="button" class="feedback-close" aria-label="Close feedback" data-close-feedback>Close</button><fieldset><legend>Was this worth your time? (0–10)</legend><div class="feedback-scale">${Array.from({length:11},(_,n)=>`<button type="button" data-score="${n}" aria-label="${n} out of 10">${n}</button>`).join('')}</div><div class="feedback-options"><label><input type="checkbox" value="learned"> I learned something new</label><label><input type="checkbox" value="ask"> I know what to ask next</label><label><input type="checkbox" value="action"> I plan to take action</label><label><input type="checkbox" value="clearer"> I need a clearer explanation</label><label><input type="checkbox" value="relevant"> This was not relevant</label></div><textarea aria-label="What was missing?" placeholder="What was missing? (optional)"></textarea></fieldset>`;panel.querySelector('[data-close-feedback]').addEventListener('click',()=>panel.hidden=true);panel.querySelectorAll('[data-score]').forEach(score=>score.addEventListener('click',()=>{const all=read(feedbackKey);all[depth]={score:Number(score.dataset.score),outcomes:[...panel.querySelectorAll('input:checked')].map(x=>x.value),missing:panel.querySelector('textarea').value};write(feedbackKey,all);panel.innerHTML='<p class="feedback-thanks">Feedback saved. Thank you.</p>';toast('Feedback saved.');}));});
- render();
-})();
-
-/* Share controls and future-stream previews are explicit, local interactions only. */
-(()=>{
- const track=(name,detail={})=>window.BOMAnalytics?.track(name,detail);
- document.querySelectorAll('[data-share-controls]').forEach(group=>group.querySelectorAll('[data-share]').forEach(control=>control.addEventListener('click',async event=>{
-   const mode=control.dataset.share, url=window.location.href, text='Compensation is a formula—not a headline. Review this before your next compensation discussion.';
-   track('share_attempted',{mode});
-   if(mode==='copy'){try{await navigator.clipboard.writeText(url);control.textContent='Link copied';}catch{control.textContent='Copy unavailable';}}
-   if(mode==='native'&&navigator.share){try{await navigator.share({title:'BOMSociety compensation decision',text,url});}catch{ /* A cancelled share is not an error to surface. */ }}
- }));
- const modal=document.querySelector('[data-preview-modal]'); let focus=null;
- const close=()=>{if(!modal?.hidden){modal.hidden=true;modal.setAttribute('aria-hidden','true');focus?.focus();}};
- document.querySelectorAll('[data-stream-preview]').forEach(button=>button.addEventListener('click',()=>{focus=button;modal.hidden=false;modal.setAttribute('aria-hidden','false');modal.querySelector('[data-preview-copy]').textContent=`This stream will answer “${button.closest('article').querySelector('h3').textContent}” through a planned Big Picture, Brief Overview, and Deep Dive.`;modal.querySelector('[data-preview-close]').focus();}));
- modal?.querySelector('[data-preview-close]').addEventListener('click',close); modal?.addEventListener('click',event=>{if(event.target===modal)close();}); document.addEventListener('keydown',event=>{if(event.key==='Escape')close();});
- const carousel=document.querySelector('[data-stream-carousel]'); if(!carousel)return;
- const trackEl=carousel.querySelector('[data-carousel-track]'), cards=[...trackEl.children], position=carousel.parentElement.querySelector('[data-carousel-position]'); let index=0,startX=0;
- const render=()=>{trackEl.style.transform=`translateX(-${index*100}%)`;position.textContent=`${index+1} of ${cards.length}`;carousel.querySelector('[data-carousel-prev]').disabled=index===0;carousel.querySelector('[data-carousel-next]').disabled=index===cards.length-1;};
- const move=delta=>{index=Math.max(0,Math.min(cards.length-1,index+delta));render();};
- carousel.querySelector('[data-carousel-prev]').addEventListener('click',()=>move(-1));carousel.querySelector('[data-carousel-next]').addEventListener('click',()=>move(1));
- carousel.addEventListener('keydown',event=>{if(event.key==='ArrowLeft'){event.preventDefault();move(-1)}if(event.key==='ArrowRight'){event.preventDefault();move(1)}});
- trackEl.addEventListener('touchstart',event=>startX=event.changedTouches[0].clientX,{passive:true});trackEl.addEventListener('touchend',event=>{const dx=event.changedTouches[0].clientX-startX;if(Math.abs(dx)>40)move(dx<0?1:-1)},{passive:true});render();
+  const toggle=document.querySelector('[data-menu-toggle]');
+  const menu=document.querySelector('[data-menu]');
+  if(!toggle||!menu)return;
+  toggle.addEventListener('click',()=>{
+    const open=toggle.getAttribute('aria-expanded')==='true';
+    toggle.setAttribute('aria-expanded',String(!open));
+    toggle.setAttribute('aria-label',open?'Open navigation':'Close navigation');
+    menu.classList.toggle('is-open',!open);
+    document.body.classList.toggle('menu-open',!open);
+  });
+  menu.addEventListener('click',event=>{
+    if(!event.target.matches('a'))return;
+    toggle.setAttribute('aria-expanded','false');
+    toggle.setAttribute('aria-label','Open navigation');
+    menu.classList.remove('is-open');
+    document.body.classList.remove('menu-open');
+  });
 })();

@@ -1,5 +1,5 @@
 (()=>{
- const home=document.querySelector('.sprint16-home'); if(!home)return;
+ const home=document.querySelector('.sprint17-home'); if(!home)return;
  const key='bom-compensation-progress-v17'; const read=()=>{try{return JSON.parse(localStorage.getItem(key)||'{}')}catch{return {}}}; const write=value=>localStorage.setItem(key,JSON.stringify(value));
  let focus=null, selectedConfidence=null; const pathway=document.querySelector('.s17-pathway');
  const score=()=>{const s=read();return (s.big?15:0)+(s.brief?20:0)+(s.deep?25:0)+(s.knowledge?20:0)+(s.confidenceImproved?10:0)+(s.checklist?10:0)};

@@ -4,20 +4,18 @@ import { basename } from "node:path";
 import { execFileSync } from "node:child_process";
 import { ghostRequest } from "./ghost-admin-api.mjs";
 
-const VERSION = "1.3.1";
-const DEPLOYMENT_MARKER = "BOMSOCIETY-BUILD-TEST-17";
+const VERSION = "1.3.2";
+const DEPLOYMENT_MARKER = "BOMSOCIETY-SPRINT-17B-CANONICAL";
+const RETIRED_HOMEPAGE_MARKERS = ["Better decisions in the business of medicine.", "Explore BOMBriefs", "What is a BOMBrief?"];
+const CLIENT_MATRIX = [{ label: "Chrome desktop", userAgent: "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 Chrome/126 Safari/537.36" }, { label: "Safari mobile", userAgent: "Mozilla/5.0 (iPhone; CPU iPhone OS 17_5 like Mac OS X) AppleWebKit/605.1.15 Version/17.5 Mobile Safari/604.1" }, { label: "Crawler", userAgent: "Googlebot/2.1 (+http://www.google.com/bot.html)" }, { label: "Cookie-free", userAgent: "BOMSociety verification" }, { label: "Browser cookies", userAgent: "BOMSociety verification", cookie: "bom_verification=browser" }];
 const ORIGIN_URL = "https://bomsociety.ghost.io/";
 const CUSTOM_URL = "https://www.bomsociety.com/";
-const HOME_TEMPLATE_CANDIDATES = ["index.hbs", "home.hbs", "custom-home.hbs", "page-home.hbs"];
-
 function homepageTemplates(entries, path) {
-  const templates = new Set(HOME_TEMPLATE_CANDIDATES.filter((template) => entries.includes(template)));
-  if (entries.includes("routes.yaml")) {
-    const rootRoute = /^  \/:\s*\n(?:    [^\n]*\n)*?    template:\s*([^\s#]+)\s*$/m.exec(zipText(path, "routes.yaml"));
-    const routeTemplate = rootRoute?.[1] && `${rootRoute[1]}.hbs`;
-    if (routeTemplate && entries.includes(routeTemplate)) templates.add(routeTemplate);
-  }
-  return [...templates].sort();
+  if (!entries.includes("routes.yaml")) fail("WRONG_ZIP_DEPLOYED", "routes.yaml is required");
+  const rootRoute = /^  \/:\s*\n(?:    [^\n]*\n)*?    template:\s*([^\s#]+)\s*$/m.exec(zipText(path, "routes.yaml"));
+  const routeTemplate = rootRoute?.[1] && `${rootRoute[1]}.hbs`;
+  if (!routeTemplate || !entries.includes(routeTemplate)) fail("WRONG_ZIP_DEPLOYED", "root route must select an included template");
+  return [routeTemplate];
 }
 
 function fail(code, message = "") { throw new Error(message ? `${code}: ${message}` : code); }
@@ -81,7 +79,9 @@ export function assessProductionVerification({ status, finalUrl, html }) {
     deploymentMarkerFound: hasMeta(html, "bomsociety-deployment-marker", DEPLOYMENT_MARKER, false),
     homepageRootFound: html.includes("data-bomsociety-home"),
     decisionScoreFound: html.includes("data-decision-score"),
-    decisionIntelligenceFound: html.includes("data-decision-intelligence")
+    decisionIntelligenceFound: html.includes("data-decision-intelligence"),
+    compensationPathwayFound: html.includes("data-compensation-pathway"),
+    retiredHomepageFound: RETIRED_HOMEPAGE_MARKERS.some((marker) => html.includes(marker))
   };
 }
 function isConfiguredProductionUrl(finalUrl, configuredUrl) {
@@ -90,25 +90,32 @@ function isConfiguredProductionUrl(finalUrl, configuredUrl) {
   return actual.origin === configured.origin && actual.pathname === configured.pathname;
 }
 
-async function verify(label, baseUrl) {
-  const request = new URL(baseUrl); request.searchParams.set("build_test", "17"); request.searchParams.set("ts", String(Date.now()));
-  const response = await fetch(request, { headers: { "Cache-Control": "no-cache", Pragma: "no-cache" }, redirect: "follow" }); const html = await response.text();
+async function verify(label, baseUrl, client = {}) {
+  const request = new URL(baseUrl); request.searchParams.set("cache_test", String(Date.now())); request.searchParams.set("build_test", "17b");
+  const headers = { "Cache-Control": "no-cache", Pragma: "no-cache", "User-Agent": client.userAgent || "BOMSociety verification" };
+  if (client.cookie) headers.Cookie = client.cookie;
+  const response = await fetch(request, { headers, redirect: "follow" }); const html = await response.text();
   const result = assessProductionVerification({ status: response.status, finalUrl: response.url, html });
-  console.error(`VERIFICATION_RESULT ${sanitized({ label, requestedUrl: request.toString(), ...result })}`); return result;
+  console.error(`VERIFICATION_RESULT ${sanitized({ label, requestedUrl: request.toString(), userAgent: headers["User-Agent"], cookieMode: client.cookie ? "browser" : "none", ...result })}`); return result;
 }
+async function verifyMatrix(label, baseUrl, configuredUrl) {
+  for (const client of CLIENT_MATRIX) verificationFailure(await verify(`${label} — ${client.label}`, baseUrl, client), `${label.toUpperCase().replace(/\s+/g, "_")}_NOT_UPDATED`, configuredUrl);
+}
+
 function verificationFailure(result, code, configuredUrl) {
   if (result.status !== 200 || (configuredUrl && !isConfiguredProductionUrl(result.finalUrl, configuredUrl))) fail(code);
   if (!result.themeVersionFound) fail("WRONG_THEME_VERSION");
   if (!result.deploymentMarkerFound) fail("DEPLOYMENT_MARKER_MISSING");
-  const homepageMarkers = [result.homepageRootFound, result.decisionScoreFound, result.decisionIntelligenceFound];
+  const homepageMarkers = [result.homepageRootFound, result.decisionScoreFound, result.decisionIntelligenceFound, result.compensationPathwayFound];
   if (homepageMarkers.every((found) => !found)) fail("ROUTE_BYPASSES_UPDATED_TEMPLATE");
   if (homepageMarkers.some((found) => !found)) fail("HOMEPAGE_STRUCTURE_MISSING");
+  if (result.retiredHomepageFound) fail("RETIRED_HOMEPAGE_DELIVERED");
 }
 
 export function assertProductionVerification(result, code = "PRODUCTION_NOT_UPDATED", configuredUrl) { verificationFailure(result, code, configuredUrl); }
 
-async function verifyOrigin() { verificationFailure(await verify("Ghost origin", ORIGIN_URL), "GHOST_ORIGIN_NOT_UPDATED", ORIGIN_URL); }
-async function verifySite() { verificationFailure(await verify("Custom domain", CUSTOM_URL), "CUSTOM_DOMAIN_NOT_UPDATED", CUSTOM_URL); }
+async function verifyOrigin() { await verifyMatrix("Ghost origin", ORIGIN_URL, CUSTOM_URL); }
+async function verifySite() { await verifyMatrix("Custom domain", CUSTOM_URL, CUSTOM_URL); }
 
 if (process.argv[1] && import.meta.url === new URL(`file://${process.argv[1]}`).href) {
   const [command, value] = process.argv.slice(2);
