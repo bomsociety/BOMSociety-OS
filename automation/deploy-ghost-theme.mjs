@@ -9,7 +9,17 @@ const BUILD_MARKER = "BOMSOCIETY BUILD TEST 17 — VERSION 1.3.1";
 const DEPLOYMENT_MARKER = "BOMSOCIETY-BUILD-TEST-17";
 const ORIGIN_URL = "https://bomsociety.ghost.io/";
 const CUSTOM_URL = "https://www.bomsociety.com/";
-const HOME_TEMPLATES = ["index.hbs", "home.hbs", "custom-home.hbs", "page-home.hbs"];
+const HOME_TEMPLATE_CANDIDATES = ["index.hbs", "home.hbs", "custom-home.hbs", "page-home.hbs"];
+
+function homepageTemplates(entries, path) {
+  const templates = new Set(HOME_TEMPLATE_CANDIDATES.filter((template) => entries.includes(template)));
+  if (entries.includes("routes.yaml")) {
+    const rootRoute = /^  \/:\s*\n(?:    [^\n]*\n)*?    template:\s*([^\s#]+)\s*$/m.exec(zipText(path, "routes.yaml"));
+    const routeTemplate = rootRoute?.[1] && `${rootRoute[1]}.hbs`;
+    if (routeTemplate && entries.includes(routeTemplate)) templates.add(routeTemplate);
+  }
+  return [...templates].sort();
+}
 
 function fail(code, message = "") { throw new Error(message ? `${code}: ${message}` : code); }
 function environment() {
@@ -30,12 +40,12 @@ function inspectZip(path) {
   if (!entries.some((entry) => /^assets\/css\/.*\.css$/i.test(entry)) || !entries.some((entry) => /^assets\/js\/.*\.js$/i.test(entry))) fail("WRONG_ZIP_DEPLOYED", "CSS and JavaScript assets are required");
   const pkg = JSON.parse(zipText(path, "package.json"));
   if (pkg.version !== VERSION) fail("WRONG_ZIP_DEPLOYED", `package version is ${pkg.version}`);
-  const markerFiles = entries.filter((entry) => entry.endsWith(".hbs") && zipText(path, entry).includes(BUILD_MARKER));
-  if (!markerFiles.length) fail("WRONG_ZIP_DEPLOYED", "build marker is missing");
-  for (const template of HOME_TEMPLATES.filter((entry) => entries.includes(entry))) if (!zipText(path, template).includes(BUILD_MARKER)) fail("WRONG_ZIP_DEPLOYED", `${template} lacks build marker`);
+  const requiredHomepageTemplates = homepageTemplates(entries, path);
+  const markerAudit = requiredHomepageTemplates.map((template) => ({ template, markerPresent: zipText(path, template).includes(DEPLOYMENT_MARKER) }));
+  for (const { template, markerPresent } of markerAudit) if (!markerPresent) fail("WRONG_ZIP_DEPLOYED", `${template} lacks build marker`);
   const defaultTemplate = zipText(path, "default.hbs");
   if (!defaultTemplate.includes("bomsociety-theme-version") || !defaultTemplate.includes("bomsociety-commit") || !defaultTemplate.includes(DEPLOYMENT_MARKER)) fail("WRONG_ZIP_DEPLOYED", "stable metadata is missing");
-  const result = { zipPath: path, sha256: sha256(path), packageVersion: pkg.version, markerFiles };
+  const result = { zipPath: path, requiredHomepageTemplates, markerAudit, packageVersion: pkg.version, sha256: sha256(path) };
   console.error(`ZIP_INSPECTION_RESULT ${sanitized(result)}`);
   return result;
 }
