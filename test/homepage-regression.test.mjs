@@ -14,7 +14,7 @@ const deploymentWorkflow = await readFile(new URL("../.github/workflows/deploy-g
 const deploymentScript = await readFile(new URL("../automation/deploy-ghost-theme.mjs", import.meta.url), "utf8");
 
 test("homepage ships the complete Decision OS experience", () => {
-  for (const label of ["TOP <span data-ranking>18</span>%", "One business decision could change your career.", "START MY NEXT DECISION", "Are you getting paid what you\'re worth?", "GET PAID MORE", "30 sec", "2 min", "5 min", "KNOWLEDGE CHECK", "LIVE PHYSICIAN INTELLIGENCE", "ENTERPRISE PREVIEW", "Your individual information is never sold."]) assert.match(home, new RegExp(label));
+  for (const label of ["TOP <span data-ranking>18</span>%", "One business decision could change your career.", "FIND MY BIGGEST OPPORTUNITY", "Are you getting paid what you\'re worth?", "GET PAID MORE", "30 sec", "2 min", "5 min", "KNOWLEDGE CHECK", "LIVE INTELLIGENCE", "ENTERPRISE PREVIEW", "Your individual information is never sold."]) assert.match(home, new RegExp(label));
   assert.match(home, /data-intelligence-action/);
 });
 test("product behavior updates the ranking and retains intelligence instrumentation", () => {
@@ -48,5 +48,5 @@ test("production deployment preflights, activates the upload response, and verif
   assert.doesNotMatch(deploymentScript, /active-theme|restore/);
   assert.match(deploymentScript, /GET \/site\//);
   assert.match(deploymentScript, /GET PAID MORE/);
-  assert.match(deploymentScript, /LIVE PHYSICIAN INTELLIGENCE/);
+  assert.match(deploymentScript, /LIVE INTELLIGENCE/);
 });

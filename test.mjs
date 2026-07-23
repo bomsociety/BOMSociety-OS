@@ -27,7 +27,7 @@ test("default layout loads the shared analytics implementation", async () => {
 
 test("homepage provides the Decision OS learning path and intelligence preview", async () => {
   const home = await readFile(new URL("./ghost-theme/home.hbs", import.meta.url), "utf8");
-  for (const label of ["30 sec", "2 min", "5 min", "Knowledge Check", "LIVE PHYSICIAN INTELLIGENCE", "ENTERPRISE PREVIEW"]) assert.match(home, new RegExp(label));
+  for (const label of ["30 sec", "2 min", "5 min", "Knowledge Check", "LIVE INTELLIGENCE", "ENTERPRISE PREVIEW"]) assert.match(home, new RegExp(label));
   assert.doesNotMatch(home, /BOMGraph/i);
 });
 
