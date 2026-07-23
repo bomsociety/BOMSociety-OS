@@ -118,7 +118,7 @@ export function assessProductionVerification({ status, finalUrl, html, headers =
     decisionScoreFound: html.includes("data-win-reveal"),
     decisionIntelligenceFound: html.includes("data-situation-form"),
     compensationPathwayFound: html.includes("data-compensation-pathway"),
-    compensationHeroFound: html.includes("What decision could change your career forever?"),
+    compensationHeroFound: html.includes("data-track-section=\"homepage_hero\""),
     retiredHomepageFound: RETIRED_HOMEPAGE_MARKERS.some((marker) => html.includes(marker))
   };
 }

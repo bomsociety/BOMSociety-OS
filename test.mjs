@@ -3,9 +3,9 @@ import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 const file = (path) => readFile(new URL(path, import.meta.url), "utf8");
 
-test("homepage presents the physician decision operating system without unsupported public metrics", async () => {
+test("homepage presents an immediate physician decision workspace without unsupported public metrics", async () => {
   const home = await file("./ghost-theme/home.hbs");
-  for (const phrase of ["What decision could change your career forever?", "Earn your trust.", "BIG PICTURE", "BRIEF OVERVIEW", "DEEP DIVE", "DECISION LIBRARY", "YOUR DECISION MOMENTUM", "What decision are you facing today?"]) assert.match(home, new RegExp(phrase.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
+  for (const phrase of ["Make the next career decision clearer.", "A private place to make the career decision in front of you.", "BIG PICTURE", "BRIEF OVERVIEW", "DEEP DIVE", "DECISION LIBRARY", "YOUR DECISION MOMENTUM", "What needs a clearer answer today?", "A compensation number is not a compensation formula."]) assert.match(home, new RegExp(phrase.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
   assert.doesNotMatch(home, /TOP\s*\d+%|PHYSICIANS ONLINE|Readiness\s*42%/i);
 });
 test("Ghost theme routes the root to the dedicated home template", async () => { const routes = await file("./ghost-theme/routes.yaml"); assert.match(routes, /\/:\s*\n\s*template: home/); assert.match(routes, /\/methodology\/: custom-methodology/); assert.match(routes, /\/enterprise\/: custom-enterprise/); assert.match(routes, /tag: \/topic\/\{slug\}\//); });
