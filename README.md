@@ -31,7 +31,7 @@ The **Deploy Ghost theme** workflow starts automatically when a pull request is 
 
 ## Versioning
 
-The root package, theme package, and `VERSION` file use the same SemVer prerelease value. The current version is `1.2.0-b7`.
+The root package, theme package, and `VERSION` file use the same SemVer prerelease value. The current version is `1.3.5`.
 
 ## Documentation
 
