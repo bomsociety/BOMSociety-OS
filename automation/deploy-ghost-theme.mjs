@@ -5,7 +5,6 @@ import { execFileSync } from "node:child_process";
 import { ghostRequest } from "./ghost-admin-api.mjs";
 
 const VERSION = "1.3.1";
-const BUILD_MARKER = "BOMSOCIETY BUILD TEST 17 — VERSION 1.3.1";
 const DEPLOYMENT_MARKER = "BOMSOCIETY-BUILD-TEST-17";
 const ORIGIN_URL = "https://bomsociety.ghost.io/";
 const CUSTOM_URL = "https://www.bomsociety.com/";
@@ -66,24 +65,58 @@ async function activate(name) {
   catch (error) { console.error(`ACTIVATION_RESULT ${sanitized({ path, status, installedThemeName: name })}`); fail("ACTIVATION_FAILED", error.message); }
   console.error(`ACTIVATION_RESULT ${sanitized({ path, status, installedThemeName: name })}`);
 }
+function hasMeta(html, name, expectedContent, exact = true) {
+  const tag = new RegExp(`<meta\\b[^>]*\\bname=["']${name}["'][^>]*>`, "gi");
+  return [...html.matchAll(tag)].some(([match]) => {
+    const content = /\bcontent=["']([^"']*)["']/i.exec(match)?.[1];
+    return content !== undefined && (exact ? content === expectedContent : content.includes(expectedContent));
+  });
+}
+
+export function assessProductionVerification({ status, finalUrl, html }) {
+  return {
+    status,
+    finalUrl,
+    themeVersionFound: hasMeta(html, "bomsociety-theme-version", VERSION),
+    deploymentMarkerFound: hasMeta(html, "bomsociety-deployment-marker", DEPLOYMENT_MARKER, false),
+    homepageRootFound: html.includes("data-bomsociety-home"),
+    decisionScoreFound: html.includes("data-decision-score"),
+    decisionIntelligenceFound: html.includes("data-decision-intelligence")
+  };
+}
+function isConfiguredProductionUrl(finalUrl, configuredUrl) {
+  const configured = new URL(configuredUrl);
+  const actual = new URL(finalUrl);
+  return actual.origin === configured.origin && actual.pathname === configured.pathname;
+}
+
 async function verify(label, baseUrl) {
   const request = new URL(baseUrl); request.searchParams.set("build_test", "17"); request.searchParams.set("ts", String(Date.now()));
   const response = await fetch(request, { headers: { "Cache-Control": "no-cache", Pragma: "no-cache" }, redirect: "follow" }); const html = await response.text();
-  const result = { label, requestedUrl: request.toString(), finalUrl: response.url, status: response.status, title: html.match(/<title[^>]*>([^<]*)<\/title>/i)?.[1]?.trim() ?? "", visibleMarker: html.includes(BUILD_MARKER), themeVersion: html.includes('name="bomsociety-theme-version" content="1.3.1"'), deploymentMarker: html.includes(DEPLOYMENT_MARKER), server: response.headers.get("server"), cacheControl: response.headers.get("cache-control"), age: response.headers.get("age"), via: response.headers.get("via") };
-  console.error(`VERIFICATION_RESULT ${sanitized(result)}`); return result;
+  const result = assessProductionVerification({ status: response.status, finalUrl: response.url, html });
+  console.error(`VERIFICATION_RESULT ${sanitized({ label, requestedUrl: request.toString(), ...result })}`); return result;
 }
-function verificationFailure(result, code) {
-  if (!result.themeVersion || !result.deploymentMarker) fail(code);
-  if (!result.visibleMarker) fail("ROUTE_BYPASSES_UPDATED_TEMPLATE");
+function verificationFailure(result, code, configuredUrl) {
+  if (result.status !== 200 || (configuredUrl && !isConfiguredProductionUrl(result.finalUrl, configuredUrl))) fail(code);
+  if (!result.themeVersionFound) fail("WRONG_THEME_VERSION");
+  if (!result.deploymentMarkerFound) fail("DEPLOYMENT_MARKER_MISSING");
+  const homepageMarkers = [result.homepageRootFound, result.decisionScoreFound, result.decisionIntelligenceFound];
+  if (homepageMarkers.every((found) => !found)) fail("ROUTE_BYPASSES_UPDATED_TEMPLATE");
+  if (homepageMarkers.some((found) => !found)) fail("HOMEPAGE_STRUCTURE_MISSING");
 }
-async function verifyOrigin() { verificationFailure(await verify("Ghost origin", ORIGIN_URL), "GHOST_ORIGIN_NOT_UPDATED"); }
-async function verifySite() { verificationFailure(await verify("Custom domain", CUSTOM_URL), "CUSTOM_DOMAIN_NOT_UPDATED"); }
 
-const [command, value] = process.argv.slice(2);
-if (command === "validate-secrets") { environment(); console.error("SECRET_VALIDATION_RESULT configuration is valid."); }
-else if (command === "inspect") { if (!value) fail("WRONG_ZIP_DEPLOYED", "ZIP path is required"); inspectZip(value); }
-else if (command === "upload") { if (!value) fail("WRONG_ZIP_DEPLOYED", "ZIP path is required"); await upload(value); }
-else if (command === "activate") { if (!value) fail("ACTIVATION_FAILED", "theme name is required"); await activate(value); }
-else if (command === "verify-origin") await verifyOrigin();
-else if (command === "verify-site") await verifySite();
-else fail("ACTIVATION_FAILED", "Command must be validate-secrets, inspect, upload, activate, verify-origin, or verify-site.");
+export function assertProductionVerification(result, code = "PRODUCTION_NOT_UPDATED", configuredUrl) { verificationFailure(result, code, configuredUrl); }
+
+async function verifyOrigin() { verificationFailure(await verify("Ghost origin", ORIGIN_URL), "GHOST_ORIGIN_NOT_UPDATED", ORIGIN_URL); }
+async function verifySite() { verificationFailure(await verify("Custom domain", CUSTOM_URL), "CUSTOM_DOMAIN_NOT_UPDATED", CUSTOM_URL); }
+
+if (process.argv[1] && import.meta.url === new URL(`file://${process.argv[1]}`).href) {
+  const [command, value] = process.argv.slice(2);
+  if (command === "validate-secrets") { environment(); console.error("SECRET_VALIDATION_RESULT configuration is valid."); }
+  else if (command === "inspect") { if (!value) fail("WRONG_ZIP_DEPLOYED", "ZIP path is required"); inspectZip(value); }
+  else if (command === "upload") { if (!value) fail("WRONG_ZIP_DEPLOYED", "ZIP path is required"); await upload(value); }
+  else if (command === "activate") { if (!value) fail("ACTIVATION_FAILED", "theme name is required"); await activate(value); }
+  else if (command === "verify-origin") await verifyOrigin();
+  else if (command === "verify-site") await verifySite();
+  else fail("ACTIVATION_FAILED", "Command must be validate-secrets, inspect, upload, activate, verify-origin, or verify-site.");
+}

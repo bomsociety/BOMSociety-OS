@@ -35,3 +35,10 @@ test("the homepage contains the Sprint 17A decision modules", () => {
     assert.doesNotMatch(home, new RegExp(retired));
   }
 });
+
+test("the homepage exposes durable deployment structure markers without a visible build banner", () => {
+  for (const marker of ["BOMSOCIETY-DECISION-OS", "data-bomsociety-home", "data-decision-score", "data-decision-intelligence"]) {
+    assert.match(home, new RegExp(marker));
+  }
+  assert.doesNotMatch(home, /BOMSOCIETY BUILD TEST 17/);
+});
