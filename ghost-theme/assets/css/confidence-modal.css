@@ -1,0 +1,2 @@
+.decision-modal[hidden]{display:none!important;pointer-events:none}
+.modal-card>button:first-child,.confidence-scale button{cursor:pointer}
