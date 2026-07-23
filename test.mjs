@@ -5,7 +5,7 @@ const file = (path) => readFile(new URL(path, import.meta.url), "utf8");
 
 test("homepage presents the compensation decision path without unsupported public metrics", async () => {
   const home = await file("./ghost-theme/home.hbs");
-  for (const phrase of ["Are you getting paid what you’re worth?", "Earn your trust.", "BIG PICTURE", "BRIEF OVERVIEW", "DEEP DIVE", "YOUR PROGRESS", "FEATURED DECISION", "What physicians are deciding next"]) assert.match(home, new RegExp(phrase.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
+  for (const phrase of ["Are you getting paid what you’re worth?", "Earn your trust.", "BIG PICTURE", "BRIEF OVERVIEW", "DEEP DIVE", "YOUR PROGRESS", "FEATURED DECISION", "WHAT PHYSICIANS ARE DECIDING NEXT"]) assert.match(home, new RegExp(phrase.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
   assert.doesNotMatch(home, /TOP\s*\d+%|PHYSICIANS ONLINE/i);
 });
 test("Ghost theme routes homepage and methodology", async () => { const routes = await file("./ghost-theme/routes.yaml"); assert.match(routes, /\/:\s*\n\s*template: home/); assert.match(routes, /\/methodology\/: custom-methodology/); assert.match(routes, /tag: \/topic\/\{slug\}\//); });
