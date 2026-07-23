@@ -20,6 +20,7 @@ const CLIENT_MATRIX = [
 ];
 const ORIGIN_URL = "https://bomsociety.ghost.io/";
 const CUSTOM_URL = "https://www.bomsociety.com/";
+const ALLOWED_VARY_TOKENS = ["accept-encoding", "cookie"];
 function homepageTemplates(entries, path) {
   if (!entries.includes("routes.yaml")) fail("WRONG_ZIP_DEPLOYED", "routes.yaml is required");
   const rootRoute = /^  \/:\s*\n(?:    [^\n]*\n)*?    template:\s*([^\s#]+)\s*$/m.exec(zipText(path, "routes.yaml"));
@@ -82,9 +83,11 @@ function firstH1(html) {
 function canonicalUrlFound(html) {
   return /<link\b[^>]*\brel=["']canonical["'][^>]*\bhref=["']https:\/\/www\.bomsociety\.com\/["'][^>]*>/i.test(html);
 }
+function varyTokens(headers) {
+  return (headers.get("vary") || "").split(",").map((token) => token.trim().toLowerCase()).filter(Boolean);
+}
 function cacheVaryIsSafe(headers) {
-  const vary = headers.get("vary") || "";
-  return !/\b(?:cookie|user-agent)\b/i.test(vary);
+  return varyTokens(headers).every((token) => ALLOWED_VARY_TOKENS.includes(token));
 }
 function hasMeta(html, name, expectedContent, exact = true) {
   const tag = new RegExp(`<meta\\b[^>]*\\bname=["']${name}["'][^>]*>`, "gi");
@@ -95,6 +98,7 @@ function hasMeta(html, name, expectedContent, exact = true) {
 }
 
 export function assessProductionVerification({ status, finalUrl, html, headers = new Headers() }) {
+  const finalHostname = new URL(finalUrl).hostname;
   return {
     status,
     finalUrl,
@@ -103,7 +107,10 @@ export function assessProductionVerification({ status, finalUrl, html, headers =
     contentLength: Buffer.byteLength(html),
     cacheControl: headers.get("cache-control") || "",
     vary: headers.get("vary") || "",
+    varyTokens: varyTokens(headers),
+    allowedVaryTokens: ALLOWED_VARY_TOKENS,
     cacheVarySafe: cacheVaryIsSafe(headers),
+    finalHostname,
     canonicalUrlFound: canonicalUrlFound(html),
     themeVersionFound: hasMeta(html, "bomsociety-theme-version", VERSION),
     deploymentMarkerFound: hasMeta(html, "bomsociety-deployment-marker", DEPLOYMENT_MARKER, false),
@@ -127,18 +134,48 @@ async function verify(label, baseUrl, client = {}) {
   if (client.cookie) headers.Cookie = client.cookie;
   const response = await fetch(request, { headers, redirect: "follow" }); const html = await response.text();
   const result = assessProductionVerification({ status: response.status, finalUrl: response.url, html, headers: response.headers });
-  console.error(`VERIFICATION_RESULT ${sanitized({ label, requestedUrl: request.toString(), userAgent: headers["User-Agent"], cookieMode: client.cookie ? "existing" : "none", ...result })}`); return result;
+  console.error(`VERIFICATION_RESULT ${sanitized({ label, requestedUrl: request.toString(), userAgent: headers["User-Agent"], cookieMode: client.cookie ? "benign test cookie" : "no cookies", ...result })}`); return result;
+}
+export function canonicalIdentity(result) {
+  return {
+    status: result.status,
+    finalHostname: result.finalHostname || new URL(result.finalUrl).hostname,
+    firstH1: result.firstH1,
+    themeVersionFound: result.themeVersionFound,
+    deploymentMarkerFound: result.deploymentMarkerFound,
+    homepageRootFound: result.homepageRootFound,
+    decisionScoreFound: result.decisionScoreFound,
+    decisionIntelligenceFound: result.decisionIntelligenceFound,
+    compensationPathwayFound: result.compensationPathwayFound,
+    retiredHomepageAbsent: !result.retiredHomepageFound
+  };
+}
+export function canonicalIdentityHash(result) {
+  return createHash("sha256").update(JSON.stringify(canonicalIdentity(result))).digest("hex");
+}
+export function assertConsistentVariants(variants) {
+  const hashes = variants.map(({ result }) => canonicalIdentityHash(result));
+  const allHashesMatch = new Set(hashes).size === 1;
+  const noCookie = variants.find(({ client }) => client.label === "No cookies");
+  const cookie = variants.find(({ client }) => client.label === "Existing cookies");
+  if (noCookie && cookie && canonicalIdentityHash(noCookie.result) !== canonicalIdentityHash(cookie.result)) fail("COOKIE_VARIANT_MISMATCH");
+  const userAgentHashes = variants.filter(({ client }) => client.label !== "No cookies" && client.label !== "Existing cookies").map(({ result }) => canonicalIdentityHash(result));
+  if (new Set(userAgentHashes).size !== 1) fail("USER_AGENT_VARIANT_MISMATCH");
+  if (!allHashesMatch) fail("SPLIT_HOMEPAGE_DELIVERY");
+  return { hashes, allHashesMatch };
 }
 async function verifyMatrix(label, baseUrl, configuredUrl) {
-  const results = [];
+  const variants = [];
   for (const client of CLIENT_MATRIX) {
     const result = await verify(`${label} — ${client.label}`, baseUrl, client);
     verificationFailure(result, `${label.toUpperCase().replace(/\s+/g, "_")}_NOT_UPDATED`, configuredUrl);
-    results.push(result);
+    variants.push({ client, result });
   }
-  // The server-owned identity of the document must not vary by client or cache key.
-  const fingerprint = ({ title, firstH1, themeVersionFound, deploymentMarkerFound, homepageRootFound, decisionScoreFound, decisionIntelligenceFound, compensationPathwayFound, compensationHeroFound, canonicalUrlFound }) => JSON.stringify({ title, firstH1, themeVersionFound, deploymentMarkerFound, homepageRootFound, decisionScoreFound, decisionIntelligenceFound, compensationPathwayFound, compensationHeroFound, canonicalUrlFound });
-  if (new Set(results.map(fingerprint)).size !== 1) fail("SPLIT_HOMEPAGE_DELIVERY");
+  const comparison = assertConsistentVariants(variants);
+  const unusualVary = variants.some(({ result }) => !result.cacheVarySafe);
+  console.error(`VARIANT_IDENTITY_RESULT ${sanitized({ label, rawVaryHeaders: variants.map(({ client, result }) => ({ label: client.label, vary: result.vary })), allowedVaryTokens: ALLOWED_VARY_TOKENS, testedRequestVariants: variants.map(({ client }) => ({ label: client.label, cookieMode: client.cookie ? "benign test cookie" : "no cookies", cacheBusted: true })), canonicalIdentityHashes: variants.map(({ client }, index) => ({ label: client.label, hash: comparison.hashes[index] })), allHashesMatch: comparison.allHashesMatch })}`);
+  // Unknown Vary keys are only unsafe if the cross-variant comparison cannot prove one identity.
+  if (unusualVary && !comparison.allHashesMatch) fail("UNSAFE_CACHE_VARY");
 }
 
 function verificationFailure(result, code, configuredUrl) {
