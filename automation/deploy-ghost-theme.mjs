@@ -4,7 +4,7 @@ import { execFileSync } from "node:child_process";
 import { ghostRequest } from "./ghost-admin-api.mjs";
 
 const DEPLOYMENT_MARKER = "GET PAID MORE";
-const INTELLIGENCE_MARKER = "LIVE PHYSICIAN INTELLIGENCE";
+const INTELLIGENCE_MARKER = "LIVE INTELLIGENCE";
 const SCORE_MARKER = "BOM SCORE";
 const verificationState = join("releases", ".ghost-admin-verification.json");
 
