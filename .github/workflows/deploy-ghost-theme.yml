@@ -58,8 +58,8 @@ jobs:
           {
             echo "## Ghost deployment verification"
             echo "- Source commit SHA: $GITHUB_SHA"
-            echo "- Package version: 1.3.3"
-            echo "- ZIP filename: UPLOAD-TO-GHOST-bomsociety-theme-v1.3.3.zip"
+            echo "- Package version: 1.3.4"
+            echo "- ZIP filename: UPLOAD-TO-GHOST-bomsociety-theme-v1.3.4.zip"
             echo "- ZIP SHA-256: ${{ steps.zip.outputs.sha256 }}"
             echo "- Installed Ghost theme name: ${{ steps.upload.outputs.theme_name }}"
             echo "- Activation result: ${{ steps.activate.outcome }}"

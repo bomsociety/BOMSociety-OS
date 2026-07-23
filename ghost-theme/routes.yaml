@@ -1,6 +1,7 @@
 routes:
   /:
     template: home
+  /enterprise/: custom-enterprise
   /methodology/: custom-methodology
   /privacy/: custom-privacy
   /terms/: custom-terms
