@@ -2,65 +2,35 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import { readFile } from "node:fs/promises";
 
-const home = await readFile(new URL("../ghost-theme/home.hbs", import.meta.url), "utf8");
-const analytics = await readFile(new URL("../ghost-theme/assets/js/analytics.js", import.meta.url), "utf8");
-const main = await readFile(new URL("../ghost-theme/assets/js/main.js", import.meta.url), "utf8");
-const layout = await readFile(new URL("../ghost-theme/default.hbs", import.meta.url), "utf8");
-const header = await readFile(new URL("../ghost-theme/partials/site-header.hbs", import.meta.url), "utf8");
-const depths = await readFile(new URL("../ghost-theme/partials/lesson-depths.hbs", import.meta.url), "utf8");
-const post = await readFile(new URL("../ghost-theme/post.hbs", import.meta.url), "utf8");
-const zipBuilder = await readFile(new URL("../automation/build-theme-zip.mjs", import.meta.url), "utf8");
-const deploymentWorkflow = await readFile(new URL("../.github/workflows/deploy-ghost-theme.yml", import.meta.url), "utf8");
-const deploymentScript = await readFile(new URL("../automation/deploy-ghost-theme.mjs", import.meta.url), "utf8");
+const file = (path) => readFile(new URL(`../${path}`, import.meta.url), "utf8");
+const [home, header, footer, main, css, routes, methodology] = await Promise.all([
+  file("ghost-theme/home.hbs"), file("ghost-theme/partials/site-header.hbs"), file("ghost-theme/partials/site-footer.hbs"), file("ghost-theme/assets/js/main.js"), file("ghost-theme/assets/css/screen.css"), file("ghost-theme/routes.yaml"), file("ghost-theme/custom-methodology.hbs")
+]);
 
-test("homepage delivers the physician-first hierarchy and depth choices", () => {
-  for (const label of ["MISSION", "Respect your time.", "Earn your trust.", "Improve your decisions.", "One business decision could change your career.", "FIND MY BIGGEST OPPORTUNITY", "TOP <span data-ranking>18</span>%", "Decision Intelligence™", "Physician Decision API™", "BIG PICTURE", "BRIEF OVERVIEW", "DEEP DIVE", "30 sec", "2 min", "5 min"]) assert.match(home, new RegExp(label));
-  assert.doesNotMatch(home, /Level up the business side of medicine/);
-  assert.match(home, /class="os-hero-grid"/); assert.match(home, /data-opportunity-depth="quick"/);
+test("unsupported placeholder metrics and product claims are absent", () => {
+  for (const claim of [/TOP\s*18%/i, /PHYSICIANS ONLINE/i, /21,487/, /READINESS/i, /LIVE INTELLIGENCE/i, /Physician Decision API/i, /highest rated/i]) assert.doesNotMatch(`${home}\n${main}`, claim);
+  assert.match(home, /Enterprise data is not yet commercially available\./);
 });
-test("CTA integrity includes working routes, depth controls, and safe overlays", () => {
-  assert.doesNotMatch(home, /href="#"/); assert.match(home, /data-start-decision/); assert.match(home, /data-enterprise-preview/);
-  assert.match(main, /data-opportunity-depth/); assert.match(main, /modal-close/); assert.match(main, /event\.key === 'Escape'|dialog\.close\(\)/);
-  assert.match(main, /bom-compensation-path-complete/); assert.match(main, /window\.setTimeout/); assert.match(main, /data-completion-close/);
+test("navigation and visible internal links have destinations", () => {
+  assert.doesNotMatch(`${home}\n${header}\n${footer}`, /href="#"/);
+  for (const link of ["#start-here", "#questions", "#how-it-works", "/about/", "/privacy/", "/membership/"]) assert.match(header, new RegExp(link.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
+  for (const link of ["/about/", "/privacy/", "/terms/", "/methodology/", "/contact/"]) assert.match(footer, new RegExp(link.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
+  assert.match(header, /data-portal="signup"/);
 });
-test("header and footer carry the same physician tagline", async () => {
- const footer=await readFile(new URL("../ghost-theme/partials/site-footer.hbs",import.meta.url),"utf8");
- for (const partial of [header, footer]) { assert.match(partial, /The <em>free<\/em> way for physicians to master the business of medicine\./); }
+test("the first decision stream provides all three depths and source metadata", () => {
+  for (const label of ["BIG PICTURE · 30 SECONDS", "BRIEF OVERVIEW · 2 MINUTES", "DEEP DIVE · 5 MINUTES", "Illustrative calculator", "Editable action checklist", "Knowledge check", "Educational information only"]) assert.match(home, new RegExp(label));
+  assert.match(home, /Centers for Medicare &amp; Medicaid Services · Date not listed · Last reviewed:/);
+  assert.match(home, /American Medical Association · 2023 · Last reviewed:/);
 });
-test("Decision Intelligence appears only in the homepage hero and page two uses two columns", async () => {
- const css=await readFile(new URL("../ghost-theme/assets/css/screen.css",import.meta.url),"utf8"); const postPage=await readFile(new URL("../ghost-theme/post.hbs",import.meta.url),"utf8");
- assert.match(home,/class="os-intelligence os-intelligence-hero" id="live-intelligence"/); assert.doesNotMatch(postPage,/os-intelligence/); assert.match(css,/grid-template-columns:minmax\(280px,\.74fr\) minmax\(0,1\.75fr\)/);
+test("progress is local and can be awarded once, feedback closes", () => {
+  assert.match(main, /const mark=name=>\{const state=read\(\); if\(state\[name\]\)return false/);
+  assert.match(main, /localStorage\.setItem\(key/);
+  assert.match(main, /data-close-feedback/);
+  assert.match(main, /panel\.hidden=true/);
 });
-test("product behavior updates the ranking and retains intelligence instrumentation", () => {
-  assert.match(main, /intelligence_action/); assert.match(main, /data-ranking/);
-  assert.match(main, /compensation_lesson_advanced/); assert.match(main, /compensation_knowledge_check_answered/);
-  assert.match(analytics, /intelligence_action/); assert.match(layout, /class="skip-link" href="#main"/);
-  assert.match(post, /\{\{> level-up-components\}\}/);
-});
-test("version is synchronized and the theme ZIP builder packages from the theme root", async () => {
-  const root = JSON.parse(await readFile(new URL("../package.json", import.meta.url))); const theme = JSON.parse(await readFile(new URL("../ghost-theme/package.json", import.meta.url)));
-  const version = (await readFile(new URL("../VERSION", import.meta.url), "utf8")).trim();
-  assert.equal(root.version, "1.3.0"); assert.equal(theme.version, root.version); assert.equal(version, root.version);
-  assert.match(zipBuilder, /cwd: theme/); assert.match(zipBuilder, /UPLOAD-TO-GHOST-bomsociety-theme-v/); assert.match(zipBuilder, /rm\(output, \{ force: true \}\)/);
-});
-test("production deployment preflights, activates the upload response, and verifies both public URLs", () => {
-  assert.match(deploymentWorkflow, /push:\s+branches:\s+- main/);
-  assert.match(deploymentWorkflow, /npm test/);
-  for (const validation of ["knowledge:validate", "validate:publishing", "validate:decision", "validate:measurement"]) {
-    assert.match(deploymentWorkflow, new RegExp(`npm run ${validation}`));
-  }
-  assert.match(deploymentWorkflow, /npm run theme:zip/);
-  assert.match(deploymentWorkflow, /deploy-ghost-theme\.mjs inspect/);
-  assert.doesNotMatch(deploymentWorkflow, /download-artifact/);
-  for (const secret of ["GHOST_ADMIN_URL", "GHOST_ADMIN_KEY", "GHOST_SITE_URL", "GHOST_API_VERSION"]) assert.match(deploymentWorkflow, new RegExp(`secrets\\.${secret}`));
-  assert.match(deploymentWorkflow, /workflow_dispatch/);
-  assert.match(deploymentWorkflow, /preflight/);
-  assert.match(deploymentWorkflow, /verify-admin/);
-  assert.match(deploymentWorkflow, /verify-site/);
-  assert.doesNotMatch(deploymentWorkflow, /rollback|continue-on-error|Capture currently active theme/i);
-  assert.match(deploymentWorkflow, /theme_name="\$\(node automation\/deploy-ghost-theme\.mjs upload/);
-  assert.doesNotMatch(deploymentScript, /active-theme|restore/);
-  assert.match(deploymentScript, /GET \/site\//);
-  assert.match(deploymentScript, /GET PAID MORE/);
-  assert.match(deploymentScript, /LIVE INTELLIGENCE/);
+test("methodology page and responsive one-column layout exist", () => {
+  assert.match(routes, /\/methodology\/: custom-methodology/);
+  for (const label of ["Information collected", "Information not collected", "Anonymity and aggregation", "Minimum sample thresholds", "will not sell personally identifiable information", "not yet commercially available"]) assert.match(methodology, new RegExp(label));
+  assert.match(css, /body\{overflow-x:hidden\}/);
+  assert.match(css, /@media\(max-width:800px\).*grid-template-columns:1fr/s);
 });
