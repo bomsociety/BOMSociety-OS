@@ -26,7 +26,7 @@ test("the action-first hero has its mission, question, chooser, and no retired p
 
 test("coming-next actions, natural language routing, share, and anonymous event interface are present", () => {
   for (const phrase of ["What would you most want help deciding?", "Submit my question", "DECISION LIBRARY", "Send to a colleague"]) assert.match(home, new RegExp(phrase));
-  for (const event of ["homepage_decision_selected", "homepage_situation_submitted", "unmet_decision_requested", "compensation_episode_started", "decision_library_cta_clicked", "colleague_share_started", "colleague_share_completed"]) {
+  for (const event of ["homepage_decision_selected", "homepage_situation_submitted", "unmet_decision_requested", "compensation_episode_started", "decision_library_cta_clicked", "colleague_share_started", "colleague_share_completed", "decision_outcome_captured"]) {
     assert.match(homeJs, new RegExp(event)); assert.match(analytics, new RegExp(event));
   }
   assert.match(homeJs, /navigator\.share/);
@@ -36,6 +36,6 @@ test("coming-next actions, natural language routing, share, and anonymous event 
 });
 
 test("the compensation episode and honest enterprise philosophy remain server-rendered", () => {
-  for (const phrase of ["PROBLEM", "CONTEXT", "BIG PICTURE", "INTERACTIVE CALCULATOR", "ACTION PLAN", "KNOW · DO · SHARE", "Physicians remain free", "individual physician data is never sold", "WHY THIS GETS BETTER", "See how this gets better"]) assert.match(home, new RegExp(phrase));
+  for (const phrase of ["PROBLEM", "CONTEXT", "BIG PICTURE", "INTERACTIVE CALCULATOR", "ACTION PLAN", "KNOW · DO · SHARE", "Physicians remain free", "individual physician data is never sold", "BUSINESS OF MEDICINE INTELLIGENCE", "Explore the Business of Medicine Intelligence platform"]) assert.match(home, new RegExp(phrase));
   assert.match(home, /data-compensation-pathway/);
 });
