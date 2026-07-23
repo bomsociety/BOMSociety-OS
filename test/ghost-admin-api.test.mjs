@@ -7,7 +7,7 @@ import { execFileSync } from "node:child_process";
 
 const root = new URL("../", import.meta.url);
 const read = (path) => readFile(new URL(path, root), "utf8");
-const [themePackage, home, index, deploy, workflow, build] = await Promise.all([read("ghost-theme/package.json"), read("ghost-theme/home.hbs"), read("ghost-theme/index.hbs"), read("automation/deploy-ghost-theme.mjs"), read(".github/workflows/deploy-ghost-theme.yml"), read("automation/build-theme-zip.mjs")]);
+const [themePackage, home, index, footer, deploy, workflow, build] = await Promise.all([read("ghost-theme/package.json"), read("ghost-theme/home.hbs"), read("ghost-theme/index.hbs"), read("ghost-theme/partials/site-footer.hbs"), read("automation/deploy-ghost-theme.mjs"), read(".github/workflows/deploy-ghost-theme.yml"), read("automation/build-theme-zip.mjs")]);
 const marker = "BOMSOCIETY BUILD TEST 17 — VERSION 1.3.1";
 
 test("version 1.3.1 controls the exact upload ZIP filename", () => {
@@ -15,8 +15,9 @@ test("version 1.3.1 controls the exact upload ZIP filename", () => {
   assert.match(build, /UPLOAD-TO-GHOST-bomsociety-theme-v\$\{themePackage\.version\}\.zip/);
   assert.match(workflow, /UPLOAD-TO-GHOST-bomsociety-theme-v1\.3\.1\.zip/);
 });
-test("every homepage-capable template contains the unmissable marker", () => {
-  for (const template of [home, index]) assert.ok(template.includes(marker));
+test("the shared footer contains the deployment marker without adding it to the homepage", () => {
+  assert.match(footer, /Theme 1\.3\.1 · Build Test 17 · Commit/);
+  assert.ok(!home.includes(marker));
 });
 test("ZIP inspection fails without the marker", async () => {
   const dir = await mkdtemp(join(tmpdir(), "ghost-marker-"));
