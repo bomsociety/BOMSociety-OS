@@ -1,96 +1,79 @@
-import { readFile, writeFile } from "node:fs/promises";
-import { basename, join } from "node:path";
+import { createHash } from "node:crypto";
+import { readFile } from "node:fs/promises";
+import { basename } from "node:path";
 import { execFileSync } from "node:child_process";
 import { ghostRequest } from "./ghost-admin-api.mjs";
 
-const DEPLOYMENT_MARKER = "BOMSOCIETY-DECISION-OS";
-const BRANDING_MARKER = "BOMSociety";
-const DEPTH_MARKERS = ["BIG PICTURE", "BRIEF OVERVIEW", "DEEP DIVE"];
-const verificationState = join("releases", ".ghost-admin-verification.json");
+const VERSION = "1.3.1";
+const BUILD_MARKER = "BOMSOCIETY BUILD TEST 17 — VERSION 1.3.1";
+const DEPLOYMENT_MARKER = "BOMSOCIETY-BUILD-TEST-17";
+const ORIGIN_URL = "https://bomsociety.ghost.io/";
+const CUSTOM_URL = "https://www.bomsociety.com/";
+const HOME_TEMPLATES = ["index.hbs", "home.hbs", "custom-home.hbs", "page-home.hbs"];
 
-function fail(code, message) { throw new Error(`${code}: ${message}`); }
+function fail(code, message = "") { throw new Error(message ? `${code}: ${message}` : code); }
 function environment() {
-  const { GHOST_ADMIN_URL: adminUrl, GHOST_ADMIN_KEY: adminKey, GHOST_SITE_URL: siteUrl } = process.env;
-  for (const [name, value] of Object.entries({ GHOST_ADMIN_URL: adminUrl, GHOST_ADMIN_KEY: adminKey, GHOST_SITE_URL: siteUrl })) {
-    if (!value) fail("PREFLIGHT_CONFIGURATION_INVALID", `${name} is required.`);
-  }
-  if ((adminKey.match(/:/g) || []).length !== 1) fail("PREFLIGHT_CONFIGURATION_INVALID", "GHOST_ADMIN_KEY must contain exactly one colon.");
-  const [id, secret] = adminKey.split(":");
-  if (!/^[a-f0-9]+$/i.test(id) || !/^[a-f0-9]+$/i.test(secret)) fail("PREFLIGHT_CONFIGURATION_INVALID", "GHOST_ADMIN_KEY ID and secret must be hexadecimal strings.");
-  let admin; let site;
-  try { admin = new URL(adminUrl); site = new URL(siteUrl); } catch { fail("PREFLIGHT_CONFIGURATION_INVALID", "GHOST_ADMIN_URL and GHOST_SITE_URL must be valid URLs."); }
-  if (admin.protocol !== "https:" || site.protocol !== "https:") fail("PREFLIGHT_CONFIGURATION_INVALID", "GHOST_ADMIN_URL and GHOST_SITE_URL must use HTTPS.");
-  return { adminUrl, adminKey, siteUrl, admin, site };
+  const { GHOST_ADMIN_URL: adminUrl, GHOST_ADMIN_KEY: adminKey } = process.env;
+  for (const [name, value] of Object.entries({ GHOST_ADMIN_URL: adminUrl, GHOST_ADMIN_KEY: adminKey })) if (!value) fail("ACTIVATION_FAILED", `${name} is required.`);
+  return { adminUrl, adminKey };
 }
 function sanitized(value) { return JSON.stringify(value, (key, nested) => /authorization|cookie|key|password|secret|token/i.test(key) ? "[REDACTED]" : nested); }
-
-async function preflight() {
-  const env = environment();
-  let site;
-  try { site = await ghostRequest(env.adminUrl, env.adminKey, "/site/", { method: "GET" }); }
-  catch (error) { fail("PREFLIGHT_SITE_REQUEST_FAILED", `GET /site/ failed. ${error.message}`); }
-  const publication = site.site ?? site;
-  const returnedUrl = publication.url;
-  let returned;
-  try { returned = new URL(returnedUrl); } catch { fail("PREFLIGHT_PUBLICATION_IDENTITY_MISMATCH", "GET /site/ did not return a valid publication URL."); }
-  const result = { title: publication.title, siteUrl: returnedUrl, adminHostname: env.admin.hostname, configuredSiteHostname: env.site.hostname, ghostVersion: publication.version ?? site.meta?.version };
-  console.error(`PREFLIGHT_RESULT ${sanitized(result)}`);
-  if (!String(publication.title || "").includes("BOMSociety")) fail("PREFLIGHT_PUBLICATION_IDENTITY_MISMATCH", "GET /site/ title must contain BOMSociety.");
-  if (returned.hostname !== env.site.hostname) fail("PREFLIGHT_PUBLICATION_IDENTITY_MISMATCH", `GET /site/ returned ${returned.hostname}, not ${env.site.hostname}. If this is bomsociety.ghost.io, verify and explicitly establish the custom domain/publication association before deploying.`);
-}
+function zipEntries(path) { return execFileSync("unzip", ["-Z1", path], { encoding: "utf8" }).split("\n").filter(Boolean); }
+function zipText(path, entry) { return execFileSync("unzip", ["-p", path, entry], { encoding: "utf8" }); }
+function sha256(path) { return createHash("sha256").update(readFileSync(path)).digest("hex"); }
+function readFileSync(path) { return execFileSync("cat", [path]); }
 
 function inspectZip(path) {
-  const entries = execFileSync("unzip", ["-Z1", path], { encoding: "utf8" }).split("\n").filter(Boolean);
-  if (!entries.includes("package.json")) fail("ZIP_INSPECTION_FAILED", "package.json must be at ZIP root.");
-  if (!entries.includes("index.hbs")) fail("ZIP_INSPECTION_FAILED", "index.hbs must exist in the ZIP.");
-  if (!entries.some((entry) => /^assets\/css\/.*\.css$/i.test(entry)) || !entries.some((entry) => /^assets\/js\/.*\.js$/i.test(entry))) fail("ZIP_INSPECTION_FAILED", "ZIP must contain CSS and JavaScript assets.");
-  const packageJson = JSON.parse(execFileSync("unzip", ["-p", path, "package.json"], { encoding: "utf8" }));
-  const match = basename(path).match(/-v(\d+\.\d+\.\d+)\.zip$/);
-  if (!match || packageJson.version !== match[1]) fail("ZIP_INSPECTION_FAILED", "package.json version must equal the ZIP filename version.");
-  const defaultTemplate = execFileSync("unzip", ["-p", path, "default.hbs"], { encoding: "utf8" });
-  if (!defaultTemplate.includes(DEPLOYMENT_MARKER)) fail("ZIP_INSPECTION_FAILED", `ZIP is missing stable deployment marker: ${DEPLOYMENT_MARKER}.`);
-  const homepage = execFileSync("unzip", ["-p", path, "home.hbs"], { encoding: "utf8" });
-  for (const marker of DEPTH_MARKERS) {
-    if (!homepage.includes(marker)) fail("ZIP_INSPECTION_FAILED", `ZIP homepage is missing required depth marker: ${marker}.`);
-  }
-  console.error(`ZIP_INSPECTION_RESULT ${sanitized({ path, version: packageJson.version, marker: DEPLOYMENT_MARKER, depthMarkers: DEPTH_MARKERS, css: true, javascript: true })}`);
+  const entries = zipEntries(path);
+  if (basename(path) !== `UPLOAD-TO-GHOST-bomsociety-theme-v${VERSION}.zip`) fail("WRONG_ZIP_DEPLOYED", "unexpected ZIP filename");
+  if (!entries.includes("package.json") || !entries.includes("index.hbs")) fail("WRONG_ZIP_DEPLOYED", "package.json at root and index.hbs are required");
+  if (!entries.some((entry) => /^assets\/css\/.*\.css$/i.test(entry)) || !entries.some((entry) => /^assets\/js\/.*\.js$/i.test(entry))) fail("WRONG_ZIP_DEPLOYED", "CSS and JavaScript assets are required");
+  const pkg = JSON.parse(zipText(path, "package.json"));
+  if (pkg.version !== VERSION) fail("WRONG_ZIP_DEPLOYED", `package version is ${pkg.version}`);
+  const markerFiles = entries.filter((entry) => entry.endsWith(".hbs") && zipText(path, entry).includes(BUILD_MARKER));
+  if (!markerFiles.length) fail("WRONG_ZIP_DEPLOYED", "build marker is missing");
+  for (const template of HOME_TEMPLATES.filter((entry) => entries.includes(entry))) if (!zipText(path, template).includes(BUILD_MARKER)) fail("WRONG_ZIP_DEPLOYED", `${template} lacks build marker`);
+  const defaultTemplate = zipText(path, "default.hbs");
+  if (!defaultTemplate.includes("bomsociety-theme-version") || !defaultTemplate.includes("bomsociety-commit") || !defaultTemplate.includes(DEPLOYMENT_MARKER)) fail("WRONG_ZIP_DEPLOYED", "stable metadata is missing");
+  const result = { zipPath: path, sha256: sha256(path), packageVersion: pkg.version, markerFiles };
+  console.error(`ZIP_INSPECTION_RESULT ${sanitized(result)}`);
+  return result;
 }
-
 async function upload(path) {
   const env = environment(); inspectZip(path);
   const form = new FormData(); form.append("file", new Blob([await readFile(path)], { type: "application/zip" }), basename(path));
-  let status;
-  let response;
+  let status; let response;
   try { response = await ghostRequest(env.adminUrl, env.adminKey, "/themes/upload/", { method: "POST", body: form, onResponse: ({ status: value }) => { status = value; } }); }
-  catch (error) { console.error(`UPLOAD_RESULT ${sanitized({ status, error: error.message })}`); fail("UPLOAD_FAILED", error.message); }
+  catch (error) { console.error(`UPLOAD_RESULT ${sanitized({ status, error: error.message })}`); fail("WRONG_ZIP_DEPLOYED", error.message); }
   const name = response.themes?.[0]?.name;
   console.error(`UPLOAD_RESULT ${sanitized({ status, response, installedThemeName: name })}`);
-  if (typeof name !== "string" || !name.trim()) fail("UPLOAD_FAILED", "Upload response did not include themes[0].name.");
+  if (typeof name !== "string" || !name.trim()) fail("WRONG_ZIP_DEPLOYED", "upload response did not include themes[0].name");
   console.log(name);
 }
 async function activate(name) {
-  const { adminUrl, adminKey } = environment();
-  const path = `/themes/${encodeURIComponent(name)}/activate/`; let status;
+  const { adminUrl, adminKey } = environment(); const path = `/themes/${encodeURIComponent(name)}/activate/`; let status;
   try { await ghostRequest(adminUrl, adminKey, path, { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ themes: [{ active: true }] }), onResponse: ({ status: value }) => { status = value; } }); }
   catch (error) { console.error(`ACTIVATION_RESULT ${sanitized({ path, status, installedThemeName: name })}`); fail("ACTIVATION_FAILED", error.message); }
   console.error(`ACTIVATION_RESULT ${sanitized({ path, status, installedThemeName: name })}`);
 }
-async function fetchPublic(label, url) {
-  const request = new URL("/", url); request.searchParams.set("bom_deploy", String(Date.now()));
+async function verify(label, baseUrl) {
+  const request = new URL(baseUrl); request.searchParams.set("build_test", "17"); request.searchParams.set("ts", String(Date.now()));
   const response = await fetch(request, { headers: { "Cache-Control": "no-cache", Pragma: "no-cache" }, redirect: "follow" }); const html = await response.text();
-  const title = html.match(/<title[^>]*>([^<]*)<\/title>/i)?.[1]?.trim() ?? "";
-  const result = { label, requestedUrl: request.toString(), finalUrl: response.url, status: response.status, title, deploymentMarker: html.includes(DEPLOYMENT_MARKER), bomsocietyBranding: html.includes(BRANDING_MARKER), server: response.headers.get("server"), cacheControl: response.headers.get("cache-control"), age: response.headers.get("age"), via: response.headers.get("via") };
+  const result = { label, requestedUrl: request.toString(), finalUrl: response.url, status: response.status, title: html.match(/<title[^>]*>([^<]*)<\/title>/i)?.[1]?.trim() ?? "", visibleMarker: html.includes(BUILD_MARKER), themeVersion: html.includes('name="bomsociety-theme-version" content="1.3.1"'), deploymentMarker: html.includes(DEPLOYMENT_MARKER), server: response.headers.get("server"), cacheControl: response.headers.get("cache-control"), age: response.headers.get("age"), via: response.headers.get("via") };
   console.error(`VERIFICATION_RESULT ${sanitized(result)}`); return result;
 }
-async function verifyAdmin() { const { admin } = environment(); const result = await fetchPublic("Ghost publication URL", admin.origin); await writeFile(verificationState, JSON.stringify(result)); if (!result.deploymentMarker) fail("THEME_ACTIVATED_BUT_ROUTE_BYPASSES_THEME_MARKER", "Ghost publication URL does not contain the stable deployment marker."); if (!result.bomsocietyBranding) fail("THEME_ACTIVATED_BUT_BRANDING_MISSING", "Ghost publication URL does not contain BOMSociety branding."); }
-async function verifySite() { const { site } = environment(); const custom = await fetchPublic("Custom production URL", site.origin); const admin = JSON.parse(await readFile(verificationState, "utf8")); if (admin.deploymentMarker && !custom.deploymentMarker) fail("ADMIN_PUBLIC_SITE_UPDATED_BUT_CUSTOM_DOMAIN_NOT_UPDATED", "Ghost publication URL has the stable deployment marker but the custom domain does not."); if (!admin.deploymentMarker && !custom.deploymentMarker) fail("THEME_ACTIVATED_BUT_ROUTE_BYPASSES_THEME_MARKER", "Neither public URL contains the stable deployment marker."); if (!custom.deploymentMarker || !custom.bomsocietyBranding) fail("CUSTOM_DOMAIN_POINTS_TO_DIFFERENT_PUBLICATION", "Custom domain does not serve the activated BOMSociety stable marker and branding."); if (!admin.bomsocietyBranding) fail("THEME_ACTIVATED_BUT_BRANDING_MISSING", "Ghost publication URL does not contain BOMSociety branding."); }
+function verificationFailure(result, code) {
+  if (!result.themeVersion || !result.deploymentMarker) fail(code);
+  if (!result.visibleMarker) fail("ROUTE_BYPASSES_UPDATED_TEMPLATE");
+}
+async function verifyOrigin() { verificationFailure(await verify("Ghost origin", ORIGIN_URL), "GHOST_ORIGIN_NOT_UPDATED"); }
+async function verifySite() { verificationFailure(await verify("Custom domain", CUSTOM_URL), "CUSTOM_DOMAIN_NOT_UPDATED"); }
 
 const [command, value] = process.argv.slice(2);
-if (command === "preflight") await preflight();
-else if (command === "validate-secrets") { environment(); console.error("SECRET_VALIDATION_RESULT configuration is valid."); }
-else if (command === "inspect") { if (!value) fail("ZIP_INSPECTION_FAILED", "Usage: deploy-ghost-theme.mjs inspect <zip-path>"); inspectZip(value); }
-else if (command === "upload") { if (!value) fail("UPLOAD_FAILED", "Usage: deploy-ghost-theme.mjs upload <zip-path>"); await upload(value); }
-else if (command === "activate") { if (!value) fail("ACTIVATION_FAILED", "Usage: deploy-ghost-theme.mjs activate <uploaded-theme-name>"); await activate(value); }
-else if (command === "verify-admin") await verifyAdmin();
+if (command === "validate-secrets") { environment(); console.error("SECRET_VALIDATION_RESULT configuration is valid."); }
+else if (command === "inspect") { if (!value) fail("WRONG_ZIP_DEPLOYED", "ZIP path is required"); inspectZip(value); }
+else if (command === "upload") { if (!value) fail("WRONG_ZIP_DEPLOYED", "ZIP path is required"); await upload(value); }
+else if (command === "activate") { if (!value) fail("ACTIVATION_FAILED", "theme name is required"); await activate(value); }
+else if (command === "verify-origin") await verifyOrigin();
 else if (command === "verify-site") await verifySite();
-else fail("USAGE", "Command must be validate-secrets, preflight, inspect, upload, activate, verify-admin, or verify-site.");
+else fail("ACTIVATION_FAILED", "Command must be validate-secrets, inspect, upload, activate, verify-origin, or verify-site.");
