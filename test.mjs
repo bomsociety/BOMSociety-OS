@@ -2,11 +2,11 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 
-test("homepage begins with a physician product instead of brand positioning", async () => {
+test("homepage begins with an evidence-first physician decision path", async () => {
   const home = await readFile(new URL("./ghost-theme/home.hbs", import.meta.url), "utf8");
-  assert.match(home, /TOP <span data-ranking>18<\/span>%/);
-  assert.match(home, /One business decision could change your career\./);
-  assert.match(home, /GET PAID MORE/);
+  assert.match(home, /Make the business side of medicine easier\./);
+  assert.match(home, /Are you getting paid what you’re worth\?/);
+  assert.doesNotMatch(home, /TOP <span data-ranking>/);
 });
 
 test("Ghost theme is the canonical homepage and uses topic routes", async () => {
@@ -25,17 +25,17 @@ test("default layout loads the shared analytics implementation", async () => {
   assert.match(layout, /js\/analytics\.js/);
 });
 
-test("homepage provides the Decision OS learning path and intelligence preview", async () => {
+test("homepage provides the complete compensation learning path and honest enterprise status", async () => {
   const home = await readFile(new URL("./ghost-theme/home.hbs", import.meta.url), "utf8");
-  for (const label of ["30 sec", "2 min", "5 min", "KNOWLEDGE CHECK", "LIVE INTELLIGENCE", "EXPLORE ENTERPRISE"]) assert.match(home, new RegExp(label));
+  for (const label of ["BIG PICTURE", "BRIEF OVERVIEW", "DEEP DIVE", "Knowledge check", "Illustrative calculator", "not yet commercially available"]) assert.match(home, new RegExp(label));
   assert.doesNotMatch(home, /BOMGraph/i);
 });
 
-test("product interactions retain documented measurement hooks", async () => {
+test("product interactions retain the shared analytics load order and local pathway behavior", async () => {
   const [home, main, layout, analytics] = await Promise.all([
     readFile(new URL("./ghost-theme/home.hbs", import.meta.url), "utf8"), readFile(new URL("./ghost-theme/assets/js/main.js", import.meta.url), "utf8"), readFile(new URL("./ghost-theme/default.hbs", import.meta.url), "utf8"), readFile(new URL("./ghost-theme/assets/js/analytics.js", import.meta.url), "utf8")
   ]);
-  assert.match(home, /data-intelligence-action/); assert.match(main, /intelligence_action/); assert.match(main, /compensation_lesson_advanced/);
+  assert.match(home, /data-calc/); assert.match(main, /bom-compensation-progress-v1/); assert.match(main, /data-close-feedback/);
   assert.ok(layout.indexOf('js/analytics.js') < layout.indexOf('js/main.js'));
   assert.match(analytics, /'intelligence_action'/); assert.doesNotMatch(analytics, /\binteraction\b/);
 });

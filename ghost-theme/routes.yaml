@@ -1,5 +1,8 @@
 routes:
   /: home
+  /methodology/: custom-methodology
+  /privacy/: custom-privacy
+  /terms/: custom-terms
 collections:
   /briefs/:
     permalink: /briefs/{slug}/
