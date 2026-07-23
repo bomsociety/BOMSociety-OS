@@ -31,7 +31,8 @@ test("version 1.3.1 controls the exact upload ZIP filename", () => {
   assert.match(workflow, /UPLOAD-TO-GHOST-bomsociety-theme-v1\.3\.1\.zip/);
 });
 test("existing homepage-capable templates contain the stable nonvisual marker", () => {
-  assert.match(footer, /Theme 1\.3\.1 · Build Test 17 · Commit/);
+  assert.match(footer, /Theme 1\.3\.1 · Commit/);
+  assert.doesNotMatch(footer, /Build Test 17/);
   for (const template of [home, index]) assert.match(template, new RegExp(`<!-- ${deploymentMarker} -->`));
 });
 test("ZIP inspection passes when every existing homepage template has the marker", async () => {
