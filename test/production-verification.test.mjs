@@ -4,7 +4,7 @@ import { readFile } from "node:fs/promises";
 import { assertConsistentVariants, assertProductionVerification, assessProductionVerification, canonicalIdentityHash } from "../automation/deploy-ghost-theme.mjs";
 
 const site = "https://www.bomsociety.com/";
-const basePage = `<!doctype html><title>BOMSociety | Physician Decision Intelligence</title><link rel="canonical" href="https://www.bomsociety.com/"><meta name="bomsociety-theme-version" content="1.3.4"><meta name="bomsociety-deployment-marker" content="BOMSOCIETY-SPRINT-17B-CANONICAL"><main data-bomsociety-home="BOMSOCIETY-HOMEPAGE-V3" data-compensation-pathway data-track-section="homepage_hero"><h1>Make the next career decision clearer.</h1><aside data-win-reveal></aside><form data-situation-form></form></main>`;
+const basePage = `<!doctype html><title>BOMSociety | Physician Decision Intelligence</title><link rel="canonical" href="https://www.bomsociety.com/"><meta name="bomsociety-theme-version" content="1.3.5"><meta name="bomsociety-deployment-marker" content="BOMSOCIETY-SPRINT-17B-CANONICAL"><main data-bomsociety-home="BOMSOCIETY-HOMEPAGE-V3" data-compensation-pathway data-track-section="homepage_hero"><h1>Make your next Business of Medicine decision clearer.</h1><aside data-win-reveal></aside><form data-situation-form></form></main>`;
 const [defaultTemplate, homepage] = await Promise.all([
   readFile(new URL("../ghost-theme/default.hbs", import.meta.url), "utf8"),
   readFile(new URL("../ghost-theme/home.hbs", import.meta.url), "utf8")
@@ -22,7 +22,7 @@ test("current homepage passes production verification without the temporary red 
   const result = verify(currentHomepage);
   assertProductionVerification(result);
   assert.deepEqual(result, {
-    status: 200, finalUrl: site, title: "", firstH1: "Make the next career decision clearer.",
+    status: 200, finalUrl: site, title: "", firstH1: "Make your next Business of Medicine decision clearer.",
     contentLength: Buffer.byteLength(currentHomepage), cacheControl: "", vary: "", varyTokens: [], allowedVaryTokens: ["accept-encoding", "cookie"], cacheVarySafe: true, finalHostname: "www.bomsociety.com",
     canonicalUrlFound: true, themeVersionFound: true, deploymentMarkerFound: true,
     homepageRootFound: true, decisionScoreFound: true, decisionIntelligenceFound: true,
@@ -31,17 +31,17 @@ test("current homepage passes production verification without the temporary red 
 });
 
 test("missing homepage structure fails while shared metadata remains", () => {
-  expectFailure("ROUTE_BYPASSES_UPDATED_TEMPLATE", `<link rel="canonical" href="https://www.bomsociety.com/"><meta name="bomsociety-theme-version" content="1.3.4"><meta name="bomsociety-deployment-marker" content="BOMSOCIETY-SPRINT-17B-CANONICAL">`);
+  expectFailure("ROUTE_BYPASSES_UPDATED_TEMPLATE", `<link rel="canonical" href="https://www.bomsociety.com/"><meta name="bomsociety-theme-version" content="1.3.5"><meta name="bomsociety-deployment-marker" content="BOMSOCIETY-SPRINT-17B-CANONICAL">`);
   expectFailure("HOMEPAGE_STRUCTURE_MISSING", basePage.replace("data-win-reveal", "data-removed-win"));
 });
 
 test("missing version and deployment metadata fail with specific codes", () => {
-  expectFailure("WRONG_THEME_VERSION", basePage.replace('name="bomsociety-theme-version" content="1.3.4"', ""));
+  expectFailure("WRONG_THEME_VERSION", basePage.replace('name="bomsociety-theme-version" content="1.3.5"', ""));
   expectFailure("DEPLOYMENT_MARKER_MISSING", basePage.replace('name="bomsociety-deployment-marker" content="BOMSOCIETY-SPRINT-17B-CANONICAL"', ""));
 });
 
 test("volatile hero copy and the removed temporary banner do not affect deployment verification", () => {
-  assert.doesNotThrow(() => assertProductionVerification(verify(currentHomepage.replace("Make the next career decision clearer.", "A new hero headline"))));
+  assert.doesNotThrow(() => assertProductionVerification(verify(currentHomepage.replace("Make your next Business of Medicine decision clearer.", "A new hero headline"))));
   assert.doesNotThrow(() => assertProductionVerification(verify(currentHomepage.replace("BOMSOCIETY BUILD TEST 17", ""))));
 });
 
