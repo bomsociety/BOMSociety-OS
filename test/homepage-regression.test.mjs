@@ -14,8 +14,8 @@ const deploymentWorkflow = await readFile(new URL("../.github/workflows/deploy-g
 const deploymentScript = await readFile(new URL("../automation/deploy-ghost-theme.mjs", import.meta.url), "utf8");
 
 test("homepage delivers the physician-first hierarchy and depth choices", () => {
-  for (const label of ["Level up the business side of medicine.", "Everything medical training never taught you", "FIND MY BIGGEST OPPORTUNITY", "Find My Biggest Opportunity", "TOP <span data-ranking>18</span>%", "Decision Intelligence™", "Physician Decision API™", "BIG PICTURE", "BRIEF OVERVIEW", "DEEP DIVE", "30 sec", "2 min", "5 min"]) assert.match(home, new RegExp(label));
-  assert.doesNotMatch(home, /BOMSOCIETY MISSION/);
+  for (const label of ["MISSION", "Respect your time.", "Earn your trust.", "Improve your decisions.", "One business decision could change your career.", "FIND MY BIGGEST OPPORTUNITY", "TOP <span data-ranking>18</span>%", "Decision Intelligence™", "Physician Decision API™", "BIG PICTURE", "BRIEF OVERVIEW", "DEEP DIVE", "30 sec", "2 min", "5 min"]) assert.match(home, new RegExp(label));
+  assert.doesNotMatch(home, /Level up the business side of medicine/);
   assert.match(home, /class="os-hero-grid"/); assert.match(home, /data-opportunity-depth="quick"/);
 });
 test("CTA integrity includes working routes, depth controls, and safe overlays", () => {
@@ -24,12 +24,12 @@ test("CTA integrity includes working routes, depth controls, and safe overlays",
   assert.match(main, /bom-compensation-path-complete/); assert.match(main, /window\.setTimeout/); assert.match(main, /data-completion-close/);
 });
 test("header and footer carry the same physician tagline", async () => {
- const footer=await readFile(new URL("../ghost-theme/partials/site-footer.hbs",import.meta.url),"utf8"); const tagline="The free way for physicians to master the business of medicine.";
- assert.match(header,new RegExp(tagline)); assert.match(footer,new RegExp(tagline));
+ const footer=await readFile(new URL("../ghost-theme/partials/site-footer.hbs",import.meta.url),"utf8");
+ for (const partial of [header, footer]) { assert.match(partial, /The <em>free<\/em> way for physicians to master the business of medicine\./); }
 });
-test("Decision Intelligence is homepage-only and remains the workspace sidebar", async () => {
+test("Decision Intelligence appears only in the homepage hero and page two uses two columns", async () => {
  const css=await readFile(new URL("../ghost-theme/assets/css/screen.css",import.meta.url),"utf8"); const postPage=await readFile(new URL("../ghost-theme/post.hbs",import.meta.url),"utf8");
- assert.match(home,/class="os-intelligence" id="live-intelligence"/); assert.doesNotMatch(postPage,/os-intelligence/); assert.match(css,/grid-template-columns:minmax\(230px,\.72fr\) minmax\(420px,1\.52fr\) minmax\(240px,\.78fr\)/);
+ assert.match(home,/class="os-intelligence os-intelligence-hero" id="live-intelligence"/); assert.doesNotMatch(postPage,/os-intelligence/); assert.match(css,/grid-template-columns:minmax\(280px,\.74fr\) minmax\(0,1\.75fr\)/);
 });
 test("product behavior updates the ranking and retains intelligence instrumentation", () => {
   assert.match(main, /intelligence_action/); assert.match(main, /data-ranking/);
