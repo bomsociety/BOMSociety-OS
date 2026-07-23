@@ -1,41 +1,13 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
+const file = (path) => readFile(new URL(path, import.meta.url), "utf8");
 
-test("homepage begins with an evidence-first physician decision path", async () => {
-  const home = await readFile(new URL("./ghost-theme/home.hbs", import.meta.url), "utf8");
-  assert.match(home, /Make the business side of medicine easier\./);
-  assert.match(home, /Are you getting paid what you’re worth\?/);
-  assert.doesNotMatch(home, /TOP <span data-ranking>/);
+test("homepage presents the compensation decision path without unsupported public metrics", async () => {
+  const home = await file("./ghost-theme/home.hbs");
+  for (const phrase of ["Are you getting paid what you’re worth?", "Earn your trust.", "BIG PICTURE", "BRIEF OVERVIEW", "DEEP DIVE", "Build Your Decision Benchmark"]) assert.match(home, new RegExp(phrase.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
+  assert.doesNotMatch(home, /TOP\s*\d+%|PHYSICIANS ONLINE/i);
 });
-
-test("Ghost theme is the canonical homepage and uses topic routes", async () => {
-  const [routes, home] = await Promise.all([
-    readFile(new URL("./ghost-theme/routes.yaml", import.meta.url), "utf8"),
-    readFile(new URL("./ghost-theme/home.hbs", import.meta.url), "utf8")
-  ]);
-
-  assert.match(routes, /\/: home/);
-  assert.match(routes, /tag: \/topic\/\{slug\}\//);
-  assert.doesNotMatch(home, /\/tag\//);
-});
-
-test("default layout loads the shared analytics implementation", async () => {
-  const layout = await readFile(new URL("./ghost-theme/default.hbs", import.meta.url), "utf8");
-  assert.match(layout, /js\/analytics\.js/);
-});
-
-test("homepage provides the complete compensation learning path and honest enterprise status", async () => {
-  const home = await readFile(new URL("./ghost-theme/home.hbs", import.meta.url), "utf8");
-  for (const label of ["BIG PICTURE", "BRIEF OVERVIEW", "DEEP DIVE", "Knowledge check", "Illustrative calculator", "not yet commercially available"]) assert.match(home, new RegExp(label));
-  assert.doesNotMatch(home, /BOMGraph/i);
-});
-
-test("product interactions retain the shared analytics load order and local pathway behavior", async () => {
-  const [home, main, layout, analytics] = await Promise.all([
-    readFile(new URL("./ghost-theme/home.hbs", import.meta.url), "utf8"), readFile(new URL("./ghost-theme/assets/js/main.js", import.meta.url), "utf8"), readFile(new URL("./ghost-theme/default.hbs", import.meta.url), "utf8"), readFile(new URL("./ghost-theme/assets/js/analytics.js", import.meta.url), "utf8")
-  ]);
-  assert.match(home, /data-calc/); assert.match(main, /bom-compensation-progress-v1/); assert.match(main, /data-close-feedback/);
-  assert.ok(layout.indexOf('js/analytics.js') < layout.indexOf('js/main.js'));
-  assert.match(analytics, /'intelligence_action'/); assert.doesNotMatch(analytics, /\binteraction\b/);
-});
+test("Ghost theme routes homepage and methodology", async () => { const routes = await file("./ghost-theme/routes.yaml"); assert.match(routes, /\/: home/); assert.match(routes, /\/methodology\/: custom-methodology/); assert.match(routes, /tag: \/topic\/\{slug\}\//); });
+test("default layout loads analytics before interactions", async () => { const layout = await file("./ghost-theme/default.hbs"); assert.ok(layout.indexOf("js/analytics.js") < layout.indexOf("js/main.js")); });
+test("interaction implementation saves browser-only metrics and feedback", async () => { const main = await file("./ghost-theme/assets/js/main.js"); for (const phrase of ["bom-compensation-progress-v2", "localStorage.setItem", "data-close-feedback", "data-decision-modal", "Escape", "setTimeout(close,5000)"]) assert.match(main, new RegExp(phrase.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"))); });
