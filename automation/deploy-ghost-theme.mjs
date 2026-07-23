@@ -115,10 +115,10 @@ export function assessProductionVerification({ status, finalUrl, html, headers =
     themeVersionFound: hasMeta(html, "bomsociety-theme-version", VERSION),
     deploymentMarkerFound: hasMeta(html, "bomsociety-deployment-marker", DEPLOYMENT_MARKER, false),
     homepageRootFound: html.includes("data-bomsociety-home"),
-    decisionScoreFound: html.includes("data-decision-score"),
-    decisionIntelligenceFound: html.includes("data-decision-intelligence"),
+    decisionScoreFound: html.includes("data-win-reveal"),
+    decisionIntelligenceFound: html.includes("data-situation-form"),
     compensationPathwayFound: html.includes("data-compensation-pathway"),
-    compensationHeroFound: html.includes("Are you getting paid what you’re worth?"),
+    compensationHeroFound: html.includes("What decision could change your career forever?"),
     retiredHomepageFound: RETIRED_HOMEPAGE_MARKERS.some((marker) => html.includes(marker))
   };
 }
