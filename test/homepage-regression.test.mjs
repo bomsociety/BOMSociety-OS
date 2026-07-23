@@ -16,35 +16,31 @@ const retiredHomepageCopy = [
 test("only the dedicated server-rendered home template owns the root route", () => {
   assert.match(routes, /^routes:\s*\n\s*\/:\s*\n\s*template:\s*home\b/m);
   assert.doesNotMatch(routes.split("collections:")[0], /template:\s*(?:index|custom-home|page-home)\b/);
-  assert.match(home, /data-bomsociety-home="BOMSOCIETY-SPRINT-17B-CANONICAL"/);
+  assert.match(home, /data-bomsociety-home="BOMSOCIETY-HOMEPAGE-V2"/);
   assert.match(shell, /\{\{\{body\}\}\}/);
   assert.match(css, /\.sprint17-home\{/);
 });
 
-test("raw homepage HTML contains the full final MVP hero and entry cards", () => {
+test("raw homepage HTML contains the physician decision operating system hero and diagnosis", () => {
   for (const phrase of [
     "Respect your time.", "Earn your trust.", "Improve your decisions.",
-    "Are you getting paid what you’re worth?", "Show me the 30-second answer",
-    "Private Decision Score.", "0<span> / 100</span>", "No public peer percentile",
-    "Physician Decision Intelligence™", "Building anonymous, aggregate insight",
-    "BIG PICTURE", "30 seconds", "See what matters", "BRIEF OVERVIEW", "2 minutes",
-    "Understand the formula", "DEEP DIVE", "5 minutes", "Apply it to your situation"
+    "THE PHYSICIAN DECISION OPERATING SYSTEM", "What decision could change your career forever?",
+    "Not another course.", "Your operating system for physician career and business decisions.",
+    "What decision are you facing today?", "Compensation", "Contract", "Artificial Intelligence",
+    "Practice Ownership", "Leadership", "describe my situation", "YOUR NEXT CAREER WIN"
   ]) assert.match(home, new RegExp(phrase));
 });
 
-test("the compensation stream, honest breadth, and marker are present without JavaScript", () => {
+test("the compensation episode, honest breadth, and enterprise philosophy are present without JavaScript", () => {
   for (const phrase of [
-    "COMPENSATION =", "GUARANTEE", "PRODUCTIVITY", "QUALITY", "CALL / LEADERSHIP", "UNSEEN CONDITIONS",
-    "What threshold must you clear?", "What is the conversion factor?", "What work is attributed to you?",
-    "complete written compensation formula", "Same salary can mean very different economics.",
-    "Illustrative calculator", "Educational sample contract language", "Download checklist", "References:",
-    "WHAT PHYSICIANS ARE DECIDING NEXT", "Would you sign your contract again today?",
-    "Could AI give you one clinic back every week?", "Should you own your practice—or stay employed?",
-    "Are you building wealth—or only earning income?", "Is private equity improving physician careers?",
-    "In development", "Coming next", "data-carousel-position"
+    "BIG PICTURE", "BRIEF OVERVIEW", "DEEP DIVE", "INTERACTIVE CALCULATOR", "CHECKLIST",
+    "ACTION PLAN", "REFLECTION", "OUTCOME", "SHARE", "Guarantee", "Productivity", "Unseen conditions",
+    "Same salary. Different economics.", "Illustrative total", "YOUR CAREER WIN", "Send to colleague",
+    "CAREER MOMENTUM", "Recently Updated", "Evidence Reviewed", "Most Shared", "Trending Decision",
+    "Physicians remain free forever.", "Enterprise funds the platform.", "not yet commercially available"
   ]) assert.match(home, new RegExp(phrase));
   assert.match(home, /data-compensation-pathway/);
-  assert.match(home, /BOMSOCIETY-SPRINT-17B-CANONICAL/);
+  assert.match(home, /BOMSOCIETY-HOMEPAGE-V2/);
 });
 
 test("retired public homepage copy and obsolete client replacement code are removed", () => {
