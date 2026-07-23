@@ -25,11 +25,11 @@ test("the Sprint 16 hero has its left, center, and right composition", () => {
   assert.match(css, /\.s16-hero-grid\{display:grid;grid-template-columns:/);
 });
 
-test("the homepage contains only Sprint 16 decision modules", () => {
+test("the homepage contains the Sprint 17A decision modules", () => {
   for (const phrase of [
     "FEATURED DECISION", "Are you getting paid what you’re worth?",
     "BIG PICTURE", "30 sec", "BRIEF OVERVIEW", "2 min", "DEEP DIVE", "5 min",
-    "What physicians are deciding next", "s16-carousel"
+    "WHAT PHYSICIANS ARE DECIDING NEXT", "s17-carousel"
   ]) assert.match(home, new RegExp(phrase));
   for (const retired of ["BOMSOCIETY BUILD TEST", "formula-poster", "metric-board", "compensation-stream", "BOMBriefs", "enterprise-block"]) {
     assert.doesNotMatch(home, new RegExp(retired));
