@@ -19,7 +19,9 @@ async function createUploadFixture() {
   const key = join(directory, "key.pem"); const certificate = join(directory, "certificate.pem");
   execFileSync("mkdir", ["-p", join(theme, "assets/css"), join(theme, "assets/js")]);
   await writeFile(join(theme, "package.json"), '{"name":"package-name-must-not-be-used","version":"1.3.0"}');
-  await writeFile(join(theme, "index.hbs"), "x"); await writeFile(join(theme, "home.hbs"), "GET PAID MORE");
+  await writeFile(join(theme, "index.hbs"), "x");
+  await writeFile(join(theme, "default.hbs"), '<meta name="bomsociety-deployment-marker" content="BOMSOCIETY-DECISION-OS">');
+  await writeFile(join(theme, "home.hbs"), "New campaign copy\nBIG PICTURE\nBRIEF OVERVIEW\nDEEP DIVE");
   await writeFile(join(theme, "assets/css/s.css"), ""); await writeFile(join(theme, "assets/js/s.js"), "");
   execFileSync("zip", ["-qr", zip, "."], { cwd: theme });
   execFileSync("openssl", ["req", "-x509", "-newkey", "rsa:2048", "-nodes", "-keyout", key, "-out", certificate, "-subj", "/CN=localhost", "-days", "1"], { stdio: "ignore" });
@@ -44,6 +46,17 @@ async function createUploadFixture() {
   };
 }
 
+
+async function createInspectionFixture({ defaultTemplate = "BOMSOCIETY-DECISION-OS", homepage = "New campaign copy\nBIG PICTURE\nBRIEF OVERVIEW\nDEEP DIVE", version = "1.3.0" } = {}) {
+  const directory = await mkdtemp(join(tmpdir(), "zip-inspection-")); const theme = join(directory, "theme"); const zip = join(directory, `UPLOAD-TO-GHOST-bomsociety-theme-v${version}.zip`);
+  execFileSync("mkdir", ["-p", join(theme, "assets/css"), join(theme, "assets/js")]);
+  await writeFile(join(theme, "package.json"), JSON.stringify({ version })); await writeFile(join(theme, "index.hbs"), "x");
+  await writeFile(join(theme, "default.hbs"), defaultTemplate); await writeFile(join(theme, "home.hbs"), homepage);
+  await writeFile(join(theme, "assets/css/s.css"), ""); await writeFile(join(theme, "assets/js/s.js"), "");
+  execFileSync("zip", ["-qr", zip, "."], { cwd: theme });
+  return { directory, zip, async close() { await rm(directory, { recursive: true, force: true }); } };
+}
+
 test("admin API keeps the documented Ghost endpoint shape", () => {
   assert.equal(adminApiUrl("https://example.com/ghost/", "/site/"), "https://example.com/ghost/api/admin/site/");
   assert.match(createAdminToken("0123456789abcdef:0123456789abcdef", 100), /^[^.]+\.[^.]+\.[^.]+$/);
@@ -53,6 +66,7 @@ test("deployment never browses themes and preflights through site", () => {
   assert.doesNotMatch(deployment, /\/themes\/", \{ method: "GET"/);
   assert.match(deployment, /ghostRequest\(env\.adminUrl, env\.adminKey, "\/site\/", \{ method: "GET" \}\)/);
   assert.doesNotMatch(deployment, /active-theme|restore|rollback/i);
+  assert.doesNotMatch(deployment, /GET PAID MORE/);
 });
 test("preflight validates identity and reports a clear inaccessible-site failure", () => {
   for (const fragment of ["exactly one colon", "hexadecimal strings", "must use HTTPS", "PREFLIGHT_SITE_REQUEST_FAILED", "PREFLIGHT_PUBLICATION_IDENTITY_MISMATCH", "custom domain/publication association"]) assert.match(deployment, new RegExp(fragment));
@@ -61,11 +75,35 @@ test("ZIP inspection rejects a filename/package version mismatch before upload",
   const directory = await mkdtemp(join(tmpdir(), "zip-inspection-")); const theme = join(directory, "theme"); const zip = join(directory, "UPLOAD-TO-GHOST-bomsociety-theme-v1.3.0.zip");
   await writeFile(join(directory, ".placeholder"), "");
   execFileSync("mkdir", ["-p", join(theme, "assets/css"), join(theme, "assets/js")]);
-  await writeFile(join(theme, "package.json"), '{"version":"9.9.9"}'); await writeFile(join(theme, "index.hbs"), "x"); await writeFile(join(theme, "home.hbs"), "GET PAID MORE"); await writeFile(join(theme, "assets/css/s.css"), ""); await writeFile(join(theme, "assets/js/s.js"), "");
+  await writeFile(join(theme, "package.json"), '{"version":"9.9.9"}'); await writeFile(join(theme, "index.hbs"), "x");
+  await writeFile(join(theme, "default.hbs"), "BOMSOCIETY-DECISION-OS");
+  await writeFile(join(theme, "home.hbs"), "BIG PICTURE\nBRIEF OVERVIEW\nDEEP DIVE"); await writeFile(join(theme, "assets/css/s.css"), ""); await writeFile(join(theme, "assets/js/s.js"), "");
   execFileSync("zip", ["-qr", zip, "."], { cwd: theme });
   assert.throws(() => execFileSync(process.execPath, ["automation/deploy-ghost-theme.mjs", "inspect", zip], { cwd: process.cwd(), encoding: "utf8", stdio: "pipe" }), /ZIP_INSPECTION_FAILED/);
   await rm(directory, { recursive: true, force: true });
 });
+test("ZIP inspection accepts changed homepage marketing copy when stable markers remain", async () => {
+  const fixture = await createInspectionFixture({ homepage: "A different campaign headline\nBIG PICTURE\nBRIEF OVERVIEW\nDEEP DIVE" });
+  try {
+    assert.doesNotThrow(() => execFileSync(process.execPath, ["automation/deploy-ghost-theme.mjs", "inspect", fixture.zip], { cwd: process.cwd(), encoding: "utf8", stdio: "pipe" }));
+  } finally { await fixture.close(); }
+});
+test("ZIP inspection rejects a missing stable deployment marker", async () => {
+  const fixture = await createInspectionFixture({ defaultTemplate: "<meta name=\"theme-color\" content=\"#071827\">" });
+  try {
+    assert.throws(() => execFileSync(process.execPath, ["automation/deploy-ghost-theme.mjs", "inspect", fixture.zip], { cwd: process.cwd(), encoding: "utf8", stdio: "pipe" }), /ZIP is missing stable deployment marker: BOMSOCIETY-DECISION-OS/);
+  } finally { await fixture.close(); }
+});
+for (const marker of ["BIG PICTURE", "BRIEF OVERVIEW", "DEEP DIVE"]) {
+  test(`ZIP inspection clearly rejects a missing ${marker} marker`, async () => {
+    const homepage = ["BIG PICTURE", "BRIEF OVERVIEW", "DEEP DIVE"].filter((value) => value !== marker).join("\n");
+    const fixture = await createInspectionFixture({ homepage });
+    try {
+      assert.throws(() => execFileSync(process.execPath, ["automation/deploy-ghost-theme.mjs", "inspect", fixture.zip], { cwd: process.cwd(), encoding: "utf8", stdio: "pipe" }), new RegExp(`ZIP homepage is missing required depth marker: ${marker}`));
+    } finally { await fixture.close(); }
+  });
+}
+
 test("upload response controls activation and diagnostics cover both public URLs", () => {
   assert.match(deployment, /response\.themes\?\.\[0\]\?\.name/);
   assert.match(deployment, /`\/themes\/\$\{encodeURIComponent\(name\)\}\/activate\/`/);

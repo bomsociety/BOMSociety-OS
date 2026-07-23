@@ -3,9 +3,9 @@ import { basename, join } from "node:path";
 import { execFileSync } from "node:child_process";
 import { ghostRequest } from "./ghost-admin-api.mjs";
 
-const DEPLOYMENT_MARKER = "GET PAID MORE";
-const INTELLIGENCE_MARKER = "LIVE INTELLIGENCE";
-const SCORE_MARKER = "BOM SCORE";
+const DEPLOYMENT_MARKER = "BOMSOCIETY-DECISION-OS";
+const BRANDING_MARKER = "BOMSociety";
+const DEPTH_MARKERS = ["BIG PICTURE", "BRIEF OVERVIEW", "DEEP DIVE"];
 const verificationState = join("releases", ".ghost-admin-verification.json");
 
 function fail(code, message) { throw new Error(`${code}: ${message}`); }
@@ -47,9 +47,13 @@ function inspectZip(path) {
   const packageJson = JSON.parse(execFileSync("unzip", ["-p", path, "package.json"], { encoding: "utf8" }));
   const match = basename(path).match(/-v(\d+\.\d+\.\d+)\.zip$/);
   if (!match || packageJson.version !== match[1]) fail("ZIP_INSPECTION_FAILED", "package.json version must equal the ZIP filename version.");
+  const defaultTemplate = execFileSync("unzip", ["-p", path, "default.hbs"], { encoding: "utf8" });
+  if (!defaultTemplate.includes(DEPLOYMENT_MARKER)) fail("ZIP_INSPECTION_FAILED", `ZIP is missing stable deployment marker: ${DEPLOYMENT_MARKER}.`);
   const homepage = execFileSync("unzip", ["-p", path, "home.hbs"], { encoding: "utf8" });
-  if (!homepage.includes(DEPLOYMENT_MARKER)) fail("ZIP_INSPECTION_FAILED", `ZIP homepage is missing deployment marker: ${DEPLOYMENT_MARKER}.`);
-  console.error(`ZIP_INSPECTION_RESULT ${sanitized({ path, version: packageJson.version, marker: DEPLOYMENT_MARKER, css: true, javascript: true })}`);
+  for (const marker of DEPTH_MARKERS) {
+    if (!homepage.includes(marker)) fail("ZIP_INSPECTION_FAILED", `ZIP homepage is missing required depth marker: ${marker}.`);
+  }
+  console.error(`ZIP_INSPECTION_RESULT ${sanitized({ path, version: packageJson.version, marker: DEPLOYMENT_MARKER, depthMarkers: DEPTH_MARKERS, css: true, javascript: true })}`);
 }
 
 async function upload(path) {
@@ -75,11 +79,11 @@ async function fetchPublic(label, url) {
   const request = new URL("/", url); request.searchParams.set("bom_deploy", String(Date.now()));
   const response = await fetch(request, { headers: { "Cache-Control": "no-cache", Pragma: "no-cache" }, redirect: "follow" }); const html = await response.text();
   const title = html.match(/<title[^>]*>([^<]*)<\/title>/i)?.[1]?.trim() ?? "";
-  const result = { label, requestedUrl: request.toString(), finalUrl: response.url, status: response.status, title, deploymentMarker: html.includes(DEPLOYMENT_MARKER), bomScore: html.includes(SCORE_MARKER), livePhysicianIntelligence: html.includes(INTELLIGENCE_MARKER), server: response.headers.get("server"), cacheControl: response.headers.get("cache-control"), age: response.headers.get("age"), via: response.headers.get("via") };
+  const result = { label, requestedUrl: request.toString(), finalUrl: response.url, status: response.status, title, deploymentMarker: html.includes(DEPLOYMENT_MARKER), bomsocietyBranding: html.includes(BRANDING_MARKER), server: response.headers.get("server"), cacheControl: response.headers.get("cache-control"), age: response.headers.get("age"), via: response.headers.get("via") };
   console.error(`VERIFICATION_RESULT ${sanitized(result)}`); return result;
 }
-async function verifyAdmin() { const { admin } = environment(); await writeFile(verificationState, JSON.stringify(await fetchPublic("Ghost publication URL", admin.origin))); }
-async function verifySite() { const { site } = environment(); const custom = await fetchPublic("Custom production URL", site.origin); const admin = JSON.parse(await readFile(verificationState, "utf8")); if (admin.deploymentMarker && !custom.deploymentMarker) fail("ADMIN_PUBLIC_SITE_UPDATED_BUT_CUSTOM_DOMAIN_NOT_UPDATED", "Ghost publication URL has the marker but the custom domain does not."); if (!admin.deploymentMarker && !custom.deploymentMarker) fail("THEME_ACTIVATED_BUT_ROUTE_BYPASSES_THEME_MARKER", "Neither public URL contains the deployment marker."); if (!custom.deploymentMarker) fail("CUSTOM_DOMAIN_POINTS_TO_DIFFERENT_PUBLICATION", "Custom domain does not serve the activated BOMSociety publication."); }
+async function verifyAdmin() { const { admin } = environment(); const result = await fetchPublic("Ghost publication URL", admin.origin); await writeFile(verificationState, JSON.stringify(result)); if (!result.deploymentMarker) fail("THEME_ACTIVATED_BUT_ROUTE_BYPASSES_THEME_MARKER", "Ghost publication URL does not contain the stable deployment marker."); if (!result.bomsocietyBranding) fail("THEME_ACTIVATED_BUT_BRANDING_MISSING", "Ghost publication URL does not contain BOMSociety branding."); }
+async function verifySite() { const { site } = environment(); const custom = await fetchPublic("Custom production URL", site.origin); const admin = JSON.parse(await readFile(verificationState, "utf8")); if (admin.deploymentMarker && !custom.deploymentMarker) fail("ADMIN_PUBLIC_SITE_UPDATED_BUT_CUSTOM_DOMAIN_NOT_UPDATED", "Ghost publication URL has the stable deployment marker but the custom domain does not."); if (!admin.deploymentMarker && !custom.deploymentMarker) fail("THEME_ACTIVATED_BUT_ROUTE_BYPASSES_THEME_MARKER", "Neither public URL contains the stable deployment marker."); if (!custom.deploymentMarker || !custom.bomsocietyBranding) fail("CUSTOM_DOMAIN_POINTS_TO_DIFFERENT_PUBLICATION", "Custom domain does not serve the activated BOMSociety stable marker and branding."); if (!admin.bomsocietyBranding) fail("THEME_ACTIVATED_BUT_BRANDING_MISSING", "Ghost publication URL does not contain BOMSociety branding."); }
 
 const [command, value] = process.argv.slice(2);
 if (command === "preflight") await preflight();
