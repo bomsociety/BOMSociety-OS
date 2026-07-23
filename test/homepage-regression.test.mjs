@@ -10,19 +10,18 @@ const [home, routes, shell, css, homeJs, analytics] = await Promise.all([
 
 test("only the dedicated server-rendered home template owns the root route", () => {
   assert.match(routes, /^routes:\s*\n\s*\/:\s*\n\s*template:\s*home\b/m);
-  assert.match(home, /data-bomsociety-home="BOMSOCIETY-HOMEPAGE-V2"/);
+  assert.match(home, /data-bomsociety-home="BOMSOCIETY-HOMEPAGE-V3"/);
   assert.match(shell, /\{\{\{body\}\}\}/);
   assert.match(css, /action-first physician decision interface/);
 });
 
 test("the action-first hero has its mission, question, chooser, and no retired passive hero copy", () => {
   for (const phrase of [
-    "Respect your time.", "Earn your trust.", "Improve your decisions.",
-    "What decision could change your career forever?", "START HERE", "What decision are you facing today?",
+    "Make the next career decision clearer.", "SOLVE A DECISION", "What needs a clearer answer today?",
     "Compensation", "Contract", "Artificial Intelligence", "Practice Ownership", "Leadership",
-    "Or describe my situation", "Show my next step", "Start Compensation Episode"
+    "Or describe my situation", "Show my next step", "Solve compensation now", "A compensation number is not a compensation formula."
   ]) assert.match(home, new RegExp(phrase));
-  for (const retired of ["THE PHYSICIAN DECISION OPERATING SYSTEM", "One consequential decision.", "Start with your decision"]) assert.doesNotMatch(home, new RegExp(retired));
+  for (const retired of ["THE PHYSICIAN DECISION OPERATING SYSTEM", "One consequential decision.", "Start with your decision", "Respect your time."]) assert.doesNotMatch(home, new RegExp(retired));
 });
 
 test("coming-next actions, natural language routing, share, and anonymous event interface are present", () => {
@@ -37,6 +36,6 @@ test("coming-next actions, natural language routing, share, and anonymous event 
 });
 
 test("the compensation episode and honest enterprise philosophy remain server-rendered", () => {
-  for (const phrase of ["BIG PICTURE", "INTERACTIVE CALCULATOR", "ACTION PLAN", "SHARE", "Physicians remain free.", "Individual physician data is not sold.", "not yet commercially available", "Explore the enterprise vision"]) assert.match(home, new RegExp(phrase));
+  for (const phrase of ["BIG PICTURE", "INTERACTIVE CALCULATOR", "ACTION PLAN", "SHARE", "Physicians remain free", "individual physician data is never sold", "WHY THIS GETS BETTER", "See how this gets better"]) assert.match(home, new RegExp(phrase));
   assert.match(home, /data-compensation-pathway/);
 });

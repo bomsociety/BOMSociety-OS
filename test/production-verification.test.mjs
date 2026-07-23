@@ -4,7 +4,7 @@ import { readFile } from "node:fs/promises";
 import { assertConsistentVariants, assertProductionVerification, assessProductionVerification, canonicalIdentityHash } from "../automation/deploy-ghost-theme.mjs";
 
 const site = "https://www.bomsociety.com/";
-const basePage = `<!doctype html><title>BOMSociety | Physician Decision Intelligence</title><link rel="canonical" href="https://www.bomsociety.com/"><meta name="bomsociety-theme-version" content="1.3.4"><meta name="bomsociety-deployment-marker" content="BOMSOCIETY-SPRINT-17B-CANONICAL"><main data-bomsociety-home="BOMSOCIETY-HOMEPAGE-V2" data-compensation-pathway><h1>What decision could change your career forever?</h1><aside data-win-reveal></aside><form data-situation-form></form></main>`;
+const basePage = `<!doctype html><title>BOMSociety | Physician Decision Intelligence</title><link rel="canonical" href="https://www.bomsociety.com/"><meta name="bomsociety-theme-version" content="1.3.4"><meta name="bomsociety-deployment-marker" content="BOMSOCIETY-SPRINT-17B-CANONICAL"><main data-bomsociety-home="BOMSOCIETY-HOMEPAGE-V3" data-compensation-pathway data-track-section="homepage_hero"><h1>Make the next career decision clearer.</h1><aside data-win-reveal></aside><form data-situation-form></form></main>`;
 const [defaultTemplate, homepage] = await Promise.all([
   readFile(new URL("../ghost-theme/default.hbs", import.meta.url), "utf8"),
   readFile(new URL("../ghost-theme/home.hbs", import.meta.url), "utf8")
@@ -22,7 +22,7 @@ test("current homepage passes production verification without the temporary red 
   const result = verify(currentHomepage);
   assertProductionVerification(result);
   assert.deepEqual(result, {
-    status: 200, finalUrl: site, title: "", firstH1: "What decision could change your career forever?",
+    status: 200, finalUrl: site, title: "", firstH1: "Make the next career decision clearer.",
     contentLength: Buffer.byteLength(currentHomepage), cacheControl: "", vary: "", varyTokens: [], allowedVaryTokens: ["accept-encoding", "cookie"], cacheVarySafe: true, finalHostname: "www.bomsociety.com",
     canonicalUrlFound: true, themeVersionFound: true, deploymentMarkerFound: true,
     homepageRootFound: true, decisionScoreFound: true, decisionIntelligenceFound: true,
@@ -41,7 +41,7 @@ test("missing version and deployment metadata fail with specific codes", () => {
 });
 
 test("volatile hero copy and the removed temporary banner do not affect deployment verification", () => {
-  assert.doesNotThrow(() => assertProductionVerification(verify(currentHomepage.replace("Make the next physician decision clearer.", "A new hero headline"))));
+  assert.doesNotThrow(() => assertProductionVerification(verify(currentHomepage.replace("Make the next career decision clearer.", "A new hero headline"))));
   assert.doesNotThrow(() => assertProductionVerification(verify(currentHomepage.replace("BOMSOCIETY BUILD TEST 17", ""))));
 });
 
@@ -49,7 +49,7 @@ test("volatile hero copy and the removed temporary banner do not affect deployme
 test("canonical, unusual cache-vary, compensation-hero, and retired-homepage checks fail independently", () => {
   expectFailure("CANONICAL_URL_MISSING", basePage.replace(/<link rel="canonical"[^>]*>/, ""));
   expectFailure("UNSAFE_CACHE_VARY", basePage, { headers: new Headers({ vary: "Cookie, User-Agent" }) });
-  expectFailure("HOMEPAGE_STRUCTURE_MISSING", basePage.replace("What decision could change your career forever?", "Different hero"));
+  expectFailure("HOMEPAGE_STRUCTURE_MISSING", basePage.replace("homepage_hero", "removed_hero"));
   expectFailure("RETIRED_HOMEPAGE_DELIVERED", `${basePage} Explore BOMBriefs`);
 });
 
