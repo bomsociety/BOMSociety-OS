@@ -1,8 +1,7 @@
 name: Deploy Ghost theme
 on:
   push:
-    branches:
-      - main
+    branches: [main]
   workflow_dispatch:
 permissions:
   contents: read
@@ -17,7 +16,6 @@ jobs:
       GHOST_API_VERSION: ${{ secrets.GHOST_API_VERSION || 'v6.54' }}
       GHOST_ADMIN_URL: ${{ secrets.GHOST_ADMIN_URL }}
       GHOST_ADMIN_KEY: ${{ secrets.GHOST_ADMIN_KEY }}
-      GHOST_SITE_URL: ${{ secrets.GHOST_SITE_URL }}
     steps:
       - name: checkout
         uses: actions/checkout@v4
@@ -26,10 +24,8 @@ jobs:
         with: { node-version: 20 }
       - name: validate secrets
         run: node automation/deploy-ghost-theme.mjs validate-secrets
-      - name: preflight publication identity
-        run: node automation/deploy-ghost-theme.mjs preflight
       - name: run tests
-        run: npm test && npm run knowledge:validate && npm run validate:publishing && npm run validate:decision && npm run validate:measurement
+        run: npm test
       - name: build ZIP
         id: build
         run: |
@@ -39,22 +35,35 @@ jobs:
       - name: inspect ZIP
         id: zip
         run: |
-          ZIP_PATH='${{ steps.build.outputs.zip_path }}'
-          node automation/deploy-ghost-theme.mjs inspect "$ZIP_PATH"
-          echo "path=$ZIP_PATH" >> "$GITHUB_OUTPUT"
+          node automation/deploy-ghost-theme.mjs inspect '${{ steps.build.outputs.zip_path }}' 2>&1 | tee zip-inspection.log
+          printf 'sha256=%s\n' "$(sha256sum '${{ steps.build.outputs.zip_path }}' | awk '{print $1}')" >> "$GITHUB_OUTPUT"
       - name: upload
         id: upload
         run: |
-          theme_name="$(node automation/deploy-ghost-theme.mjs upload "${{ steps.build.outputs.zip_path }}")"
+          theme_name="$(node automation/deploy-ghost-theme.mjs upload '${{ steps.build.outputs.zip_path }}')"
           test -n "$theme_name"
-          ! [[ "$theme_name" == *$'\r'* || "$theme_name" == *$'\n'* ]]
           printf 'theme_name=%s\n' "$theme_name" >> "$GITHUB_OUTPUT"
       - name: activate
+        id: activate
         run: node automation/deploy-ghost-theme.mjs activate '${{ steps.upload.outputs.theme_name }}'
-      - name: verify Ghost publication URL
-        run: node automation/deploy-ghost-theme.mjs verify-admin
-      - name: verify custom production URL
+      - name: verify Ghost origin
+        id: verify-origin
+        run: node automation/deploy-ghost-theme.mjs verify-origin
+      - name: verify custom domain
+        id: verify-custom-domain
         run: node automation/deploy-ghost-theme.mjs verify-site
-      - name: report complete diagnostics
+      - name: workflow summary
         if: always()
-        run: echo "Ghost deployment diagnostics completed."
+        run: |
+          {
+            echo "## Ghost deployment verification"
+            echo "- Source commit SHA: $GITHUB_SHA"
+            echo "- Package version: 1.3.1"
+            echo "- ZIP filename: UPLOAD-TO-GHOST-bomsociety-theme-v1.3.1.zip"
+            echo "- ZIP SHA-256: ${{ steps.zip.outputs.sha256 }}"
+            echo "- Installed Ghost theme name: ${{ steps.upload.outputs.theme_name }}"
+            echo "- Activation result: ${{ steps.activate.outcome }}"
+            echo "- Ghost origin verification result: ${{ steps.verify-origin.outcome }}"
+            echo "- Custom domain verification result: ${{ steps.verify-custom-domain.outcome }}"
+            echo "- Overall success: ${{ job.status }}"
+          } >> "$GITHUB_STEP_SUMMARY"

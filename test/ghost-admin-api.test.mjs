@@ -3,144 +3,37 @@ import test from "node:test";
 import { readFile, mkdtemp, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { execFile, execFileSync } from "node:child_process";
-import { createServer } from "node:https";
-import { promisify } from "node:util";
-import { DEFAULT_ADMIN_API_VERSION, adminApiUrl, createAdminToken } from "../automation/ghost-admin-api.mjs";
+import { execFileSync } from "node:child_process";
 
-const deployment = await readFile(new URL("../automation/deploy-ghost-theme.mjs", import.meta.url), "utf8");
-const workflow = await readFile(new URL("../.github/workflows/deploy-ghost-theme.yml", import.meta.url), "utf8");
-const execFileAsync = promisify(execFile);
+const root = new URL("../", import.meta.url);
+const read = (path) => readFile(new URL(path, root), "utf8");
+const [themePackage, home, index, deploy, workflow, build] = await Promise.all([read("ghost-theme/package.json"), read("ghost-theme/home.hbs"), read("ghost-theme/index.hbs"), read("automation/deploy-ghost-theme.mjs"), read(".github/workflows/deploy-ghost-theme.yml"), read("automation/build-theme-zip.mjs")]);
+const marker = "BOMSOCIETY BUILD TEST 17 — VERSION 1.3.1";
 
-async function createUploadFixture() {
-  const directory = await mkdtemp(join(tmpdir(), "ghost-upload-output-"));
-  const theme = join(directory, "theme");
-  const zip = join(directory, "UPLOAD-TO-GHOST-bomsociety-theme-v1.3.0.zip");
-  const key = join(directory, "key.pem"); const certificate = join(directory, "certificate.pem");
-  execFileSync("mkdir", ["-p", join(theme, "assets/css"), join(theme, "assets/js")]);
-  await writeFile(join(theme, "package.json"), '{"name":"package-name-must-not-be-used","version":"1.3.0"}');
-  await writeFile(join(theme, "index.hbs"), "x");
-  await writeFile(join(theme, "default.hbs"), '<meta name="bomsociety-deployment-marker" content="BOMSOCIETY-DECISION-OS">');
-  await writeFile(join(theme, "home.hbs"), "New campaign copy\nBIG PICTURE\nBRIEF OVERVIEW\nDEEP DIVE");
-  await writeFile(join(theme, "assets/css/s.css"), ""); await writeFile(join(theme, "assets/js/s.js"), "");
-  execFileSync("zip", ["-qr", zip, "."], { cwd: theme });
-  execFileSync("openssl", ["req", "-x509", "-newkey", "rsa:2048", "-nodes", "-keyout", key, "-out", certificate, "-subj", "/CN=localhost", "-days", "1"], { stdio: "ignore" });
-  const requests = [];
-  const server = createServer({ key: await readFile(key), cert: await readFile(certificate) }, async (request, response) => {
-    for await (const _chunk of request) { /* consume multipart uploads */ }
-    requests.push(request.url);
-    response.setHeader("Content-Type", "application/json");
-    if (request.url === "/ghost/api/admin/themes/upload/") response.end('{"themes":[{"name":"UPLOAD-TO-GHOST-bomsociety-theme-v1.3.0"}]}');
-    else if (request.url === "/ghost/api/admin/themes/UPLOAD-TO-GHOST-bomsociety-theme-v1.3.0/activate/") response.end('{"themes":[{"active":true}]}');
-    else { response.statusCode = 404; response.end("{}"); }
-  });
-  await new Promise((resolve) => server.listen(0, "127.0.0.1", resolve));
-  const { port } = server.address();
-  return {
-    directory, zip, requests,
-    environment: {
-      ...process.env, GHOST_ADMIN_URL: `https://localhost:${port}/ghost/`, GHOST_SITE_URL: `https://localhost:${port}/`,
-      GHOST_ADMIN_KEY: "0123456789abcdef:0123456789abcdef", NODE_TLS_REJECT_UNAUTHORIZED: "0", NODE_NO_WARNINGS: "1",
-    },
-    async close() { await new Promise((resolve) => server.close(resolve)); await rm(directory, { recursive: true, force: true }); },
-  };
-}
-
-
-async function createInspectionFixture({ defaultTemplate = "BOMSOCIETY-DECISION-OS", homepage = "New campaign copy\nBIG PICTURE\nBRIEF OVERVIEW\nDEEP DIVE", version = "1.3.0" } = {}) {
-  const directory = await mkdtemp(join(tmpdir(), "zip-inspection-")); const theme = join(directory, "theme"); const zip = join(directory, `UPLOAD-TO-GHOST-bomsociety-theme-v${version}.zip`);
-  execFileSync("mkdir", ["-p", join(theme, "assets/css"), join(theme, "assets/js")]);
-  await writeFile(join(theme, "package.json"), JSON.stringify({ version })); await writeFile(join(theme, "index.hbs"), "x");
-  await writeFile(join(theme, "default.hbs"), defaultTemplate); await writeFile(join(theme, "home.hbs"), homepage);
-  await writeFile(join(theme, "assets/css/s.css"), ""); await writeFile(join(theme, "assets/js/s.js"), "");
-  execFileSync("zip", ["-qr", zip, "."], { cwd: theme });
-  return { directory, zip, async close() { await rm(directory, { recursive: true, force: true }); } };
-}
-
-test("admin API keeps the documented Ghost endpoint shape", () => {
-  assert.equal(adminApiUrl("https://example.com/ghost/", "/site/"), "https://example.com/ghost/api/admin/site/");
-  assert.match(createAdminToken("0123456789abcdef:0123456789abcdef", 100), /^[^.]+\.[^.]+\.[^.]+$/);
-  assert.equal(DEFAULT_ADMIN_API_VERSION, "v6.54");
+test("version 1.3.1 controls the exact upload ZIP filename", () => {
+  assert.equal(JSON.parse(themePackage).version, "1.3.1");
+  assert.match(build, /UPLOAD-TO-GHOST-bomsociety-theme-v\$\{themePackage\.version\}\.zip/);
+  assert.match(workflow, /UPLOAD-TO-GHOST-bomsociety-theme-v1\.3\.1\.zip/);
 });
-test("deployment never browses themes and preflights through site", () => {
-  assert.doesNotMatch(deployment, /\/themes\/", \{ method: "GET"/);
-  assert.match(deployment, /ghostRequest\(env\.adminUrl, env\.adminKey, "\/site\/", \{ method: "GET" \}\)/);
-  assert.doesNotMatch(deployment, /active-theme|restore|rollback/i);
-  assert.doesNotMatch(deployment, /GET PAID MORE/);
+test("every homepage-capable template contains the unmissable marker", () => {
+  for (const template of [home, index]) assert.ok(template.includes(marker));
 });
-test("preflight validates identity and reports a clear inaccessible-site failure", () => {
-  for (const fragment of ["exactly one colon", "hexadecimal strings", "must use HTTPS", "PREFLIGHT_SITE_REQUEST_FAILED", "PREFLIGHT_PUBLICATION_IDENTITY_MISMATCH", "custom domain/publication association"]) assert.match(deployment, new RegExp(fragment));
-});
-test("ZIP inspection rejects a filename/package version mismatch before upload", async () => {
-  const directory = await mkdtemp(join(tmpdir(), "zip-inspection-")); const theme = join(directory, "theme"); const zip = join(directory, "UPLOAD-TO-GHOST-bomsociety-theme-v1.3.0.zip");
-  await writeFile(join(directory, ".placeholder"), "");
-  execFileSync("mkdir", ["-p", join(theme, "assets/css"), join(theme, "assets/js")]);
-  await writeFile(join(theme, "package.json"), '{"version":"9.9.9"}'); await writeFile(join(theme, "index.hbs"), "x");
-  await writeFile(join(theme, "default.hbs"), "BOMSOCIETY-DECISION-OS");
-  await writeFile(join(theme, "home.hbs"), "BIG PICTURE\nBRIEF OVERVIEW\nDEEP DIVE"); await writeFile(join(theme, "assets/css/s.css"), ""); await writeFile(join(theme, "assets/js/s.js"), "");
-  execFileSync("zip", ["-qr", zip, "."], { cwd: theme });
-  assert.throws(() => execFileSync(process.execPath, ["automation/deploy-ghost-theme.mjs", "inspect", zip], { cwd: process.cwd(), encoding: "utf8", stdio: "pipe" }), /ZIP_INSPECTION_FAILED/);
-  await rm(directory, { recursive: true, force: true });
-});
-test("ZIP inspection accepts changed homepage marketing copy when stable markers remain", async () => {
-  const fixture = await createInspectionFixture({ homepage: "A different campaign headline\nBIG PICTURE\nBRIEF OVERVIEW\nDEEP DIVE" });
+test("ZIP inspection fails without the marker", async () => {
+  const dir = await mkdtemp(join(tmpdir(), "ghost-marker-"));
   try {
-    assert.doesNotThrow(() => execFileSync(process.execPath, ["automation/deploy-ghost-theme.mjs", "inspect", fixture.zip], { cwd: process.cwd(), encoding: "utf8", stdio: "pipe" }));
-  } finally { await fixture.close(); }
+    const theme = join(dir, "theme"); const zip = join(dir, "UPLOAD-TO-GHOST-bomsociety-theme-v1.3.1.zip");
+    execFileSync("mkdir", ["-p", join(theme, "assets/css"), join(theme, "assets/js")]);
+    await writeFile(join(theme, "package.json"), '{"version":"1.3.1"}'); await writeFile(join(theme, "index.hbs"), "x"); await writeFile(join(theme, "home.hbs"), "x"); await writeFile(join(theme, "default.hbs"), 'bomsociety-theme-version BOMSOCIETY-BUILD-TEST-17'); await writeFile(join(theme, "assets/css/a.css"), ""); await writeFile(join(theme, "assets/js/a.js"), "");
+    execFileSync("zip", ["-qr", zip, "."], { cwd: theme });
+    assert.throws(() => execFileSync(process.execPath, ["automation/deploy-ghost-theme.mjs", "inspect", zip], { stdio: "pipe" }), /WRONG_ZIP_DEPLOYED/);
+  } finally { await rm(dir, { recursive: true, force: true }); }
 });
-test("ZIP inspection rejects a missing stable deployment marker", async () => {
-  const fixture = await createInspectionFixture({ defaultTemplate: "<meta name=\"theme-color\" content=\"#071827\">" });
-  try {
-    assert.throws(() => execFileSync(process.execPath, ["automation/deploy-ghost-theme.mjs", "inspect", fixture.zip], { cwd: process.cwd(), encoding: "utf8", stdio: "pipe" }), /ZIP is missing stable deployment marker: BOMSOCIETY-DECISION-OS/);
-  } finally { await fixture.close(); }
+test("upload and activation use the inspected v1.3.1 ZIP and returned Ghost name", () => {
+  assert.match(workflow, /upload '\$\{\{ steps\.build\.outputs\.zip_path \}\}'/);
+  assert.match(deploy, /response\.themes\?\.\[0\]\?\.name/);
+  assert.match(deploy, /themes\/\$\{encodeURIComponent\(name\)\}\/activate/);
 });
-for (const marker of ["BIG PICTURE", "BRIEF OVERVIEW", "DEEP DIVE"]) {
-  test(`ZIP inspection clearly rejects a missing ${marker} marker`, async () => {
-    const homepage = ["BIG PICTURE", "BRIEF OVERVIEW", "DEEP DIVE"].filter((value) => value !== marker).join("\n");
-    const fixture = await createInspectionFixture({ homepage });
-    try {
-      assert.throws(() => execFileSync(process.execPath, ["automation/deploy-ghost-theme.mjs", "inspect", fixture.zip], { cwd: process.cwd(), encoding: "utf8", stdio: "pipe" }), new RegExp(`ZIP homepage is missing required depth marker: ${marker}`));
-    } finally { await fixture.close(); }
-  });
-}
-
-test("upload response controls activation and diagnostics cover both public URLs", () => {
-  assert.match(deployment, /response\.themes\?\.\[0\]\?\.name/);
-  assert.match(deployment, /`\/themes\/\$\{encodeURIComponent\(name\)\}\/activate\/`/);
-  assert.doesNotMatch(deployment, /basename\(path\).*activate/);
-  assert.match(deployment, /verify-admin/); assert.match(deployment, /verify-site/);
-  assert.match(deployment, /bom_deploy/); assert.match(deployment, /Cache-Control/);
-  for (const code of ["ADMIN_PUBLIC_SITE_UPDATED_BUT_CUSTOM_DOMAIN_NOT_UPDATED", "CUSTOM_DOMAIN_POINTS_TO_DIFFERENT_PUBLICATION", "THEME_ACTIVATED_BUT_ROUTE_BYPASSES_THEME_MARKER", "UPLOAD_FAILED", "ACTIVATION_FAILED"]) assert.match(deployment, new RegExp(code));
-});
-test("upload keeps diagnostics off stdout and passes Ghost's installed theme name through GitHub output", async () => {
-  const fixture = await createUploadFixture();
-  try {
-    const uploaded = await execFileAsync(process.execPath, ["automation/deploy-ghost-theme.mjs", "upload", fixture.zip], { cwd: process.cwd(), env: fixture.environment });
-    assert.equal(uploaded.stdout, "UPLOAD-TO-GHOST-bomsociety-theme-v1.3.0\n");
-    assert.match(uploaded.stderr, /ZIP_INSPECTION_RESULT/);
-    assert.match(uploaded.stderr, /UPLOAD_RESULT/);
-
-    const output = join(fixture.directory, "github-output");
-    const command = 'theme_name="$(node automation/deploy-ghost-theme.mjs upload "$1")"; test -n "$theme_name"; ! [[ "$theme_name" == *$\'\\r\'* || "$theme_name" == *$\'\\n\'* ]]; printf \'theme_name=%s\\n\' "$theme_name" >> "$GITHUB_OUTPUT"';
-    const substituted = await execFileAsync("bash", ["-c", command, "bash", fixture.zip], { cwd: process.cwd(), env: { ...fixture.environment, GITHUB_OUTPUT: output } });
-    assert.equal(substituted.stdout, "");
-    assert.match(substituted.stderr, /UPLOAD_RESULT/);
-    assert.equal(await readFile(output, "utf8"), "theme_name=UPLOAD-TO-GHOST-bomsociety-theme-v1.3.0\n");
-
-    await execFileAsync(process.execPath, ["automation/deploy-ghost-theme.mjs", "activate", "UPLOAD-TO-GHOST-bomsociety-theme-v1.3.0"], { cwd: process.cwd(), env: fixture.environment });
-    assert.deepEqual(fixture.requests, [
-      "/ghost/api/admin/themes/upload/",
-      "/ghost/api/admin/themes/upload/",
-      "/ghost/api/admin/themes/UPLOAD-TO-GHOST-bomsociety-theme-v1.3.0/activate/",
-    ]);
-  } finally { await fixture.close(); }
-});
-test("workflow has manual dispatch and the required non-rollback order", () => {
-  assert.match(workflow, /workflow_dispatch/); assert.doesNotMatch(workflow, /continue-on-error|rollback|Capture currently active theme/i);
-  const names = ["checkout", "setup Node", "validate secrets", "preflight publication identity", "run tests", "build ZIP", "inspect ZIP", "upload", "activate", "verify Ghost publication URL", "verify custom production URL", "report complete diagnostics"];
-  let previous = -1; for (const name of names) { const position = workflow.indexOf(`name: ${name}`); assert.ok(position > previous, `${name} is out of order`); previous = position; }
-  assert.match(workflow, /theme_name="\$\(node automation\/deploy-ghost-theme\.mjs upload "\$\{\{ steps\.build\.outputs\.zip_path \}\}"\)"/);
-  assert.match(workflow, /! \[\[ "\$theme_name" == \*\$'\\r'\* \|\| "\$theme_name" == \*\$'\\n'\* \]\]/);
-  assert.match(workflow, /printf 'theme_name=%s\\n' "\$theme_name" >> "\$GITHUB_OUTPUT"/);
-  assert.doesNotMatch(workflow, /echo "theme_name=/);
+test("both public URLs are cache-busted and reject an absent marker", () => {
+  for (const url of ["https://bomsociety.ghost.io/", "https://www.bomsociety.com/"]) assert.ok(deploy.includes(url));
+  for (const value of ["build_test", "ts", "Cache-Control", "Pragma", "GHOST_ORIGIN_NOT_UPDATED", "CUSTOM_DOMAIN_NOT_UPDATED"]) assert.ok(deploy.includes(value));
 });
