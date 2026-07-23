@@ -7,7 +7,17 @@ import { ghostRequest } from "./ghost-admin-api.mjs";
 const VERSION = "1.3.2";
 const DEPLOYMENT_MARKER = "BOMSOCIETY-SPRINT-17B-CANONICAL";
 const RETIRED_HOMEPAGE_MARKERS = ["Better decisions in the business of medicine.", "Explore BOMBriefs", "What is a BOMBrief?"];
-const CLIENT_MATRIX = [{ label: "Chrome desktop", userAgent: "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 Chrome/126 Safari/537.36" }, { label: "Safari mobile", userAgent: "Mozilla/5.0 (iPhone; CPU iPhone OS 17_5 like Mac OS X) AppleWebKit/605.1.15 Version/17.5 Mobile Safari/604.1" }, { label: "Crawler", userAgent: "Googlebot/2.1 (+http://www.google.com/bot.html)" }, { label: "Cookie-free", userAgent: "BOMSociety verification" }, { label: "Browser cookies", userAgent: "BOMSociety verification", cookie: "bom_verification=browser" }];
+const CLIENT_MATRIX = [
+  { label: "Chrome desktop", userAgent: "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 Chrome/126 Safari/537.36" },
+  { label: "Googlebot", userAgent: "Googlebot/2.1 (+http://www.google.com/bot.html)" },
+  { label: "Bingbot", userAgent: "Mozilla/5.0 (compatible; bingbot/2.0; +http://www.bing.com/bingbot.htm)" },
+  { label: "curl", userAgent: "curl/8.7.1" },
+  { label: "Safari mobile", userAgent: "Mozilla/5.0 (iPhone; CPU iPhone OS 17_5 like Mac OS X) AppleWebKit/605.1.15 Version/17.5 Mobile/15E148 Safari/604.1" },
+  // A raw fetch is the JavaScript-disabled result: no browser code can replace server markup.
+  { label: "JavaScript disabled", userAgent: "BOMSociety verification; JavaScript disabled" },
+  { label: "No cookies", userAgent: "BOMSociety verification" },
+  { label: "Existing cookies", userAgent: "BOMSociety verification", cookie: "bom_verification=browser" }
+];
 const ORIGIN_URL = "https://bomsociety.ghost.io/";
 const CUSTOM_URL = "https://www.bomsociety.com/";
 function homepageTemplates(entries, path) {
@@ -63,6 +73,19 @@ async function activate(name) {
   catch (error) { console.error(`ACTIVATION_RESULT ${sanitized({ path, status, installedThemeName: name })}`); fail("ACTIVATION_FAILED", error.message); }
   console.error(`ACTIVATION_RESULT ${sanitized({ path, status, installedThemeName: name })}`);
 }
+function pageTitle(html) {
+  return /<title\b[^>]*>([\s\S]*?)<\/title>/i.exec(html)?.[1].replace(/<[^>]+>/g, "").replace(/\s+/g, " ").trim() || "";
+}
+function firstH1(html) {
+  return /<h1\b[^>]*>([\s\S]*?)<\/h1>/i.exec(html)?.[1].replace(/<[^>]+>/g, "").replace(/\s+/g, " ").trim() || "";
+}
+function canonicalUrlFound(html) {
+  return /<link\b[^>]*\brel=["']canonical["'][^>]*\bhref=["']https:\/\/www\.bomsociety\.com\/["'][^>]*>/i.test(html);
+}
+function cacheVaryIsSafe(headers) {
+  const vary = headers.get("vary") || "";
+  return !/\b(?:cookie|user-agent)\b/i.test(vary);
+}
 function hasMeta(html, name, expectedContent, exact = true) {
   const tag = new RegExp(`<meta\\b[^>]*\\bname=["']${name}["'][^>]*>`, "gi");
   return [...html.matchAll(tag)].some(([match]) => {
@@ -71,16 +94,24 @@ function hasMeta(html, name, expectedContent, exact = true) {
   });
 }
 
-export function assessProductionVerification({ status, finalUrl, html }) {
+export function assessProductionVerification({ status, finalUrl, html, headers = new Headers() }) {
   return {
     status,
     finalUrl,
+    title: pageTitle(html),
+    firstH1: firstH1(html),
+    contentLength: Buffer.byteLength(html),
+    cacheControl: headers.get("cache-control") || "",
+    vary: headers.get("vary") || "",
+    cacheVarySafe: cacheVaryIsSafe(headers),
+    canonicalUrlFound: canonicalUrlFound(html),
     themeVersionFound: hasMeta(html, "bomsociety-theme-version", VERSION),
     deploymentMarkerFound: hasMeta(html, "bomsociety-deployment-marker", DEPLOYMENT_MARKER, false),
     homepageRootFound: html.includes("data-bomsociety-home"),
     decisionScoreFound: html.includes("data-decision-score"),
     decisionIntelligenceFound: html.includes("data-decision-intelligence"),
     compensationPathwayFound: html.includes("data-compensation-pathway"),
+    compensationHeroFound: html.includes("Are you getting paid what you’re worth?"),
     retiredHomepageFound: RETIRED_HOMEPAGE_MARKERS.some((marker) => html.includes(marker))
   };
 }
@@ -95,18 +126,28 @@ async function verify(label, baseUrl, client = {}) {
   const headers = { "Cache-Control": "no-cache", Pragma: "no-cache", "User-Agent": client.userAgent || "BOMSociety verification" };
   if (client.cookie) headers.Cookie = client.cookie;
   const response = await fetch(request, { headers, redirect: "follow" }); const html = await response.text();
-  const result = assessProductionVerification({ status: response.status, finalUrl: response.url, html });
-  console.error(`VERIFICATION_RESULT ${sanitized({ label, requestedUrl: request.toString(), userAgent: headers["User-Agent"], cookieMode: client.cookie ? "browser" : "none", ...result })}`); return result;
+  const result = assessProductionVerification({ status: response.status, finalUrl: response.url, html, headers: response.headers });
+  console.error(`VERIFICATION_RESULT ${sanitized({ label, requestedUrl: request.toString(), userAgent: headers["User-Agent"], cookieMode: client.cookie ? "existing" : "none", ...result })}`); return result;
 }
 async function verifyMatrix(label, baseUrl, configuredUrl) {
-  for (const client of CLIENT_MATRIX) verificationFailure(await verify(`${label} — ${client.label}`, baseUrl, client), `${label.toUpperCase().replace(/\s+/g, "_")}_NOT_UPDATED`, configuredUrl);
+  const results = [];
+  for (const client of CLIENT_MATRIX) {
+    const result = await verify(`${label} — ${client.label}`, baseUrl, client);
+    verificationFailure(result, `${label.toUpperCase().replace(/\s+/g, "_")}_NOT_UPDATED`, configuredUrl);
+    results.push(result);
+  }
+  // The server-owned identity of the document must not vary by client or cache key.
+  const fingerprint = ({ title, firstH1, themeVersionFound, deploymentMarkerFound, homepageRootFound, decisionScoreFound, decisionIntelligenceFound, compensationPathwayFound, compensationHeroFound, canonicalUrlFound }) => JSON.stringify({ title, firstH1, themeVersionFound, deploymentMarkerFound, homepageRootFound, decisionScoreFound, decisionIntelligenceFound, compensationPathwayFound, compensationHeroFound, canonicalUrlFound });
+  if (new Set(results.map(fingerprint)).size !== 1) fail("SPLIT_HOMEPAGE_DELIVERY");
 }
 
 function verificationFailure(result, code, configuredUrl) {
   if (result.status !== 200 || (configuredUrl && !isConfiguredProductionUrl(result.finalUrl, configuredUrl))) fail(code);
   if (!result.themeVersionFound) fail("WRONG_THEME_VERSION");
   if (!result.deploymentMarkerFound) fail("DEPLOYMENT_MARKER_MISSING");
-  const homepageMarkers = [result.homepageRootFound, result.decisionScoreFound, result.decisionIntelligenceFound, result.compensationPathwayFound];
+  if (!result.canonicalUrlFound) fail("CANONICAL_URL_MISSING");
+  if (!result.cacheVarySafe) fail("UNSAFE_CACHE_VARY");
+  const homepageMarkers = [result.homepageRootFound, result.decisionScoreFound, result.decisionIntelligenceFound, result.compensationPathwayFound, result.compensationHeroFound];
   if (homepageMarkers.every((found) => !found)) fail("ROUTE_BYPASSES_UPDATED_TEMPLATE");
   if (homepageMarkers.some((found) => !found)) fail("HOMEPAGE_STRUCTURE_MISSING");
   if (result.retiredHomepageFound) fail("RETIRED_HOMEPAGE_DELIVERED");
