@@ -36,6 +36,18 @@ test("coming-next actions, natural language routing, share, and anonymous event 
 });
 
 test("the compensation episode and honest enterprise philosophy remain server-rendered", () => {
-  for (const phrase of ["PROBLEM", "CONTEXT", "BIG PICTURE", "INTERACTIVE CALCULATOR", "ACTION PLAN", "KNOW · DO · SHARE", "Physicians remain free", "individual physician data is never sold", "BUSINESS OF MEDICINE INTELLIGENCE", "Explore the Business of Medicine Intelligence platform"]) assert.match(home, new RegExp(phrase));
+  for (const phrase of ["PROBLEM", "CONTEXT", "BIG PICTURE", "INTERACTIVE CALCULATOR", "ACTION PLAN", "KNOW · DO · SHARE", "Physicians remain free", "individual physician data is never sold", "WHY GUIDANCE IMPROVES", "Explore Business of Medicine Intelligence"]) assert.match(home, new RegExp(phrase));
   assert.match(home, /data-compensation-pathway/);
+});
+
+test("enterprise intelligence architecture declares all domains, buyers, and safeguards", async () => {
+  const enterprise = await file("ghost-theme/custom-enterprise.hbs");
+  for (const domain of [
+    "Compensation Intelligence™", "Contract Intelligence™", "AI Adoption Intelligence™", "Revenue Cycle Intelligence™",
+    "Practice Economics Intelligence™", "Practice Ownership Intelligence™", "Leadership &amp; Operations Intelligence™",
+    "Productivity Intelligence™", "Technology Adoption Intelligence™", "Physician Wealth Intelligence™"
+  ]) assert.match(enterprise, new RegExp(domain));
+  for (const requirement of ["Purpose:", "Buyer / better decision:", "Episodes:", "Validation / aggregation:", "Privacy:", "Maturity:"]) assert.match(enterprise, new RegExp(requirement));
+  assert.match(enterprise, /Enterprise Intelligence Domain[\s\S]*Improved Guidance[\s\S]*Enterprise Intelligence/);
+  assert.match(enterprise, /No individual physician data sales/);
 });
