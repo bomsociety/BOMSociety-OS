@@ -1,0 +1,2 @@
+import test from 'node:test';import assert from 'node:assert/strict';import {readFile} from 'node:fs/promises';
+test('root VERSION is the source version reflected by release-controlled theme files',async()=>{const v=(await readFile('VERSION','utf8')).trim();for(const p of ['package.json','ghost-theme/package.json'])assert.equal(JSON.parse(await readFile(p,'utf8')).version,v);for(const p of ['ghost-theme/default.hbs','ghost-theme/partials/site-footer.hbs','.github/workflows/deploy-ghost-theme.yml'])assert.match(await readFile(p,'utf8'),new RegExp(v.replaceAll('.','\\.')));});

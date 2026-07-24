@@ -28,7 +28,7 @@ async function createInspectableTheme({ homeMarker = true } = {}) {
 test("version 2.0.2 controls the exact upload ZIP filename", () => {
   assert.equal(JSON.parse(themePackage).version, "2.0.2");
   assert.match(build, /UPLOAD-TO-GHOST-bomsociety-theme-v\$\{themePackage\.version\}\.zip/);
-  assert.match(workflow, /UPLOAD-TO-GHOST-bomsociety-theme-v2\.0\.1\.zip/);
+  assert.match(workflow, /UPLOAD-TO-GHOST-bomsociety-theme-v2\.0\.2\.zip/);
 });
 test("existing homepage-capable templates contain the stable nonvisual marker", () => {
   assert.match(footer, /Theme 2\.0\.2 · Commit/);
