@@ -1,0 +1,333 @@
+{
+  "schema_version": "1.0.0",
+  "governing_document": "00_MASTER/BOMSOCIETY_CONSTITUTION.md",
+  "mission": "BOMSociety is the operating system for the Business of Medicine.",
+  "production_principles": {
+    "decision_before_education": true,
+    "physicians_always_free": true,
+    "enterprise_funds_platform": true,
+    "individual_physician_data_sold": false,
+    "copyright_standard": "Research broadly, synthesize independently, write uniquely for physicians, cite attributable ideas and public guidance, never copy or mechanically paraphrase protected source text.",
+    "quality_bar": "A physician should think: I wish I had this years ago.",
+    "dual_value_rule": "Every output must improve a physician Business of Medicine decision and ethically strengthen one primary Business of Medicine Intelligence platform."
+  },
+  "initial_decision_episodes": [
+    {
+      "id": "compensation",
+      "title": "Compensation",
+      "primary_intelligence_platform": "Compensation Intelligence™",
+      "status": "live_needs_10_of_10_rebuild"
+    },
+    {
+      "id": "employment-contracts",
+      "title": "Employment Contracts",
+      "primary_intelligence_platform": "Contract Intelligence™",
+      "status": "production"
+    },
+    {
+      "id": "ai-in-practice",
+      "title": "Artificial Intelligence in Practice",
+      "primary_intelligence_platform": "AI Adoption Intelligence™",
+      "status": "production"
+    },
+    {
+      "id": "practice-ownership",
+      "title": "Practice Ownership",
+      "primary_intelligence_platform": "Practice Ownership Intelligence™",
+      "status": "production"
+    },
+    {
+      "id": "physician-wealth",
+      "title": "Physician Wealth",
+      "primary_intelligence_platform": "Physician Wealth Intelligence™",
+      "status": "production"
+    }
+  ],
+  "required_episode_structure": {
+    "problem": true,
+    "context": true,
+    "big_picture": {
+      "label": "Big Picture",
+      "time_label": "30 sec",
+      "job": "Recognition and immediate utility",
+      "required": [
+        "one visual insight",
+        "one surprising or commonly missed fact",
+        "one costly or consequential mistake",
+        "one immediate action",
+        "minimal prose"
+      ]
+    },
+    "brief_overview": {
+      "label": "Brief Overview",
+      "time_label": "2 min",
+      "job": "Practical understanding",
+      "required": [
+        "decision framework",
+        "checklist or decision tree",
+        "comparison",
+        "simple physician-specific worked example",
+        "no filler"
+      ]
+    },
+    "deep_dive": {
+      "label": "Deep Dive",
+      "time_label": "5 min",
+      "job": "Execution",
+      "required": [
+        "calculator or interactive tool where appropriate",
+        "downloadable checklist",
+        "scripts or questions to ask",
+        "templates or illustrative language where appropriate",
+        "common mistakes",
+        "risks and limitations",
+        "references",
+        "action plan",
+        "optional outcome plan"
+      ]
+    },
+    "ending": {
+      "know": "What did I learn?",
+      "do": "What should I do next?",
+      "share": "Who else should see this?"
+    }
+  },
+  "knowledge_research_standard": {
+    "source_classes": [
+      "government and regulator primary sources",
+      "professional and specialty society guidance",
+      "peer-reviewed research",
+      "major healthcare business organizations",
+      "leading university and business-school teaching",
+      "recognized physician-specific financial and practice resources",
+      "classic negotiation, decision science, finance, operations, and leadership literature"
+    ],
+    "examples": [
+      "CMS",
+      "OIG",
+      "AMA",
+      "AAMC",
+      "MGMA",
+      "HFMA",
+      "IHI",
+      "NEJM Catalyst",
+      "Harvard Business Review",
+      "Wharton",
+      "Stanford",
+      "MIT Sloan",
+      "Kellogg",
+      "White Coat Investor",
+      "relevant specialty societies"
+    ],
+    "requirements": [
+      "Record source title, publisher, URL, publication date, access date, source type, and claim supported.",
+      "Prefer primary sources for law, regulation, reimbursement, policy, technical standards, and platform rules.",
+      "Separate factual claims, expert judgment, examples, assumptions, and illustrative calculations.",
+      "Flag stale, conflicting, jurisdiction-specific, or uncertain material for review.",
+      "Do not reproduce protected course content, proprietary tables, paywalled text, or copyrighted frameworks beyond lawful attribution and limited quotation."
+    ]
+  },
+  "canonical_source_package": {
+    "content": [
+      "episode page",
+      "infographic specification",
+      "decision tree",
+      "calculator specification",
+      "checklist",
+      "downloadable PDF",
+      "conversation script",
+      "email template",
+      "FAQ",
+      "common mistakes",
+      "references",
+      "review and update schedule"
+    ],
+    "physician_product": [
+      "decision context capture",
+      "confidence before and after",
+      "action selected",
+      "optional reflection",
+      "optional outcome",
+      "contextual colleague sharing"
+    ],
+    "enterprise_mapping": [
+      "primary intelligence platform",
+      "enterprise buyer",
+      "business question",
+      "prospective deliverable",
+      "data fields",
+      "privacy class",
+      "minimum aggregation threshold",
+      "validation rule",
+      "known bias and limitation",
+      "commercial maturity status"
+    ]
+  },
+  "distribution_outputs": {
+    "ghost_web": {
+      "requirements": [
+        "search intent",
+        "SEO title",
+        "meta description",
+        "canonical URL",
+        "semantic headings",
+        "internal links",
+        "structured-data-ready metadata",
+        "accessible visuals",
+        "citations",
+        "last reviewed date",
+        "social preview"
+      ]
+    },
+    "ghost_newsletter": {
+      "requirements": [
+        "subject options",
+        "preview text",
+        "mobile-first opening",
+        "one primary CTA",
+        "Ghost-native unsubscribe and member compliance"
+      ]
+    },
+    "linkedin": {
+      "requirements": [
+        "professional hook",
+        "standalone physician value",
+        "short paragraphs",
+        "carousel document copy",
+        "discussion prompt",
+        "no hype or unsupported claims"
+      ]
+    },
+    "x": {
+      "requirements": [
+        "strong first post",
+        "concise thread",
+        "self-contained insights",
+        "source link",
+        "no unsupported certainty"
+      ]
+    },
+    "reddit": {
+      "requirements": [
+        "community-specific framing",
+        "substantive answer before link",
+        "transparent affiliation",
+        "no automated spam",
+        "no identical cross-posting",
+        "respect subreddit rules"
+      ]
+    },
+    "youtube_short": {
+      "requirements": [
+        "immediate hook",
+        "spoken-language script",
+        "vertical visual plan",
+        "captions",
+        "source description",
+        "single next action"
+      ]
+    },
+    "youtube_long": {
+      "requirements": [
+        "chapter structure",
+        "evidence notes",
+        "visual demonstrations",
+        "description",
+        "citations",
+        "clip markers"
+      ]
+    },
+    "podcast": {
+      "requirements": [
+        "cold open",
+        "narrative structure",
+        "segment timing",
+        "show notes",
+        "source list",
+        "transcript",
+        "short-clip markers"
+      ]
+    },
+    "pdf_and_infographic": {
+      "requirements": [
+        "standalone utility",
+        "source notes",
+        "print accessibility",
+        "watermark",
+        "version",
+        "mobile readability",
+        "clear action"
+      ]
+    }
+  },
+  "publishing_workflow": {
+    "stages": [
+      "research",
+      "claim ledger",
+      "synthesis",
+      "physician adaptation",
+      "episode generation",
+      "tool and visual generation",
+      "citation and copyright QA",
+      "medical-business accuracy QA",
+      "channel-native asset generation",
+      "approval queue",
+      "publish or schedule",
+      "analytics",
+      "outcome follow-up",
+      "content update",
+      "enterprise aggregation"
+    ],
+    "external_account_rule": "The system generates complete channel-native assets and payloads. Publishing remains queued until the corresponding external account is created, verified, and authorized with scoped credentials.",
+    "manual_work_target": "Founder involvement is limited to one-time external account authorization, exceptional judgment, strategic approval, and periodic quality sampling."
+  },
+  "analytics_events": [
+    "episode_impression",
+    "episode_started",
+    "depth_selected",
+    "depth_completed",
+    "decision_win_recorded",
+    "action_saved",
+    "reflection_submitted",
+    "outcome_submitted",
+    "share_started",
+    "share_completed",
+    "unsupported_topic_requested",
+    "distribution_asset_generated",
+    "distribution_asset_approved",
+    "distribution_asset_published",
+    "enterprise_platform_explored",
+    "enterprise_interest_started"
+  ],
+  "privacy_rules": [
+    "Do not place sensitive free text in ordinary analytics.",
+    "Collect identity or segment data only with explicit purpose and consent.",
+    "Never sell individual physician data.",
+    "Apply minimum aggregation and suppression rules before enterprise output.",
+    "Document selection bias, self-report limitations, and representativeness.",
+    "Keep physician guidance and enterprise commercialization governed separately."
+  ],
+  "release_gate": {
+    "physician_tests": [
+      "I learned something important within one minute.",
+      "I know the next action.",
+      "This is specific to physicians.",
+      "This is more useful than a generic article or generic AI answer.",
+      "I know who should receive this."
+    ],
+    "enterprise_tests": [
+      "The episode maps to one primary intelligence platform.",
+      "The buyer and business question are explicit.",
+      "The prospective deliverable is identifiable.",
+      "The data can be collected ethically and validated.",
+      "No enterprise use compromises physician trust."
+    ],
+    "distribution_tests": [
+      "Every output is native to its channel.",
+      "No output is merely a truncated copy of the web page.",
+      "Claims and citations remain traceable to the canonical source package.",
+      "Platform rules and community norms are respected.",
+      "No automated publishing occurs without valid authorized credentials."
+    ]
+  }
+}
