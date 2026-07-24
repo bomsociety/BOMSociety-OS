@@ -1,28 +1,57 @@
 {
   "slug": "physician-compensation",
-  "title": "Physician Compensation",
-  "status": "planned",
+  "title": "Physician Compensation: Understand the Formula Before You Evaluate the Offer",
+  "status": "production",
+  "last_reviewed": "2026-07-24",
+  "canonical_url": "/topic/physician-compensation/",
+  "primary_intelligence_platform": "Compensation Intelligence™",
+  "decision": {
+    "problem": "A headline salary can conceal the threshold, attribution, reconciliation, and downside that determine the economics.",
+    "immediate_action": "Request the complete written formula, all definitions, the expected-workload assumptions, and one worked example before comparing the offer.",
+    "know_do_share": {
+      "know": "A compensation number is not a compensation formula.",
+      "do": "Translate the formula into one sentence, then test low, expected, and high activity scenarios.",
+      "share": "Send the formula-request script to a physician who is reviewing an offer or compensation-plan change."
+    }
+  },
   "read_depths": {
-    "30_seconds": "",
-    "2_minutes": "",
-    "5_minutes": ""
+    "30_seconds": "The guarantee is only one component. Thresholds decide when extra work pays; attribution decides whether work counts; reconciliation exposes timing and repayment risk.",
+    "2_minutes": "Compare guarantee, productivity, attribution, adjustments, workload, and evidence/control. Two $300,000 guarantees can have sharply different economics when these terms differ.",
+    "5_minutes": "Run three activity scenarios, distinguish wRVU compensation from Medicare payment, audit attribution leakage, value non-cash economics, and identify legal, tax, benefits, or valuation review triggers."
   },
-  "references": [],
-  "corroboration": {
-    "score": 0,
-    "reference_count": 0
+  "decision_tree": [
+    { "question": "Do you have the complete written formula and incorporated policies?", "if_no": "Request them before evaluating the offer.", "if_yes": "Continue." },
+    { "question": "Can you state the threshold, rate, attribution, timing, and downside in one sentence?", "if_no": "Request definitions and a worked example.", "if_yes": "Run scenarios." },
+    { "question": "Do low, expected, and high scenarios match the workload and risk you would accept?", "if_no": "Clarify or negotiate the assumptions and terms.", "if_yes": "Identify any professional-review trigger before deciding." }
+  ],
+  "downloads": [
+    { "name": "Compensation review checklist", "format": "printable HTML", "items": 30, "action": "Use before the employer conversation and professional review." },
+    { "name": "Formula request script", "format": "copy-ready text", "action": "Ask for definitions, a worked example, reconciliation timing, and repayment treatment in writing." }
+  ],
+  "outcome_capture": {
+    "consent_required": true,
+    "fields": ["helpful", "confidence_before", "confidence_after", "action_planned", "optional_follow_up", "optional_outcome"],
+    "prohibited": ["employer identity", "raw contract text", "identifiable offer details", "sensitive free text in ordinary analytics"],
+    "privacy": "Responses remain local unless a physician expressly opts into a future submitted response. Individual physician data is never sold."
   },
+  "enterprise_mapping": {
+    "purpose": "Identify aggregate decision friction in compensation-plan clarity without exposing individual physicians or employers.",
+    "buyer": "Health systems and physician organizations",
+    "business_question": "Which plan features and operational terms most often create physician uncertainty?",
+    "prospective_deliverable": "Aggregate compensation-design friction report",
+    "minimum_aggregation": "At least 30 validated anonymous outcome records across at least 5 organizations; no reportable cell below 10.",
+    "validation": "Document selection bias and self-report limitations; do not infer market rates or employer-specific conclusions.",
+    "privacy": "No raw offers, contracts, employer identifiers, individual profiles, or small-cell reporting.",
+    "status": "IN DEVELOPMENT"
+  },
+  "references": [
+    { "title": "Physician Fee Schedule", "publisher": "Centers for Medicare & Medicaid Services", "url": "https://www.cms.gov/cms-guide-medical-technology-companies-and-other-interested-parties/payment/physician-fee-schedule", "source_type": "Federal primary source", "claim": "Medicare PFS payment includes work, practice-expense, and malpractice RVU components adjusted for geography." },
+    { "title": "PFS Look-Up Tool Overview", "publisher": "Centers for Medicare & Medicaid Services", "url": "https://www.cms.gov/medicare/physician-fee-schedule/search/overview", "source_type": "Federal primary source", "claim": "PFS information is updated through CMS payment materials." },
+    { "title": "Independent contractor (self-employed) or employee?", "publisher": "Internal Revenue Service", "url": "https://www.irs.gov/businesses/small-businesses-self-employed/independent-contractor-self-employed-or-employee", "source_type": "Federal primary source", "claim": "Worker classification depends on facts and circumstances, not only the contract label." }
+  ],
   "seo": {
-    "title": "Physician Compensation | BOMSociety",
-    "description": ""
+    "title": "Physician Compensation Formula Checklist & Calculator | BOMSociety",
+    "description": "Compare physician compensation formulas—not just salary. Use a scenario calculator, decision tree, checklist, negotiation scripts, and source-backed questions."
   },
-  "analytics": {
-    "events": [
-      "page_view",
-      "reading_depth_selected",
-      "article_complete",
-      "share",
-      "newsletter_signup"
-    ]
-  }
+  "analytics": { "events": ["episode_impression", "episode_started", "depth_selected", "depth_completed", "action_saved", "reflection_submitted", "outcome_submitted", "share_started", "share_completed"] }
 }
