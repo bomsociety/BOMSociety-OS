@@ -36,7 +36,7 @@ test("coming-next actions, natural language routing, share, and anonymous event 
 });
 
 test("the compensation episode and honest enterprise philosophy remain server-rendered", () => {
-  for (const phrase of ["PROBLEM", "CONTEXT", "BIG PICTURE", "INTERACTIVE CALCULATOR", "ACTION PLAN", "KNOW · DO · SHARE", "YOUR BUSINESS OF MEDICINE PROGRESS", "1 of 6 Foundations Completed", "Continue", "BUSINESS OF MEDICINE INTELLIGENCE", "Every Decision Episode contributes anonymously", "They will never expose individual physicians", "IN DEVELOPMENT", "Learn more"]) assert.match(home, new RegExp(phrase));
+  for (const phrase of ["PROBLEM", "CONTEXT", "BIG PICTURE", "INTERACTIVE CALCULATOR", "ACTION PLAN", "KNOW · DO · SHARE", "YOUR BUSINESS OF MEDICINE PROGRESS", "1 of 6 Foundations Completed", "Continue", "BUSINESS OF MEDICINE INTELLIGENCE", "Every Decision Episode contributes anonymously", "They will never expose individual physicians", "IN DEVELOPMENT", "Explore"]) assert.match(home, new RegExp(phrase));
   assert.match(home, /data-compensation-pathway/);
 });
 
