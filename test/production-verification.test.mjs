@@ -4,7 +4,7 @@ import { readFile } from "node:fs/promises";
 import { assertConsistentVariants, assertProductionVerification, assessProductionVerification, canonicalIdentityHash } from "../automation/deploy-ghost-theme.mjs";
 
 const site = "https://www.bomsociety.com/";
-const basePage = `<!doctype html><title>BOMSociety | Physician Decision Intelligence</title><link rel="canonical" href="https://www.bomsociety.com/"><meta name="bomsociety-theme-version" content="2.0.0"><meta name="bomsociety-deployment-marker" content="BOMSOCIETY-SPRINT-17B-CANONICAL"><main data-bomsociety-home="BOMSOCIETY-HOMEPAGE-V3" data-compensation-pathway data-track-section="homepage_hero"><h1>Make your next Business of Medicine decision clearer.</h1><aside data-win-reveal></aside><form data-situation-form></form></main>`;
+const basePage = `<!doctype html><title>BOMSociety | Physician Decision Intelligence</title><link rel="canonical" href="https://www.bomsociety.com/"><meta name="bomsociety-theme-version" content="2.0.1"><meta name="bomsociety-deployment-marker" content="BOMSOCIETY-SPRINT-17B-CANONICAL"><main data-bomsociety-home="BOMSOCIETY-HOMEPAGE-V3" data-compensation-pathway data-track-section="homepage_hero"><h1>Make your next Business of Medicine decision clearer.</h1><aside data-win-reveal></aside><form data-situation-form></form></main>`;
 const [defaultTemplate, homepage] = await Promise.all([
   readFile(new URL("../ghost-theme/default.hbs", import.meta.url), "utf8"),
   readFile(new URL("../ghost-theme/home.hbs", import.meta.url), "utf8")
@@ -31,12 +31,12 @@ test("current homepage passes production verification without the temporary red 
 });
 
 test("missing homepage structure fails while shared metadata remains", () => {
-  expectFailure("ROUTE_BYPASSES_UPDATED_TEMPLATE", `<link rel="canonical" href="https://www.bomsociety.com/"><meta name="bomsociety-theme-version" content="2.0.0"><meta name="bomsociety-deployment-marker" content="BOMSOCIETY-SPRINT-17B-CANONICAL">`);
+  expectFailure("ROUTE_BYPASSES_UPDATED_TEMPLATE", `<link rel="canonical" href="https://www.bomsociety.com/"><meta name="bomsociety-theme-version" content="2.0.1"><meta name="bomsociety-deployment-marker" content="BOMSOCIETY-SPRINT-17B-CANONICAL">`);
   expectFailure("HOMEPAGE_STRUCTURE_MISSING", basePage.replace("data-win-reveal", "data-removed-win"));
 });
 
 test("missing version and deployment metadata fail with specific codes", () => {
-  expectFailure("WRONG_THEME_VERSION", basePage.replace('name="bomsociety-theme-version" content="2.0.0"', ""));
+  expectFailure("WRONG_THEME_VERSION", basePage.replace('name="bomsociety-theme-version" content="2.0.1"', ""));
   expectFailure("DEPLOYMENT_MARKER_MISSING", basePage.replace('name="bomsociety-deployment-marker" content="BOMSOCIETY-SPRINT-17B-CANONICAL"', ""));
 });
 
