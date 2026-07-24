@@ -36,7 +36,7 @@ test("coming-next actions, natural language routing, share, and anonymous event 
 });
 
 test("the compensation episode and honest enterprise philosophy remain server-rendered", () => {
-  for (const phrase of ["PROBLEM", "CONTEXT", "BIG PICTURE", "INTERACTIVE CALCULATOR", "ACTION PLAN", "KNOW · DO · SHARE", "Physicians remain free", "individual physician data is never sold", "WHY GUIDANCE IMPROVES", "Explore Business of Medicine Intelligence"]) assert.match(home, new RegExp(phrase));
+  for (const phrase of ["PROBLEM", "CONTEXT", "BIG PICTURE", "INTERACTIVE CALCULATOR", "ACTION PLAN", "KNOW · DO · SHARE", "YOUR BUSINESS OF MEDICINE PROGRESS", "1 of 6 Foundations Completed", "Continue", "BUSINESS OF MEDICINE INTELLIGENCE", "Every Decision Episode contributes anonymously", "They will never expose individual physicians", "IN DEVELOPMENT", "Learn more"]) assert.match(home, new RegExp(phrase));
   assert.match(home, /data-compensation-pathway/);
 });
 
@@ -44,10 +44,9 @@ test("enterprise intelligence architecture declares all domains, buyers, and saf
   const enterprise = await file("ghost-theme/custom-enterprise.hbs");
   for (const domain of [
     "Compensation Intelligence™", "Contract Intelligence™", "AI Adoption Intelligence™", "Revenue Cycle Intelligence™",
-    "Practice Economics Intelligence™", "Practice Ownership Intelligence™", "Leadership &amp; Operations Intelligence™",
-    "Productivity Intelligence™", "Technology Adoption Intelligence™", "Physician Wealth Intelligence™"
+    "Practice Economics Intelligence™", "Practice Ownership Intelligence™", "Leadership &amp; Operations Intelligence™", "Technology Adoption Intelligence™", "Physician Wealth Intelligence™"
   ]) assert.match(enterprise, new RegExp(domain));
-  for (const requirement of ["Purpose:", "Buyer / better decision:", "Episodes:", "Validation / aggregation:", "Privacy:", "Maturity:"]) assert.match(enterprise, new RegExp(requirement));
-  assert.match(enterprise, /Enterprise Intelligence Domain[\s\S]*Improved Guidance[\s\S]*Enterprise Intelligence/);
+  for (const requirement of ["Primary Business of Medicine domain:", "Primary enterprise buyer:", "Primary enterprise deliverable:", "Primary physician value:", "Decision Episodes feeding the platform:", "Minimum aggregation requirements:", "Minimum validation requirements:", "Privacy safeguards:", "Development status:"]) assert.match(enterprise, new RegExp(requirement));
+  assert.match(enterprise, /Decision Episode[\s\S]*One Intelligence Platform[\s\S]*Enterprise deliverable/);
   assert.match(enterprise, /No individual physician data sales/);
 });
