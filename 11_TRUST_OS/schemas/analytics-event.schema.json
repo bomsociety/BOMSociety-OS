@@ -1,0 +1,68 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "$id": "https://schemas.bomsociety.example/btos/v1/analytics-event.schema.json",
+  "title": "BTOS Analytics-Event",
+  "properties": {
+    "event_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_:-]{3,128}$"
+    },
+    "event_name": {
+      "type": "string"
+    },
+    "occurred_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "schema_version": {
+      "type": "string"
+    },
+    "actor_pseudonym": {
+      "type": "string"
+    },
+    "tenant_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_:-]{3,128}$"
+    },
+    "jurisdiction": {
+      "type": "string"
+    },
+    "purpose": {
+      "type": "string"
+    },
+    "consent_ref": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_:-]{3,128}$"
+    },
+    "bot_class": {
+      "type": "string"
+    },
+    "human_confidence": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100
+    },
+    "classification": {
+      "type": "string"
+    },
+    "provenance": {
+      "type": "object"
+    },
+    "integrity_hash": {
+      "type": "string"
+    },
+    "properties": {
+      "type": "object"
+    }
+  },
+  "required": [
+    "event_id",
+    "event_name",
+    "occurred_at",
+    "schema_version",
+    "classification",
+    "provenance"
+  ]
+}

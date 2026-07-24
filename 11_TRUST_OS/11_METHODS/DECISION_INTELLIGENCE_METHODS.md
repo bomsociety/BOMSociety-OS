@@ -1,0 +1,7 @@
+# Decision Intelligence Methodology
+
+Decision Intelligence is a governed aggregate inference derived from eligible events, declared methodology, and evidence—not a resale of individual histories. Pipeline: define decision question and population → establish lawful/purpose basis → select eligible events → validate provenance/integrity → deduplicate and quality-filter → stratify/weight → aggregate → calculate uncertainty → apply suppression/disclosure controls → validate → publish evidence card.
+
+Bias control defines target population, coverage limits, missingness, recruitment/channel effects, bot exclusion, duplicate controls, and subgroup measurement before release. Weighting uses documented post-stratification or inverse-probability methods only where benchmarks and assumptions support it; weights are bounded and sensitivity-tested. Never imply population representativeness when sampling does not support it.
+
+Validation includes schema/provenance checks, human/verification eligibility, outlier and duplicate review, independent reproducibility, temporal stability, and policy test. Report sample size (where safe), effective sample size, methodology version, time range, coverage, confidence interval/margin of error when statistically valid, limitations, and suppressed dimensions. Evidence hierarchy favors authoritative primary sources, corroborated evidence, and transparent uncertainty over unverifiable claims.

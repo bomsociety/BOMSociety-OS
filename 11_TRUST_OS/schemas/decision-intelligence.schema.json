@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "$id": "https://schemas.bomsociety.example/btos/v1/decision-intelligence.schema.json",
+  "title": "BTOS Decision-Intelligence",
+  "properties": {
+    "intelligence_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_:-]{3,128}$"
+    },
+    "question": {
+      "type": "string"
+    },
+    "population_definition": {
+      "type": "string"
+    },
+    "methodology_version": {
+      "type": "string"
+    },
+    "source_window": {
+      "type": "string"
+    },
+    "effective_sample_size": {
+      "type": "number",
+      "minimum": 0
+    },
+    "confidence_interval": {
+      "type": "object"
+    },
+    "suppression_applied": {
+      "type": "boolean"
+    },
+    "limitations": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "provenance_refs": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[A-Za-z0-9_:-]{3,128}$"
+      }
+    }
+  },
+  "required": [
+    "intelligence_id",
+    "question",
+    "population_definition",
+    "methodology_version",
+    "suppression_applied"
+  ]
+}

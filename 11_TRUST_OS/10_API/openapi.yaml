@@ -1,0 +1,46 @@
+openapi: 3.1.0
+info:
+  title: BOMSociety Trust OS API
+  version: 1.0.0
+  description: API-first trust control plane. Enterprise endpoints return aggregates only.
+servers:
+  - url: https://api.bomsociety.example/v1
+security:
+  - oauth2: []
+paths:
+  /identities/{subjectId}:
+    get:
+      operationId: getIdentity
+      security: [{oauth2: [identity:read:self]}]
+      responses: {'200': {description: Identity}, '403': {$ref: '#/components/responses/Forbidden'}}
+  /verifications:
+    post:
+      operationId: submitVerification
+      security: [{oauth2: [verification:submit]}]
+      responses: {'202': {description: Accepted for assessment}}
+  /trust/{subjectId}:
+    get:
+      operationId: getTrustDecision
+      security: [{oauth2: [trust:read]}]
+      responses: {'200': {description: Purpose-bound trust decision}}
+  /enterprise/decision-intelligence:
+    get:
+      operationId: listDecisionIntelligence
+      security: [{oauth2: [enterprise:aggregate:read]}]
+      responses: {'200': {description: Privacy-preserving aggregate only}, '403': {$ref: '#/components/responses/Forbidden'}}
+components:
+  securitySchemes:
+    oauth2:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: https://auth.bomsociety.example/authorize
+          tokenUrl: https://auth.bomsociety.example/token
+          scopes:
+            identity:read:self: Read caller identity
+            verification:submit: Submit verification evidence
+            trust:read: Read a purpose-bound trust decision
+            enterprise:aggregate:read: Read approved aggregates
+  responses:
+    Forbidden:
+      description: Authorization, purpose, consent, or aggregation policy denied the request.

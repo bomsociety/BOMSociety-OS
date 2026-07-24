@@ -1,0 +1,87 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "$id": "https://schemas.bomsociety.example/btos/v1/trust.schema.json",
+  "title": "BTOS Trust",
+  "properties": {
+    "subject_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_:-]{3,128}$"
+    },
+    "policy_version": {
+      "type": "string"
+    },
+    "evaluated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "human_score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100
+    },
+    "bot_score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100
+    },
+    "verification_score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100
+    },
+    "trust_score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100
+    },
+    "professional_score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100
+    },
+    "enterprise_score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100
+    },
+    "research_eligibility": {
+      "enum": [
+        "allow",
+        "deny",
+        "conditional"
+      ]
+    },
+    "aggregation_eligibility": {
+      "enum": [
+        "allow",
+        "deny",
+        "conditional"
+      ]
+    },
+    "export_eligibility": {
+      "enum": [
+        "allow",
+        "deny",
+        "conditional"
+      ]
+    },
+    "privacy_classification": {
+      "type": "string"
+    },
+    "reasons": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "required": [
+    "subject_id",
+    "policy_version",
+    "evaluated_at",
+    "trust_score",
+    "privacy_classification"
+  ]
+}
