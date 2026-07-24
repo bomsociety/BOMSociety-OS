@@ -1,0 +1,2 @@
+# Deployment requirements
+Repository code supplies deny-by-default event validation, bot quarantine, eligibility and aggregation gates. Cloudflare must set HTTPS redirect, HSTS, WAF/rate limits, verified crawler handling and challenge tokens. Ghost must configure CSP-compatible headers, secure cookies, CSRF/write-API controls, backups and member settings. Production verification, OIDC, registry, monitoring and alerting integrations require credentials and vendor contracts; mock adapters are intentionally non-production.
