@@ -35,8 +35,10 @@ test("coming-next actions, natural language routing, share, and anonymous event 
   assert.match(homeJs, /modal\.showModal\(\)/);
 });
 
-test("the compensation episode and honest enterprise philosophy remain server-rendered", () => {
-  for (const phrase of ["PROBLEM", "CONTEXT", "BIG PICTURE", "INTERACTIVE CALCULATOR", "ACTION PLAN", "KNOW · DO · SHARE", "YOUR BUSINESS OF MEDICINE PROGRESS", "1 of 6 Foundations Completed", "Continue", "BUSINESS OF MEDICINE INTELLIGENCE", "Every Decision Episode contributes anonymously", "They will never expose individual physicians", "IN DEVELOPMENT", "Explore"]) assert.match(home, new RegExp(phrase));
+test("the compensation episode and concise enterprise platform grid remain server-rendered", () => {
+  for (const phrase of ["PROBLEM", "CONTEXT", "BIG PICTURE", "INTERACTIVE CALCULATOR", "ACTION PLAN", "KNOW · DO · SHARE", "YOUR BUSINESS OF MEDICINE PROGRESS", "1 of 6 Foundations Completed", "Continue", "BUSINESS OF MEDICINE INTELLIGENCE", "IN DEVELOPMENT", "Explore"]) assert.match(home, new RegExp(phrase));
+  for (const removed of ["Every Decision Episode contributes anonymously", "These platforms are currently being built.", "They will never expose individual physicians."]) assert.doesNotMatch(home, new RegExp(removed));
+  assert.match(css, /\.os-intelligence-card\{width:100%;min-height:210px/);
   assert.match(home, /data-compensation-pathway/);
 });
 
