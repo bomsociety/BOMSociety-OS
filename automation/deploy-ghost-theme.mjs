@@ -4,7 +4,7 @@ import { basename } from "node:path";
 import { execFileSync } from "node:child_process";
 import { ghostRequest } from "./ghost-admin-api.mjs";
 
-const VERSION = "2.0.1";
+const VERSION = "2.0.2";
 const DEPLOYMENT_MARKER = "BOMSOCIETY-SPRINT-17B-CANONICAL";
 const RETIRED_HOMEPAGE_MARKERS = ["Better decisions in the business of medicine.", "Explore BOMBriefs", "What is a BOMBrief?"];
 const CLIENT_MATRIX = [
