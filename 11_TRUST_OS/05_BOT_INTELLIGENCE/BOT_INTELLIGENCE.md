@@ -1,0 +1,5 @@
+# Bot Intelligence and Fraud Controls
+
+Classes: `unknown`, `likely_human`, `verified_human`, `known_ai`, `known_bot`, `crawler`, `suspicious`, `malicious`, `blocked`. Classification is purpose-specific, versioned, reviewable, and may change with new evidence. Known good crawlers and declared AI agents must authenticate or follow published identification rules; their traffic remains outside human analytics.
+
+Fraud scoring evaluates network reputation, protocol/client integrity, rate/sequence anomalies, challenge outcomes, account/device linkage, automation signatures, verification conflicts, and response-quality anomalies. Do not use sensitive traits or opaque third-party identity graphs. Actions are observe, throttle, challenge, quarantine, restrict, block, or manual review; high-impact blocks offer appeal where safe. Human analytics accepts only events meeting the configured human confidence threshold; unknown/suspicious traffic is retained in isolated security telemetry, not blended or later backfilled without a documented reconciliation job.

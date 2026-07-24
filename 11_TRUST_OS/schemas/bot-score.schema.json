@@ -1,0 +1,63 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "$id": "https://schemas.bomsociety.example/btos/v1/bot-score.schema.json",
+  "title": "BTOS Bot-Score",
+  "properties": {
+    "event_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_:-]{3,128}$"
+    },
+    "evaluated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "policy_version": {
+      "type": "string"
+    },
+    "bot_class": {
+      "enum": [
+        "unknown",
+        "likely_human",
+        "verified_human",
+        "known_ai",
+        "known_bot",
+        "crawler",
+        "suspicious",
+        "malicious",
+        "blocked"
+      ]
+    },
+    "bot_score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100
+    },
+    "signals": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "action": {
+      "enum": [
+        "observe",
+        "throttle",
+        "challenge",
+        "quarantine",
+        "restrict",
+        "block",
+        "manual_review"
+      ]
+    }
+  },
+  "required": [
+    "event_id",
+    "evaluated_at",
+    "policy_version",
+    "bot_class",
+    "bot_score",
+    "action"
+  ]
+}

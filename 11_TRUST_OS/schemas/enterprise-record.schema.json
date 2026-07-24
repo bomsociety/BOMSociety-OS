@@ -1,0 +1,71 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "$id": "https://schemas.bomsociety.example/btos/v1/enterprise-record.schema.json",
+  "title": "BTOS Enterprise-Record",
+  "properties": {
+    "record_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_:-]{3,128}$"
+    },
+    "tenant_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_:-]{3,128}$"
+    },
+    "purpose": {
+      "type": "string"
+    },
+    "methodology_version": {
+      "type": "string"
+    },
+    "time_window": {
+      "type": "object",
+      "properties": {
+        "start": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "end": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "start",
+        "end"
+      ],
+      "additionalProperties": false
+    },
+    "cohort_size": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "minimum_cohort": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "suppressed": {
+      "type": "boolean"
+    },
+    "aggregates": {
+      "type": "object"
+    },
+    "export_eligibility": {
+      "enum": [
+        "allow",
+        "deny",
+        "conditional"
+      ]
+    }
+  },
+  "required": [
+    "record_id",
+    "tenant_id",
+    "purpose",
+    "methodology_version",
+    "cohort_size",
+    "minimum_cohort",
+    "suppressed"
+  ]
+}

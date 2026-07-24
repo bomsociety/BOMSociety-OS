@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "$id": "https://schemas.bomsociety.example/btos/v1/retention.schema.json",
+  "title": "BTOS Retention",
+  "properties": {
+    "record_type": {
+      "type": "string"
+    },
+    "classification": {
+      "type": "string"
+    },
+    "owner": {
+      "type": "string"
+    },
+    "retention_days": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "deletion_method": {
+      "type": "string"
+    },
+    "backup_expiry_days": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "legal_hold": {
+      "type": "boolean"
+    },
+    "region": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "record_type",
+    "classification",
+    "owner",
+    "retention_days",
+    "deletion_method"
+  ]
+}
